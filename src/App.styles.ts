@@ -2,7 +2,9 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
-    flexGrow: 1,
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
   },
 });
 

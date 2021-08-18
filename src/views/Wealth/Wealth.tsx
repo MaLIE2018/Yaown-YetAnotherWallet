@@ -3,8 +3,9 @@ import { PieChart } from "../../components/layout/diagram/pie/PieChart";
 import useStyles from "./Wealth.styles";
 
 const Wealth = () => {
+  const classes = useStyles();
   return (
-    <div>
+    <div className={classes.root}>
       <PieChart />
     </div>
   );
