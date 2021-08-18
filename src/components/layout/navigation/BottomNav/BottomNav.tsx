@@ -20,7 +20,7 @@ const BottomNav: FC<{}> = (): ReactElement => {
 
   return (
     <BottomNavigation
-      value={page}
+      value={page.present}
       onChange={handleChange}
       className={classes.root}>
       <BottomNavigationAction label='Cash' value='cash' icon={<Money />} />

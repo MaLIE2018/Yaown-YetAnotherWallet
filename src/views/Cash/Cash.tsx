@@ -1,5 +1,6 @@
-import { Paper } from "@material-ui/core";
-import React from "react";
+import { Button, Paper } from "@material-ui/core";
+import React, { useState } from "react";
+import Tracker from "../../components/tracker/Tracker";
 import { useStyles } from "./Cash.styles";
 
 const categories = [
@@ -27,11 +28,15 @@ const categories = [
 
 const Cash: React.FC<{}> = () => {
   const classes = useStyles();
+  const [show, setVisibility] = useState<boolean>(false);
   return (
     <div className={classes.root}>
       {categories.map((category) => (
-        <Paper elevation={0}>{category}</Paper>
+        <Paper elevation={0} key={category}>
+          <Button onClick={() => setVisibility(true)}>{category}</Button>
+        </Paper>
       ))}
+      <Tracker show={show} setVisibility={setVisibility} />
     </div>
   );
 };
