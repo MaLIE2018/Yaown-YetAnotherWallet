@@ -1,18 +1,16 @@
 import React from "react";
 import useStyles from "./Tracker.styles";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import { useSelector } from "react-redux";
+import { IRootState } from "../../store/types/types";
 
-interface TrackerProps {
-  show: boolean;
-  setVisibility: Function;
-}
-
-const Tracker: React.FC<TrackerProps> = ({
-  show,
-  setVisibility,
-}: TrackerProps) => {
-  const classes = useStyles(show);
+const Tracker: React.FC<{}> = () => {
+  const { showTracker } = useSelector((state: IRootState) => state);
+  const classes = useStyles(showTracker);
   return <div className={classes.root}></div>;
 };
 
 export default Tracker;
+{
+  /* <ClickAwayListener onClickAway={() => setVisibility(false)}></ClickAwayListener> */
+}

@@ -5,14 +5,16 @@ const useStyles = makeStyles({
     width: "100%",
     height: "50%",
     position: "absolute",
-    bottom: 0,
+    borderTopLeftRadius: "20px",
+    borderTopRightRadius: "20px",
+    bottom: "0",
     background: "rgba(0,0,1)",
     margin: 0,
-    zIndex: (show) => {
-      return show ? 1050 : -1000;
+    zIndex: (showTracker) => {
+      return showTracker ? 1050 : -1000;
     },
-    opacity: (show) => {
-      return show ? 1 : 0;
+    opacity: (showTracker) => {
+      return showTracker ? 1 : 0;
     },
   },
 });

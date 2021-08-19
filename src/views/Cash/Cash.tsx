@@ -1,6 +1,8 @@
 import { Button, Paper } from "@material-ui/core";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Tracker from "../../components/tracker/Tracker";
+import { IRootState } from "../../store/types/types";
 import { useStyles } from "./Cash.styles";
 
 const categories = [
@@ -27,16 +29,19 @@ const categories = [
 ];
 
 const Cash: React.FC<{}> = () => {
-  const classes = useStyles();
-  const [show, setVisibility] = useState<boolean>(false);
+  const { showTracker } = useSelector((state: IRootState) => state);
+  const dispatch = useDispatch();
+  const classes = useStyles(showTracker);
   return (
     <div className={classes.root}>
       {categories.map((category) => (
         <Paper elevation={0} key={category}>
-          <Button onClick={() => setVisibility(true)}>{category}</Button>
+          <Button onClick={() => dispatch({ type: "TOGGLE_TRACKER" })}>
+            {category}
+          </Button>
         </Paper>
       ))}
-      <Tracker show={show} setVisibility={setVisibility} />
+      <Tracker />
     </div>
   );
 };

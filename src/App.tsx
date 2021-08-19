@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { IRootState } from "./store/types/types";
 import Container from "@material-ui/core/Container";
 import useStyles from "./App.styles";
+import Tracker from "./components/tracker/Tracker";
 
 function App({ history }: RouteComponentProps) {
   const classes = useStyles();
@@ -36,6 +37,7 @@ function App({ history }: RouteComponentProps) {
       </Switch>
 
       <BottomNav />
+      <Tracker />
     </Container>
   );
 }
