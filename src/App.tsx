@@ -12,6 +12,8 @@ import { IRootState } from "./store/types/types";
 import Container from "@material-ui/core/Container";
 import useStyles from "./App.styles";
 import Tracker from "./components/tracker/Tracker";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 function App({ history }: RouteComponentProps) {
   const classes = useStyles();
@@ -27,18 +29,20 @@ function App({ history }: RouteComponentProps) {
   }
 
   return (
-    <Container disableGutters className={classes.root}>
-      <TopNav />
-      <Switch>
-        <Route path='/wealth' component={Wealth} />
-        <Route path='/overview' component={Overview} />
-        <Route path='/future' component={Future} />
-        <Route path='/cash' component={Cash} />
-      </Switch>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Container disableGutters className={classes.root}>
+        <TopNav />
+        <Switch>
+          <Route path='/wealth' component={Wealth} />
+          <Route path='/overview' component={Overview} />
+          <Route path='/future' component={Future} />
+          <Route path='/cash' component={Cash} />
+        </Switch>
 
-      <BottomNav />
-      <Tracker />
-    </Container>
+        <BottomNav />
+        <Tracker />
+      </Container>
+    </MuiPickersUtilsProvider>
   );
 }
 

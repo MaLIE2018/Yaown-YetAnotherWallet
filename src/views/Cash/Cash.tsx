@@ -1,14 +1,14 @@
-import { Button, Paper } from "@material-ui/core";
-import React, { useState } from "react";
+import { Box, Button } from "@material-ui/core";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Tracker from "../../components/tracker/Tracker";
 import { IRootState } from "../../store/types/types";
+import { capitalizeWords } from "../../utils/helpers/text";
 import { useStyles } from "./Cash.styles";
 
 const categories = [
   "Abhebungen",
   "Abos & Spenden",
-  "Bars&Restaurants",
+  "Bars & Restaurants",
   "Berufsausgaben",
   "Bildung",
   "Essen & Lebensmittel",
@@ -32,16 +32,16 @@ const Cash: React.FC<{}> = () => {
   const { showTracker } = useSelector((state: IRootState) => state);
   const dispatch = useDispatch();
   const classes = useStyles(showTracker);
+
   return (
     <div className={classes.root}>
       {categories.map((category) => (
-        <Paper elevation={0} key={category}>
+        <Box key={category} bgcolor='grey.100' borderRadius={16}>
           <Button onClick={() => dispatch({ type: "TOGGLE_TRACKER" })}>
-            {category}
+            {capitalizeWords(category)}
           </Button>
-        </Paper>
+        </Box>
       ))}
-      <Tracker />
     </div>
   );
 };
