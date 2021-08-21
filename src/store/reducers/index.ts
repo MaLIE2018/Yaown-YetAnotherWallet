@@ -2,7 +2,10 @@ import { combineReducers } from "redux";
 import navigationReducer from "./navigation";
 import * as ns from "redux-undo";
 import trackerReducer from "./showTracker";
-import noteModalReducer from "./showModal";
+import noteModalReducer from "./showNoteModal";
+import settingsReducer from "./settings";
+import categoryModalReducer from "./showCategoryModal";
+import transactionReducer from "./transaction";
 
 const undoable = ns.default;
 
@@ -12,7 +15,10 @@ const allReducers = combineReducers({
     redoType: "NAVIGATION_FORWARD",
   }),
   showTracker: trackerReducer,
-  showModal: noteModalReducer,
+  showNoteModal: noteModalReducer,
+  settings: settingsReducer,
+  showCategoryModal: categoryModalReducer,
+  transaction: transactionReducer,
 });
 
 export default allReducers;

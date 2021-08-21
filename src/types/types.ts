@@ -7,3 +7,16 @@ export interface History {
   index: number;
   limit: number;
 }
+
+export interface Settings {
+  accessToken: string;
+}
+
+export interface Transaction {
+  note: string;
+  date: Date;
+  amount: number;
+  account: string;
+  time: string;
+  category: string;
+}

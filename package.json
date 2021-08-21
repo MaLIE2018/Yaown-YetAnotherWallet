@@ -21,6 +21,7 @@
     "@types/redux-persist": "^4.3.1",
     "@types/styled-components": "^5.1.11",
     "apexcharts": "^3.27.3",
+    "axios": "^0.21.1",
     "date-fns": "^2.0.0-beta.5",
     "framer-motion": "^4.1.17",
     "lodash": "^4.17.21",

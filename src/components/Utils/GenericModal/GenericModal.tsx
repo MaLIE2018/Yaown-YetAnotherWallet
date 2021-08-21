@@ -18,10 +18,10 @@ const GenericModal: React.FC<Props> = ({
   return (
     <Modal
       open={show}
-      onClose={() => toggleModal(false)}
+      onClose={() => toggleModal()}
       aria-labelledby='simple-modal-title'
       aria-describedby='simple-modal-description'>
-      <div className={classes.paper}>{render}</div>
+      <div>{render}</div>
     </Modal>
   );
 };
