@@ -11,7 +11,6 @@ import CalculatorApi from "../../../services/calculator";
 
 const CalculationRow: React.FC<{}> = () => {
   const classes = useStyles();
-  const { amount } = useSelector((state: IRootState) => state.transaction);
   const { calc } = useSelector((state: IRootState) => state);
   const dispatch = useDispatch();
   const { BackspaceIcon } = trackerIcons;
