@@ -20,7 +20,7 @@ const allReducers = combineReducers({
   settings: settingsReducer,
   showCategoryModal: categoryModalReducer,
   transaction: transactionReducer,
-  calcArr: calculationReducer,
+  calc: calculationReducer,
 });
 
 export default allReducers;

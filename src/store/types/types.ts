@@ -8,7 +8,9 @@ export enum Constants {
   TOGGLE_CATEGORY_MODAL = "TOGGLE_CATEGORY_MODAL",
   SET_TA = "SET_TA",
   RESET_TA = "RESET_TA",
-  SET_CALC = "SET_CALC",
+  SET_CALC_STR = "SET_CALC_STR",
+  SET_RESULT = "SET_RESULT",
+  RESET = "RESET",
 }
 
 export interface IRootState {
@@ -18,5 +20,10 @@ export interface IRootState {
   settings: Settings;
   showCategoryModal: boolean;
   transaction: Transaction;
-  calcArr: (number | string)[];
+  calc: Calc;
+}
+
+export interface Calc {
+  result: string;
+  calcStr: string;
 }

@@ -7,14 +7,16 @@ import trackerIcons from "../../icons/trackerIcons";
 import { animated, useSpring } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import { theme } from "../../../theme/Theme";
-import { getResult } from "../../../utils/helpers/calculation";
+import CalculatorApi from "../../../services/calculator";
 
 const CalculationRow: React.FC<{}> = () => {
   const classes = useStyles();
   const { amount } = useSelector((state: IRootState) => state.transaction);
-  const { calcArr } = useSelector((state: IRootState) => state);
+  const { calc } = useSelector((state: IRootState) => state);
   const dispatch = useDispatch();
   const { BackspaceIcon } = trackerIcons;
+
+  const calculatorApi = CalculatorApi.getSingleton();
 
   const left = {
     bg: theme.palette.success.main,
@@ -28,29 +30,26 @@ const CalculationRow: React.FC<{}> = () => {
     api.start({ x: active ? x * 100 : 0, y, ...(x < 0 ? left : right) });
   });
 
-  useEffect(() => {
-    dispatch({ type: "SET_TA", payload: { amount: getResult(calcArr) } });
-  }, [calcArr]);
-
   return (
     <Box className={classes.root} flexGrow={1}>
+      {console.log("calc.result:", calc.result)}
       <div>
         <div className={classes.amount}>
           <Typography variant='h3' gutterBottom>
-            <animated.div style={{ color: bg }}>${amount}</animated.div>
+            <animated.div style={{ color: bg }}>${calc.result}</animated.div>
           </Typography>
-          {calcArr.length >= 1 && (
+          {calc.result.length >= 1 && (
             <Button
               onClick={() => {
-                dispatch({ type: "REMOVE_LAST" });
+                calculatorApi.delete();
               }}>
               <BackspaceIcon />
             </Button>
           )}
         </div>
-        {calcArr.length > 1 && (
+        {calc.calcStr !== "" && (
           <Box className={classes.calcRow} textAlign='right' px={2}>
-            {calcArr.join("")}
+            {calc.calcStr}
           </Box>
         )}
       </div>
