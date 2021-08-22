@@ -1,7 +1,7 @@
 import { Transaction } from "../../types/types";
 
 const Init = {
-  amount: 0,
+  amount: "0",
   category: "",
   date: new Date(),
   time: "",

@@ -6,6 +6,7 @@ import noteModalReducer from "./showNoteModal";
 import settingsReducer from "./settings";
 import categoryModalReducer from "./showCategoryModal";
 import transactionReducer from "./transaction";
+import calculationReducer from "./calculation";
 
 const undoable = ns.default;
 
@@ -19,6 +20,7 @@ const allReducers = combineReducers({
   settings: settingsReducer,
   showCategoryModal: categoryModalReducer,
   transaction: transactionReducer,
+  calcArr: calculationReducer,
 });
 
 export default allReducers;

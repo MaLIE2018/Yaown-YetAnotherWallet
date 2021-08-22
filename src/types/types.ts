@@ -15,7 +15,7 @@ export interface Settings {
 export interface Transaction {
   note: string;
   date: Date;
-  amount: number;
+  amount: string;
   account: string;
   time: string;
   category: string;

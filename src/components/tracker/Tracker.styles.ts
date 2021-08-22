@@ -7,7 +7,7 @@ const useStyles = makeStyles({
     position: "absolute",
     borderTopLeftRadius: "20px",
     borderTopRightRadius: "20px",
-    bottom: "0",
+    bottom: 0,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

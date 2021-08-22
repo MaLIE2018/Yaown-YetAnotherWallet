@@ -1,58 +1,49 @@
 import "date-fns";
-import React, { useState } from "react";
+import React from "react";
 import useStyles from "./Tracker.styles";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../store/types/types";
 import { animated, useSpring } from "react-spring";
 import { Calculator } from "./Calculator/Calculator";
 import { Box, Button, Fab } from "@material-ui/core";
-import NotesIcon from "@material-ui/icons/Notes";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import Typography from "@material-ui/core/Typography";
-import BackspaceIcon from "@material-ui/icons/Backspace";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { KeyboardTimePicker } from "@material-ui/pickers";
 import { Note } from "./Note/Note";
 import GenericModal from "../Utils/GenericModal/GenericModal";
 import CategoryList from "./CategoryList/CategoryList";
+import trackerIcons from "../icons/trackerIcons";
+import CalculationRow from "./CalculationRow/CalculationRow";
 
 const Tracker: React.FC<{}> = () => {
   const { showTracker, showNoteModal, showCategoryModal, transaction } =
     useSelector((state: IRootState) => state);
   const dispatch = useDispatch();
   const classes = useStyles(showTracker);
+  const { NotesIcon, DateRangeIcon, ScheduleIcon } = trackerIcons;
+
   const styles = useSpring({
-    translateY: showTracker ? 0 : 100,
+    from: { marginBottom: "-100%" },
+    to: { marginBottom: showTracker ? "0%" : "-100%" },
   });
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
+    new Date()
   );
   const [selectedTime, setSelectedTime] = React.useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
+    new Date()
   );
 
   const handleDateChange = (date: Date | null) => {
-    dispatch({ type: "SET_TA", payload: { date: date } });
+    dispatch({ type: "SET_TA", payload: { date: date!.toISOString() } });
     setSelectedDate(date);
   };
   const handleTimeChange = (date: Date | null) => {
-    dispatch({ type: "SET_TA", payload: { time: date } });
+    dispatch({ type: "SET_TA", payload: { time: date!.toISOString() } });
     setSelectedTime(date);
   };
 
   return (
     <animated.div className={classes.root} style={{ ...styles }}>
-      <Box className={classes.calculationRow} flexGrow={1}>
-        <Typography variant='h3' gutterBottom>
-          <Box color='success.main'>${transaction.amount}</Box>
-        </Typography>
-        <Box alignSelf='center'>
-          <Button>
-            <BackspaceIcon />
-          </Button>
-        </Box>
-      </Box>
+      <CalculationRow />
       <div className={classes.buttonRow}>
         <Button
           variant='contained'
