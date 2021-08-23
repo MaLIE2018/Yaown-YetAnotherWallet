@@ -1,4 +1,4 @@
-import { List, ListItem } from "@material-ui/core";
+import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -15,10 +15,16 @@ const CategoryList: React.FC<{}> = () => {
         {categories.map((category) => (
           <ListItem
             onClick={() => {
-              dispatch({ type: "SET_TA", payload: { category: category } });
+              dispatch({
+                type: "SET_TA",
+                payload: { category: category.name },
+              });
               dispatch({ type: "TOGGLE_CATEGORY_MODAL" });
             }}>
-            {capitalizeWords(category)}
+            <ListItemIcon>
+              <category.icon />
+            </ListItemIcon>
+            <ListItemText primary={capitalizeWords(category.name)} />
           </ListItem>
         ))}
       </List>

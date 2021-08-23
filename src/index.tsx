@@ -8,9 +8,7 @@ import { theme } from "./theme/Theme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { storePersist } from "./store/store";
-
-const { store, persistor } = storePersist();
+import { persistor, store } from "store/store";
 
 ReactDOM.render(
   <React.StrictMode>

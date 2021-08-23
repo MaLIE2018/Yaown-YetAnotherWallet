@@ -1,14 +1,12 @@
-import path from "path";
+var path = require("path");
 
 module.exports = {
   resolve: {
-    extensions: ["js", "ts"],
     alias: {
-      "@": path.resolve(__dirname, "src"),
-      "@assets": path.resolve(__dirname, "src/components"),
-      "@components": path.resolve(__dirname, "src/components"),
-      "@stTypes": path.resolve(__dirname, "../../../store/types"),
-      // ...etc
+      Assets: path.resolve(__dirname, "../src/assets/"),
+      Components: path.resolve(__dirname, "../src/components/"),
+      StoreTypes: path.resolve(__dirname, "../src/store/types/"),
+      AppTypes: path.resolve(__dirname, "../src/types/"),
     },
   },
 };

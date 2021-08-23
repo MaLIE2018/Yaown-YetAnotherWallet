@@ -17,13 +17,24 @@ const Cash: React.FC<{}> = () => {
   return (
     <div className={classes.root}>
       {categories.map((category) => (
-        <Box key={category} bgcolor='grey.100' borderRadius={16}>
+        <Box
+          key={category.name}
+          bgcolor='grey.100'
+          borderRadius={16}
+          display='flex'
+          flexDirection='column'>
           <Button
             onClick={() => {
-              dispatch({ type: "SET_TA", payload: { category: category } });
+              dispatch({
+                type: "SET_TA",
+                payload: { category: category.name },
+              });
               dispatch({ type: "TOGGLE_TRACKER" });
             }}>
-            {capitalizeWords(category)}
+            <Box display='flex' justifyContent='center'>
+              {<category.icon />}
+            </Box>
+            <div className={classes.text}>{capitalizeWords(category.name)}</div>
           </Button>
         </Box>
       ))}

@@ -1,17 +1,17 @@
-import { storePersist } from "../store/store";
+import { store } from "store/store";
 
 class CalculatorApi {
   public result: string;
   public calcStr;
   private calcArr: string[];
   private static singleton: CalculatorApi;
-  private storePersist: any;
+  private operators: string[];
 
   constructor() {
-    this.storePersist = storePersist();
     this.result = "0";
     this.calcStr = "";
     this.calcArr = [];
+    this.operators = ["/", "*", "-", "+"];
   }
 
   public static getSingleton(): CalculatorApi {
@@ -24,7 +24,7 @@ class CalculatorApi {
   clear() {
     this.calcArr = [];
     this.result = "0";
-    this.calcStr = "0";
+    this.calcStr = "";
   }
 
   delete() {
@@ -33,16 +33,24 @@ class CalculatorApi {
     if (lstEle.toString().length > 1) {
       this.calcArr = [
         ...this.calcArr.slice(0, -1),
-        lstEle.toString().slice(0, -1),
+        lstEle.toString().slice(0, -2),
       ];
+      this.getCalculationString();
     } else {
-      this.calcArr = [...this.calcArr.slice(0, -1)];
+      this.calcArr = [...this.calcArr.slice(0, -2)];
+      this.getCalculationString();
     }
     const newLast = this.calcArr[this.calcArr.length - 1];
 
-    if (!/([/*+-])/.test(newLast)) {
+    if (!this.operators.includes(newLast)) {
       this.getResult();
       this.getCalculationString();
+    }
+    if (this.calcStr === "") {
+      store.dispatch({
+        type: "SET_RESULT",
+        payload: "0",
+      });
     }
   }
 
@@ -50,51 +58,67 @@ class CalculatorApi {
     const regex = /[.]/;
     const newCalcArr = this.calcArr.map((op) => op.replace(regex, ","));
     this.calcStr = newCalcArr.join(" ");
-    this.storePersist.store.dispatch({
+    store.dispatch({
       type: "SET_CALC_STR",
       payload: this.calcStr,
     });
-    return this.calcStr;
   }
 
   chooseOperation(operation: string) {
     const lstEle = this.calcArr[this.calcArr.length - 1];
     if (this.calcArr.length === 0) return;
-
-    if (/([/*+-])/.test(lstEle)) {
+    if (this.operators.includes(lstEle)) {
       this.calcArr = this.calcArr.slice(0, -1);
       this.calcArr.push(operation);
     } else {
       this.calcArr.push(operation);
     }
     this.getCalculationString();
-    console.log("this.calcArr:", this.calcArr);
   }
 
   appendNumber(number: string) {
-    console.log(number);
     const lstEle = this.calcArr[this.calcArr.length - 1];
-    if (number === "." && lstEle.includes(".")) return;
+    console.log("this.calcArrSTart:", this.calcArr);
+    if (number === "." && lstEle?.includes(".")) return;
 
-    if (lstEle !== undefined && !/([/*+-])/.test(lstEle)) {
-      this.calcArr = [...this.calcArr.slice(0, -1), lstEle.toString() + number];
-    } else {
-      this.calcArr.push(number);
+    if (lstEle !== undefined && !this.operators.includes(lstEle)) {
+      if (lstEle.includes(".") && lstEle.split(".")[1].length >= 2) {
+        this.calcArr = [
+          ...this.calcArr.slice(0, -1),
+          lstEle.slice(0, -1).toString() + number,
+        ];
+      } else {
+        this.calcArr = [
+          ...this.calcArr.slice(0, -1),
+          lstEle.toString() + number,
+        ];
+      }
       this.getResult();
+      this.getCalculationString();
+    } else {
+      if (number === "." && this.calcArr.length === 0) {
+        this.calcArr.push("0" + number);
+      } else {
+        this.calcArr.push(number);
+      }
+      this.getResult();
+      this.getCalculationString();
     }
-    this.getCalculationString();
-    console.log("this.calcArr:", this.calcArr);
+    console.log("this.calcArrEnd:", this.calcArr);
   }
 
   getResult() {
     let i: number = 0;
     const lstEle = this.calcArr[this.calcArr.length - 1];
-
-    if (/([/*+-])/.test(lstEle)) return;
+    if (this.operators.includes(lstEle)) return;
 
     while (i < this.calcArr.length) {
       if (i === 0) {
-        this.result = parseFloat(this.calcArr[i]).toString();
+        if (this.calcArr[i] === ".") {
+          this.result = "0.";
+        } else {
+          this.result = this.calcArr[i];
+        }
         i++;
       }
       if (this.calcArr[i] === "+") {
@@ -119,12 +143,20 @@ class CalculatorApi {
         i = i + 2;
       }
     }
-    this.storePersist.store.dispatch({
+    const split = this.result.split(".");
+
+    if (split[1] !== undefined && split[1].length > 2) {
+      this.result = parseFloat(this.result).toFixed(2).replace(".", ",");
+    } else if (split[1] !== undefined) {
+      this.result = this.result.replace(".", ",");
+    }
+    if (this.calcArr.length === 1 && this.result === "0") {
+      this.result = "0,";
+    }
+    store.dispatch({
       type: "SET_RESULT",
-      payload: parseFloat(this.result).toFixed(2),
+      payload: this.result,
     });
-    console.log("this.result.toString():", this.result.toString());
-    return this.result.toString();
   }
 }
 

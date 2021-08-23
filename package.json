@@ -11,7 +11,6 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "@types/jest": "^26.0.24",
     "@types/lodash": "^4.14.172",
     "@types/material-ui": "^0.21.9",
     "@types/node": "^12.20.16",
@@ -23,10 +22,11 @@
     "@types/styled-components": "^5.1.11",
     "apexcharts": "^3.27.3",
     "axios": "^0.21.1",
+    "babel-preset-react-app": "^10.0.0",
+    "cross-env": "^7.0.3",
     "date-fns": "^2.0.0-beta.5",
     "framer-motion": "^4.1.17",
     "lodash": "^4.17.21",
-    "path": "^0.12.7",
     "react": "^17.0.2",
     "react-apexcharts": "^1.3.9",
     "react-dom": "^17.0.2",
@@ -47,6 +47,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "_test": "jest --watchAll",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -68,6 +69,22 @@
     ]
   },
   "devDependencies": {
-    "babel-plugin-root-import": "^6.6.0"
+    "@types/jest": "^26.0.24",
+    "babel-plugin-root-import": "^6.6.0",
+    "jest": "^26.6.0",
+    "ts-jest": "^27.0.5"
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      [
+        "babel-plugin-root-import",
+        {
+          "rootPathPrefix": "@"
+        }
+      ]
+    ]
   }
 }

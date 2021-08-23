@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from "axios";
-import { storePersist } from "../store/store";
+import { store } from "store/store";
+import { Transaction } from "types/types";
 
 export class Api {
   private static singleton: Api;
   private readonly apiInstance: AxiosInstance;
-  private storePersist: any;
 
   private constructor() {
     this.apiInstance = axios.create({
@@ -13,9 +13,7 @@ export class Api {
         "Content-Type": "application/json",
       },
       timeout: 20000,
-      withCredentials: true,
     });
-    this.storePersist = storePersist();
   }
 
   public static getSingleton(): Api {
@@ -30,15 +28,79 @@ export class Api {
     return !!accessToken;
   }
 
+  public isLoggedIn(): boolean {
+    return this.getAccessToken() !== "";
+  }
+
+  public async reset() {
+    await this.setAccessToken("");
+  }
+
+  /* Token */
+
   private getAccessToken(): string {
-    const state = this.storePersist.store.getState();
+    const state = store.getState();
     if (state.settings.accessToken !== "") {
       return state.settings.accessToken;
     }
     return "";
   }
 
-  public isLoggedIn(): boolean {
-    return this.getAccessToken() !== "";
+  private async setAccessToken(accessToken: string) {
+    store.dispatch({ type: "SET_ACCESS_TOKEN", payload: accessToken });
+  }
+  private async setRefreshToken(accessToken: string) {
+    store.dispatch({ type: "SET_REFRESH_TOKEN", payload: accessToken });
+  }
+
+  private async getRefreshToken(): Promise<string> {
+    const state = store.getState();
+    if (state.settings.refreshToken !== "") {
+      return state.settings.refreshToken;
+    }
+    return "";
+  }
+
+  private async refreshAccessToken(): Promise<any> {
+    const refreshToken = await this.getRefreshToken();
+
+    if (refreshToken === "") return false;
+
+    try {
+      const res = await this.apiInstance.post("/token").then((res) => res);
+      if (res.status === 200) {
+        await this.setAccessToken(res.data.accessToken);
+        await this.setRefreshToken(res.data.refreshToken);
+      }
+    } catch (error) {
+      await this.reset();
+    }
+  }
+
+  /* Endpoints */
+  /* Login */
+
+  /* Transactions */
+
+  public async postTransaction(transaction: Transaction): Promise<boolean> {
+    const headers = new Headers({
+      Authorization: `Bearer ` + this.getAccessToken(),
+      "Content-Type": "application/json",
+    });
+    try {
+      const res = await this.apiInstance
+        .post("/transactions", transaction, {
+          headers: headers,
+        })
+        .then((res) => res);
+      if (res.status === 401 || res.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return true;
+        }
+      }
+    } catch (error) {
+      return false;
+    }
+    return true;
   }
 }

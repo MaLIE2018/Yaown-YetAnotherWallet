@@ -1,4 +1,4 @@
-import { Transaction } from "../../types/types";
+import { Accounting, Transaction } from "../../types/types";
 
 const Init = {
   amount: "0",
@@ -7,6 +7,7 @@ const Init = {
   time: "",
   account: "",
   note: "",
+  type: Accounting.expense,
 };
 
 function transactionReducer(

@@ -1,5 +1,5 @@
 import { Box, Typography, Button } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../store/types/types";
 import useStyles from "./CalculationRow.styles";
@@ -12,10 +12,10 @@ import CalculatorApi from "../../../services/calculator";
 const CalculationRow: React.FC<{}> = () => {
   const classes = useStyles();
   const { calc } = useSelector((state: IRootState) => state);
-  const dispatch = useDispatch();
   const { BackspaceIcon } = trackerIcons;
-
+  const dispatch = useDispatch();
   const calculatorApi = CalculatorApi.getSingleton();
+  const amount = useRef<HTMLDivElement>(null);
 
   const left = {
     bg: theme.palette.success.main,
@@ -24,20 +24,27 @@ const CalculationRow: React.FC<{}> = () => {
     bg: theme.palette.error.main,
   };
 
-  const [{ x, y, bg }, api] = useSpring(() => ({ x: 0, y: 0, ...left }));
+  const [{ x, bg }, api] = useSpring(() => ({ x: 0, y: 0, ...right }));
+
   const bind = useDrag(({ active, movement: [x, y] }) => {
     api.start({ x: active ? x * 100 : 0, y, ...(x < 0 ? left : right) });
+    if (theme.palette.success.main === bg.animation.to) {
+      dispatch({ type: "SET_TA", payload: { type: "income" } });
+    } else {
+      dispatch({ type: "SET_TA", payload: { type: "expense" } });
+    }
   });
 
   return (
     <Box className={classes.root} flexGrow={1}>
-      {console.log("calc.result:", calc.result)}
       <div>
         <div className={classes.amount}>
           <Typography variant='h3' gutterBottom>
-            <animated.div style={{ color: bg }}>${calc.result}</animated.div>
+            <animated.div ref={amount} style={{ color: bg }}>
+              ${calc.result}
+            </animated.div>
           </Typography>
-          {calc.result.length >= 1 && (
+          {calc.calcStr !== "" && (
             <Button
               onClick={() => {
                 calculatorApi.delete();
@@ -46,7 +53,7 @@ const CalculationRow: React.FC<{}> = () => {
             </Button>
           )}
         </div>
-        {calc.calcStr !== "" && (
+        {/([-/*+])/.test(calc.calcStr) && (
           <Box className={classes.calcRow} textAlign='right' px={2}>
             {calc.calcStr}
           </Box>

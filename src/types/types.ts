@@ -8,8 +8,14 @@ export interface History {
   limit: number;
 }
 
+export enum Accounting {
+  expense = "expense",
+  income = "income",
+}
+
 export interface Settings {
   accessToken: string;
+  refreshToken: string;
 }
 
 export interface Transaction {
@@ -19,4 +25,5 @@ export interface Transaction {
   account: string;
   time: string;
   category: string;
+  type: Accounting;
 }

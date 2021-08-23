@@ -31,6 +31,19 @@ export const useStyles = makeStyles((theme: Theme) =>
         height: "100%",
         background: "rgba(0,0,0,0.6)",
       },
+      "& .MuiButton-label": {
+        display: "flex",
+        flexDirection: "column",
+        "& .MuiSvgIcon-root": {
+          position: "absolute",
+          top: "10%",
+        },
+      },
+    },
+    text: {
+      position: "absolute",
+      bottom: "-45%",
+      height: "100%",
     },
     paper: {
       position: "absolute",

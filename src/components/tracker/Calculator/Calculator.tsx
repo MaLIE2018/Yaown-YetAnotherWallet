@@ -3,19 +3,24 @@ import React from "react";
 // import useStyles from "./Calculator.styles";
 import Typography from "@material-ui/core/Typography";
 import trackerIcons from "../../icons/trackerIcons";
-import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../store/types/types";
 import CalculatorApi from "../../../services/calculator";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { IRootState } from "store/types/types";
 
 export const Calculator: React.FC<{}> = () => {
   // const classes = useStyles();
-
+  const { showTracker } = useSelector((state: IRootState) => state);
   const { RiDivideFill, CloseIcon, RemoveIcon, AddIcon, CheckIcon } =
     trackerIcons;
   const calculatorApi = CalculatorApi.getSingleton();
-  // const dispatch = useDispatch();
-  // const { amount } = useSelector((state: IRootState) => state.transaction);
-  // const { calcArr } = useSelector((state: IRootState) => state);
+  const dispatch = useDispatch();
+  const postTransaction = () => {};
+
+  useEffect(() => {
+    dispatch({ type: "RESET" });
+    calculatorApi.clear();
+  }, [showTracker]);
 
   return (
     <Box
@@ -77,7 +82,7 @@ export const Calculator: React.FC<{}> = () => {
         </Box>
         <Box>
           <Button
-            id=','
+            id='.'
             onClick={(e) => calculatorApi.appendNumber(e.currentTarget.id)}>
             <Typography variant='h6'>
               <Box textAlign='left'>,</Box>
@@ -88,7 +93,7 @@ export const Calculator: React.FC<{}> = () => {
             onClick={(e) => calculatorApi.appendNumber(e.currentTarget.id)}>
             <Typography variant='h6'>0</Typography>
           </Button>
-          <Fab color='primary' size='small'>
+          <Fab color='primary' size='small' onClick={() => postTransaction()}>
             <CheckIcon />
           </Fab>
         </Box>
