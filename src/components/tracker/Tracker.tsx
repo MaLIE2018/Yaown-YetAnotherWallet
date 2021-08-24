@@ -1,8 +1,8 @@
 import "date-fns";
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect } from "react";
 import useStyles from "./Tracker.styles";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../store/types/types";
+import { IRootState } from "store/types/types";
 import { animated, useSpring } from "react-spring";
 import { Calculator } from "./Calculator/Calculator";
 import { Button, Fab } from "@material-ui/core";
@@ -14,6 +14,7 @@ import CategoryList from "./CategoryList/CategoryList";
 import trackerIcons from "../icons/trackerIcons";
 import CalculationRow from "./CalculationRow/CalculationRow";
 import categories from "assets/categories";
+import { Category } from "types/types";
 
 const Tracker: React.FC<{}> = () => {
   const { showTracker, showNoteModal, showCategoryModal, transaction } =
@@ -22,10 +23,13 @@ const Tracker: React.FC<{}> = () => {
   const classes = useStyles(showTracker);
   const { NotesIcon, DateRangeIcon, ScheduleIcon } = trackerIcons;
   const styles = useSpring({
-    from: { marginBottom: "-100%" },
-    to: { marginBottom: showTracker ? "0%" : "-100%" },
+    from: { marginBottom: "-100%", display: "none" },
+    to: {
+      marginBottom: showTracker ? "0%" : "-100%",
+      display: showTracker ? "flex" : "none",
+    },
   });
-  const [selCat, setSelCat] = useState<ReactNode>(categories[0].icon);
+  const [selCat, setSelCat] = useState<Category>(categories[0]);
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
@@ -43,15 +47,20 @@ const Tracker: React.FC<{}> = () => {
   };
 
   useEffect(() => {
-    setSelCat(categories.find((c) => c.name === transaction.category)?.icon);
+    const category = categories.find((c) => c.name === transaction.category);
+    if (category) {
+      setSelCat(category);
+    }
   }, [transaction.category]);
 
   return (
-    <animated.div className={classes.root} style={{ ...styles }}>
+    <animated.div className={classes.tracker} style={{ ...styles }}>
       <CalculationRow />
       <div className={classes.buttonRow}>
         <Button
           variant='contained'
+          style={{ backgroundColor: selCat.color }}
+          startIcon={<selCat.icon />}
           onClick={() => dispatch({ type: "TOGGLE_CATEGORY_MODAL" })}>
           {/*  startIcon={<selCat />} */}
           {transaction.category}

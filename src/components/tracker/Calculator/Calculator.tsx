@@ -3,20 +3,54 @@ import React from "react";
 // import useStyles from "./Calculator.styles";
 import Typography from "@material-ui/core/Typography";
 import trackerIcons from "../../icons/trackerIcons";
-import CalculatorApi from "../../../services/calculator";
+import CalculatorApi from "services/calculator";
+import { Api } from "api/index";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { IRootState } from "store/types/types";
+import { AlertVariants } from "types/types";
 
 export const Calculator: React.FC<{}> = () => {
   // const classes = useStyles();
-  const { showTracker } = useSelector((state: IRootState) => state);
+  const { showTracker, transaction } = useSelector(
+    (state: IRootState) => state
+  );
   const { RiDivideFill, CloseIcon, RemoveIcon, AddIcon, CheckIcon } =
     trackerIcons;
   const calculatorApi = CalculatorApi.getSingleton();
-  const dispatch = useDispatch();
-  const postTransaction = () => {};
+  const fetchApi = Api.getSingleton();
 
+  const dispatch = useDispatch();
+  const postTransaction = () => {
+    if (
+      fetchApi.postTransaction({
+        ...transaction,
+        amount: `${calculatorApi.result}`,
+      })
+    ) {
+      dispatch({ type: "RESET_TA" });
+      dispatch({ type: "RESET" });
+      dispatch({ type: "TOGGLE_TRACKER" });
+      dispatch({
+        type: "TOGGLE_TRANSACTION_ALERT",
+        payload: {
+          variant: AlertVariants.success,
+          text: "Transaction created",
+          show: true,
+        },
+      });
+      console.log(fetchApi.getTransaction());
+    } else {
+      dispatch({
+        type: "TOGGLE_TRANSACTION_ALERT",
+        payload: {
+          variant: AlertVariants.error,
+          text: "Something went wrong - Try again",
+          show: true,
+        },
+      });
+    }
+  };
   useEffect(() => {
     dispatch({ type: "RESET" });
     calculatorApi.clear();

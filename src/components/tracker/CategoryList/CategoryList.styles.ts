@@ -7,12 +7,11 @@ const useStyles = makeStyles((theme) =>
       top: "50%",
       transform: "translateY(-50%)",
       backgroundColor: theme.palette.background.paper,
-      border: "2px solid #000",
       height: "50%",
       width: "90%",
       left: "5%",
       boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
+      padding: theme.spacing(1, 1, 2),
       overflowY: "auto",
     },
   })

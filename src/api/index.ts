@@ -5,6 +5,7 @@ import { Transaction } from "types/types";
 export class Api {
   private static singleton: Api;
   private readonly apiInstance: AxiosInstance;
+  public transactions: Transaction[];
 
   private constructor() {
     this.apiInstance = axios.create({
@@ -14,6 +15,7 @@ export class Api {
       },
       timeout: 20000,
     });
+    this.transactions = [];
   }
 
   public static getSingleton(): Api {
@@ -82,25 +84,39 @@ export class Api {
 
   /* Transactions */
 
-  public async postTransaction(transaction: Transaction): Promise<boolean> {
-    const headers = new Headers({
-      Authorization: `Bearer ` + this.getAccessToken(),
-      "Content-Type": "application/json",
-    });
-    try {
-      const res = await this.apiInstance
-        .post("/transactions", transaction, {
-          headers: headers,
-        })
-        .then((res) => res);
-      if (res.status === 401 || res.status === 403) {
-        if (await this.refreshAccessToken()) {
-          return true;
-        }
-      }
-    } catch (error) {
-      return false;
-    }
+  // public async postTransaction(transaction: Transaction): Promise<boolean> {
+  //   const headers = new Headers({
+  //     Authorization: `Bearer ` + this.getAccessToken(),
+  //     "Content-Type": "application/json",
+  //   });
+  //   try {
+  //     const res = await this.apiInstance
+  //       .post("/transactions", transaction, {
+  //         headers: headers,
+  //       })
+  //       .then((res) => res);
+  //     if (res.status === 401 || res.status === 403) {
+  //       if (await this.refreshAccessToken()) {
+  //         return true;
+  //       }
+  //     }
+  //   } catch (error) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
+  public postTransaction(transaction: Transaction): Boolean {
+    this.transactions.push(transaction);
+    return true;
+  }
+  public getTransaction(): Transaction[] {
+    return this.transactions;
+  }
+
+  public async updateTransaction(): Promise<boolean> {
+    return true;
+  }
+  public async deleteTransaction(): Promise<boolean> {
     return true;
   }
 }

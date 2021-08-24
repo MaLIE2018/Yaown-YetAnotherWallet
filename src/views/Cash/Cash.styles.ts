@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "space-between",
       position: "relative",
       overflow: "auto",
-
+      flexGrow: 1,
       flexWrap: "wrap",
       "& > *": {
         margin: theme.spacing(1),
@@ -29,7 +29,7 @@ export const useStyles = makeStyles((theme: Theme) =>
         bottom: 0,
         width: "100%",
         height: "100%",
-        background: "rgba(0,0,0,0.6)",
+        background: theme.palette.grey[600],
       },
       "& .MuiButton-label": {
         display: "flex",
@@ -52,6 +52,12 @@ export const useStyles = makeStyles((theme: Theme) =>
       border: "2px solid #000",
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
+    },
+    divider: {
+      width: "90%",
+      height: "2px",
+      borderRadius: "1px",
+      marginBottom: "15px",
     },
   })
 );

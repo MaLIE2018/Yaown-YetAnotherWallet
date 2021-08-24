@@ -2,7 +2,7 @@ import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 
 import React from "react";
 import { useDispatch } from "react-redux";
-import categories from "../../../assets/categories";
+import categories from "assets/categories";
 import { capitalizeWords } from "../../../utils/helpers/text";
 import useStyles from "./CategoryList.styles";
 

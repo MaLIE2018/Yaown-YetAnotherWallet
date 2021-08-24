@@ -1,6 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { TopNav, BottomNav } from "./components/layout/navigation";
-import { Wealth, Login, Cash, Registration, Overview, Future } from "./views";
+import {
+  Wealth,
+  Login,
+  Cash,
+  Registration,
+  Overview,
+  Future,
+  RenderLoader,
+} from "./views";
 import {
   Route,
   RouteComponentProps,
@@ -29,20 +37,22 @@ function App({ history }: RouteComponentProps) {
   }
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Container disableGutters className={classes.root}>
-        <TopNav />
-        <Switch>
-          <Route path='/wealth' component={Wealth} />
-          <Route path='/overview' component={Overview} />
-          <Route path='/future' component={Future} />
-          <Route path='/cash' component={Cash} />
-        </Switch>
+    <Suspense fallback={<RenderLoader />}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Container disableGutters className={classes.root}>
+          <TopNav />
+          <Switch>
+            <Route path='/wealth' component={Wealth} />
+            <Route path='/overview' component={Overview} />
+            <Route path='/future' component={Future} />
+            <Route path='/cash' component={Cash} />
+          </Switch>
 
-        <BottomNav />
-        <Tracker />
-      </Container>
-    </MuiPickersUtilsProvider>
+          <BottomNav />
+          <Tracker />
+        </Container>
+      </MuiPickersUtilsProvider>
+    </Suspense>
   );
 }
 

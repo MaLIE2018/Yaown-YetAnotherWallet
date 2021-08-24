@@ -1,4 +1,9 @@
-import { History, Settings, Transaction } from "../../types/types";
+import {
+  GenericAlert,
+  History,
+  Settings,
+  Transaction,
+} from "../../types/types";
 
 export enum Constants {
   SET_PAGE = "SET_PAGE",
@@ -11,6 +16,7 @@ export enum Constants {
   SET_CALC_STR = "SET_CALC_STR",
   SET_RESULT = "SET_RESULT",
   RESET = "RESET",
+  SHOW_TRANSACTION_ALERT = "SHOW_TRANSACTION_ALERT",
 }
 
 export interface IRootState {
@@ -19,6 +25,7 @@ export interface IRootState {
   showNoteModal: boolean;
   settings: Settings;
   showCategoryModal: boolean;
+  showTransactionAlert: GenericAlert;
   transaction: Transaction;
   calc: Calc;
 }

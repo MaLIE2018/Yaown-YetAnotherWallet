@@ -1,3 +1,6 @@
+import { SvgIconTypeMap } from "@material-ui/core";
+import { OverridableComponent } from "@material-ui/core/OverridableComponent";
+
 export interface History {
   past: string[];
   present: string;
@@ -18,6 +21,13 @@ export interface Settings {
   refreshToken: string;
 }
 
+export enum AlertVariants {
+  "error" = "error",
+  "warning" = "warning",
+  "info" = "info",
+  "success" = "success",
+}
+
 export interface Transaction {
   note: string;
   date: Date;
@@ -26,4 +36,16 @@ export interface Transaction {
   time: string;
   category: string;
   type: Accounting;
+}
+
+export interface Category {
+  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+  name: string;
+  color: string;
+}
+
+export interface GenericAlert {
+  text: string;
+  variant: AlertVariants;
+  show: boolean;
 }
