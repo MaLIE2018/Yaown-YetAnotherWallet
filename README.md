@@ -1,46 +1,23 @@
-# Getting Started with Create React App
+YAOWN - yet another wallet app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the world.
 
-## Available Scripts
+Every human being is an investor. You too. We invest our time and our money. The economic system, and nature before it, makes us investors.
+This application is designed to help you on your way to a carefree life, where you keep track of the things that help you and your family.
+It's about realising that all the decisions you make today have the potential to have a lasting impact on your life.
 
-In the project directory, you can run:
+The two things are money and time.
 
-### `npm start`
+Money is fleeting and time is always moving forward. If you realise today that the money you have today and earn over time forms a basis for what your life will look like over the course of 40-50 years.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Since we can't escape this, you should take a moment to become aware of it. 5 minutes for 50 years.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+This app is designed to help you realise where you are today and what you can do today to help you and your family achieve a retirement worthy of the name over the decades.
 
-### `npm test`
+It's important to know where you're spending your money and what you can do to use some of it in a way that will help you achieve greater endurance and freedom in the future.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+It's not hard to keep track. Just start to realise that it is not necessary to limit your life and still take responsibility for your future.
 
-### `npm run build`
+We would like to help you with this. Let's start together. Very small at the beginning and with time it will become easier and easier for you to make the right decisions and move towards the goal of a relaxed old age.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Your YAOWN team.
