@@ -5,12 +5,19 @@ export const theme = createTheme({
     main: "#5A37C3",
   },
   palette: {
+    primary: {
+      main: "#eeeeee",
+      light: "#ffffff",
+      dark: "#bcbcbc",
+    },
     secondary: {
-      main: "#7e57c2",
+      main: "#ffa726",
+      light: "#ffd95b",
+      dark: "#c77800",
     },
   },
   shape: {
-    borderRadius: 16,
+    borderRadius: 8,
   },
   overrides: {
     MuiCssBaseline: {
@@ -18,11 +25,15 @@ export const theme = createTheme({
         html: {
           WebkitFontSmoothing: "auto",
         },
+        body: {
+          backgroundColor: "#eeeeee",
+        },
         ".MuiButton-root": {
           textTransform: "capitalize",
         },
-        ".MuiIconButton-root": {
-          color: "#fff",
+        ".MuiIconButton-root": {},
+        ".MuiBottomNavigationAction-root.Mui-selected": {
+          color: "#ffa726",
         },
       },
     },

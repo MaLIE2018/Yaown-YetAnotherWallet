@@ -1,7 +1,7 @@
 import "date-fns";
 import React, { useState, useEffect } from "react";
 import useStyles from "./Tracker.styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { IRootState } from "store/types/types";
 import { animated, useSpring } from "react-spring";
 import { Calculator } from "./Calculator/Calculator";
@@ -15,6 +15,7 @@ import trackerIcons from "../icons/trackerIcons";
 import CalculationRow from "./CalculationRow/CalculationRow";
 import categories from "assets/categories";
 import { Category } from "types/types";
+import { useDispatch } from "hooks/useDispatch";
 
 const Tracker: React.FC<{}> = () => {
   const { showTracker, showNoteModal, showCategoryModal, transaction } =

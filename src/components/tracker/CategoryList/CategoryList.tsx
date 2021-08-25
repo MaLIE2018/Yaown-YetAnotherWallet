@@ -1,19 +1,19 @@
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-
 import React from "react";
-import { useDispatch } from "react-redux";
 import categories from "assets/categories";
 import { capitalizeWords } from "../../../utils/helpers/text";
 import useStyles from "./CategoryList.styles";
+import { useDispatch } from "hooks/useDispatch";
 
 const CategoryList: React.FC<{}> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   return (
-    <div className={classes.root}>
+    <div className={classes.categoryList}>
       <List>
         {categories.map((category) => (
           <ListItem
+            button
             onClick={() => {
               dispatch({
                 type: "SET_TA",

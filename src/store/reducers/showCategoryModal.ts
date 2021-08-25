@@ -1,6 +1,8 @@
+import { StoreEvents } from "store/types/types";
+
 export function categoryModalReducer(
   state: boolean = false,
-  action: any
+  action: StoreEvents
 ): boolean {
   switch (action.type) {
     case "TOGGLE_CATEGORY_MODAL":

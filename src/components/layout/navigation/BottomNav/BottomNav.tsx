@@ -2,9 +2,10 @@ import { FC, ReactElement } from "react";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import useStyles from "./BottomNav.styles";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { IRootState } from "../../../../store/types/types";
 import bottomNavIcons from "../../../icons/bottomNav";
+import { useDispatch } from "hooks/useDispatch";
 
 const BottomNav: FC<{}> = (): ReactElement => {
   const classes = useStyles();

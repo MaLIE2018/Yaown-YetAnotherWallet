@@ -19,6 +19,7 @@ const GenericModal: React.FC<Props> = ({
   return (
     <Modal
       open={show}
+      className={classes.modal}
       onClose={() => toggleModal()}
       aria-labelledby='simple-modal-title'
       aria-describedby='simple-modal-description'
@@ -27,7 +28,7 @@ const GenericModal: React.FC<Props> = ({
       BackdropProps={{
         timeout: 500,
       }}>
-      <div>{render}</div>
+      <div className={classes.content}>{render}</div>
     </Modal>
   );
 };

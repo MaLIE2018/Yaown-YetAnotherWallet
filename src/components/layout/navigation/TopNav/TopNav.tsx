@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import AddIcon from "@material-ui/icons/Add";
 import { useStyles } from "./TopNav.styles";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../../store/types/types";
@@ -19,7 +19,7 @@ const TopNav: React.FC<RouteComponentProps> = ({
   const dispatch = useDispatch();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.topNav}>
       <AppBar position='static'>
         <Toolbar variant='dense'>
           {page.present !== "cash" && (
@@ -38,6 +38,13 @@ const TopNav: React.FC<RouteComponentProps> = ({
           <Typography variant='h6' color='inherit'>
             {page.present.slice(0, 1).toUpperCase() + page.present.slice(1)}
           </Typography>
+          {page.present === "wealth" && (
+            <IconButton
+              className={classes.addBtn}
+              onClick={() => dispatch({ type: "TOGGLE_ADD_MODAL" })}>
+              <AddIcon />
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
     </div>

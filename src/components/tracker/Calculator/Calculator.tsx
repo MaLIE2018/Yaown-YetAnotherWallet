@@ -5,10 +5,11 @@ import Typography from "@material-ui/core/Typography";
 import trackerIcons from "../../icons/trackerIcons";
 import CalculatorApi from "services/calculator";
 import { Api } from "api/index";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { IRootState } from "store/types/types";
 import { AlertVariants } from "types/types";
+import { useDispatch } from "hooks/useDispatch";
 
 export const Calculator: React.FC<{}> = () => {
   // const classes = useStyles();

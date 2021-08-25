@@ -1,3 +1,4 @@
+import { StoreEvents } from "store/types/types";
 import { Accounting, Transaction } from "../../types/types";
 
 const Init = {
@@ -12,7 +13,7 @@ const Init = {
 
 function transactionReducer(
   state: Transaction = Init,
-  action: any
+  action: StoreEvents
 ): Transaction {
   switch (action.type) {
     case "SET_TA":

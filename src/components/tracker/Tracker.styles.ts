@@ -5,15 +5,15 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "50%",
     position: "absolute",
-    borderTopLeftRadius: "20px",
-    borderTopRightRadius: "20px",
+    borderTopLeftRadius: theme.shape.borderRadius * 2,
+    borderTopRightRadius: theme.shape.borderRadius * 2,
 
     bottom: 0,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    background: "#f5f5f5",
+    background: theme.palette.primary.main,
     margin: 0,
     zIndex: (showTracker) => {
       return showTracker ? 1050 : -1000;

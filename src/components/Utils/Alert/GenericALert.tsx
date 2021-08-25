@@ -1,7 +1,8 @@
 import { Snackbar } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { useDispatch } from "hooks/useDispatch";
 import React from "react";
-import { useDispatch } from "react-redux";
+
 import { AlertVariants } from "types/types";
 import useStyles from "./GenericAlert.style";
 

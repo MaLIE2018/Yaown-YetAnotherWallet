@@ -1,15 +1,15 @@
 import { StoreEvents } from "store/types/types";
 
-export function trackerReducer(
+export function addModalReducer(
   state: boolean = false,
   action: StoreEvents
 ): boolean {
   switch (action.type) {
-    case "TOGGLE_TRACKER":
+    case "TOGGLE_ADD_MODAL":
       return !state;
     default:
       return state;
   }
 }
 
-export default trackerReducer;
+export default addModalReducer;

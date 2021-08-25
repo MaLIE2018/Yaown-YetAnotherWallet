@@ -1,3 +1,4 @@
+import { StoreEvents } from "store/types/types";
 import { Settings } from "../../types/types";
 
 const Init = {
@@ -5,7 +6,10 @@ const Init = {
   refreshToken: "",
 };
 
-function settingsReducer(state: Settings = Init, action: any): Settings {
+function settingsReducer(
+  state: Settings = Init,
+  action: StoreEvents
+): Settings {
   switch (action.type) {
     case "SET_ACCESS_TOKEN":
       return { ...state, accessToken: action.payload };

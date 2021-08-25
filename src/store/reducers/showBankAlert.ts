@@ -7,16 +7,16 @@ const Init = {
   text: "",
 };
 
-export function showTransactionAlertReducer(
+export function showBankAlertReducer(
   state: GenericAlert = Init,
   action: StoreEvents
 ): GenericAlert {
   switch (action.type) {
-    case "TOGGLE_TRANSACTION_ALERT":
+    case "TOGGLE_BANK_ALERT":
       return { ...state, ...action.payload };
     default:
       return state;
   }
 }
 
-export default showTransactionAlertReducer;
+export default showBankAlertReducer;

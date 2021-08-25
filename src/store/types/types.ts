@@ -5,19 +5,23 @@ import {
   Transaction,
 } from "../../types/types";
 
-export enum Constants {
-  SET_PAGE = "SET_PAGE",
-  TOGGLE_TRACKER = "TOGGLE_TRACKER",
-  TOGGLE_NOTE_MODAL = "TOGGLE_NOTE_MODAL",
-  SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN",
-  TOGGLE_CATEGORY_MODAL = "TOGGLE_CATEGORY_MODAL",
-  SET_TA = "SET_TA",
-  RESET_TA = "RESET_TA",
-  SET_CALC_STR = "SET_CALC_STR",
-  SET_RESULT = "SET_RESULT",
-  RESET = "RESET",
-  SHOW_TRANSACTION_ALERT = "SHOW_TRANSACTION_ALERT",
-}
+export type StoreEvents =
+  | { type: "SET_PAGE"; payload: string }
+  | { type: "TOGGLE_TRACKER" }
+  | { type: "TOGGLE_NOTE_MODAL" }
+  | { type: "SET_ACCESS_TOKEN"; payload: string }
+  | { type: "SET_REFRESH_TOKEN"; payload: string }
+  | { type: "TOGGLE_CATEGORY_MODAL" }
+  | { type: "TOGGLE_TRANSACTION_ALERT"; payload: GenericAlert }
+  | { type: "TOGGLE_BANK_ALERT"; payload: GenericAlert }
+  | { type: "SET_TA"; payload: any }
+  | { type: "RESET_TA" }
+  | { type: "SET_CALC_STR"; payload: string }
+  | { type: "SET_RESULT"; payload: string }
+  | { type: "RESET" }
+  | { type: "SHOW_TRANSACTION_ALERT" }
+  | { type: "TOGGLE_ADD_MODAL" }
+  | { type: "TOGGLE_ADD_BANK_PAGE" };
 
 export interface IRootState {
   page: History;
@@ -28,6 +32,9 @@ export interface IRootState {
   showTransactionAlert: GenericAlert;
   transaction: Transaction;
   calc: Calc;
+  showAddBankPage: boolean;
+  showAddModal: boolean;
+  showBankAlert: GenericAlert;
 }
 
 export interface Calc {

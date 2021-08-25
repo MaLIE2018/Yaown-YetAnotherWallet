@@ -1,11 +1,11 @@
-import { Calc } from "../types/types";
+import { Calc, StoreEvents } from "../types/types";
 
 const Init = {
   result: "0",
   calcStr: "",
 };
 
-function calculationReducer(state: Calc = Init, action: any): Calc {
+function calculationReducer(state: Calc = Init, action: StoreEvents): Calc {
   switch (action.type) {
     case "SET_RESULT":
       return { ...state, result: action.payload };

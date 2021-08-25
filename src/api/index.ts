@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { store } from "store/store";
-import { Transaction } from "types/types";
+import { Bank, Transaction } from "types/types";
 
 export class Api {
   private static singleton: Api;
@@ -118,5 +118,24 @@ export class Api {
   }
   public async deleteTransaction(): Promise<boolean> {
     return true;
+  }
+
+  public async getBanks(countryCode: string): Promise<Bank[]> {
+    try {
+      const res = await this.apiInstance
+        .get("/bank/" + countryCode)
+        .then((res) => res);
+      if (res.status === 200) {
+        return res.data;
+      }
+      if (res.status === 401 || res.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return [];
+        }
+      }
+      return [];
+    } catch (error) {
+      return [];
+    }
   }
 }

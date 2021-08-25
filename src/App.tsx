@@ -15,18 +15,21 @@ import {
   Switch,
   withRouter,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { IRootState } from "./store/types/types";
 import Container from "@material-ui/core/Container";
 import useStyles from "./App.styles";
 import Tracker from "./components/tracker/Tracker";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import Page from "components/layout/page/Page";
+import useSelector from "hooks/useSelector";
+import { useDispatch } from "hooks/useDispatch";
+import AddAccount from "components/addBank/AddAccount";
 
 function App({ history }: RouteComponentProps) {
   const classes = useStyles();
   const isAuthenticated = true;
-  const { page } = useSelector((state: IRootState) => state);
+  const dispatch = useDispatch();
+  const { page, showAddBankPage } = useSelector((state) => state);
 
   useEffect(() => {
     history.push(`/${page.present}`);
@@ -50,6 +53,13 @@ function App({ history }: RouteComponentProps) {
 
           <BottomNav />
           <Tracker />
+          {showAddBankPage && (
+            <Page
+              render={<AddAccount />}
+              title='Select Bank'
+              togglePage={() => dispatch({ type: "TOGGLE_ADD_BANK_PAGE" })}
+            />
+          )}
         </Container>
       </MuiPickersUtilsProvider>
     </Suspense>

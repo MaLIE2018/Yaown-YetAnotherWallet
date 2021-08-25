@@ -19,12 +19,12 @@ const Cash: React.FC<{}> = () => {
   console.log("isLogged:", isLogged);
 
   return (
-    <div className={classes.root}>
+    <div className={classes.cash}>
       {categories.map((category) => (
         <Box
           key={category.name}
-          bgcolor='grey.100'
-          borderRadius={16}
+          bgcolor={theme.palette.primary.light}
+          borderRadius={theme.shape.borderRadius}
           display='flex'
           flexDirection='column'>
           <Button

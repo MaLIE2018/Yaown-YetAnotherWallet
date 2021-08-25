@@ -8,6 +8,9 @@ import categoryModalReducer from "./showCategoryModal";
 import transactionReducer from "./transaction";
 import calculationReducer from "./calculation";
 import showTransactionAlertReducer from "./showTransactionAlert";
+import addModalReducer from "./showAddModal";
+import addBankReducer from "./showAddBankPape";
+import showBankAlertReducer from "./showBankAlert";
 
 const undoable = ns.default;
 
@@ -23,6 +26,9 @@ const allReducers = combineReducers({
   showCategoryModal: categoryModalReducer,
   transaction: transactionReducer,
   calc: calculationReducer,
+  showAddModal: addModalReducer,
+  showAddBankPage: addBankReducer,
+  showBankAlert: showBankAlertReducer,
 });
 
 export default allReducers;

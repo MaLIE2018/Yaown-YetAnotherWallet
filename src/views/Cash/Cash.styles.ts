@@ -3,7 +3,7 @@ import { createStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
+    cash: {
       display: "flex",
       justifyContent: "space-between",
       position: "relative",
