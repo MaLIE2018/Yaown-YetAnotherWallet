@@ -1,14 +1,16 @@
 import { StoreEvents } from "store/types/types";
-import { Accounting, Transaction } from "../../types/types";
+import { Transaction } from "../../types/types";
 
 const Init = {
-  amount: "0",
   category: "",
-  date: new Date(),
-  time: "",
-  account: "",
-  note: "",
-  type: Accounting.expense,
+  bookingDate: new Date().toISOString(),
+  valueDate: new Date().toISOString(),
+  transactionAmount: { currency: "EUR", amount: "0" },
+  transactionId: "",
+  debtorName: "",
+  debtorAccount: { iban: "" },
+  bankTransactionCode: "",
+  remittanceInformationUnstructured: "",
 };
 
 function transactionReducer(

@@ -11,9 +11,12 @@ export interface History {
   limit: number;
 }
 
-export enum Accounting {
-  expense = "expense",
-  income = "income",
+export interface User {
+  _id?: string;
+  name: string;
+  img: string;
+  email: string;
+  accounts: [];
 }
 
 export interface Settings {
@@ -29,13 +32,24 @@ export enum AlertVariants {
 }
 
 export interface Transaction {
-  note: string;
-  date: Date;
-  amount: string;
-  account: string;
-  time: string;
+  bookingDate: string;
   category: string;
-  type: Accounting;
+  transactionId: string;
+  valueDate: string;
+  debtorName?: string;
+  debtorAccount?: DebtorAccount;
+  transactionAmount: TransactionAmount;
+  bankTransactionCode: string;
+  remittanceInformationUnstructured: string;
+}
+
+export interface DebtorAccount {
+  iban: string;
+}
+
+export interface TransactionAmount {
+  currency: string;
+  amount: string;
 }
 
 export interface Category {

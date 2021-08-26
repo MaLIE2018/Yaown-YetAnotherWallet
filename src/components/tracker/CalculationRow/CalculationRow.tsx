@@ -11,7 +11,7 @@ import CalculatorApi from "../../../services/calculator";
 
 const CalculationRow: React.FC<{}> = () => {
   const classes = useStyles();
-  const { calc } = useSelector((state: IRootState) => state);
+  const { calc, transaction } = useSelector((state: IRootState) => state);
   const { BackspaceIcon } = trackerIcons;
   const dispatch = useDispatch();
   const calculatorApi = CalculatorApi.getSingleton();
@@ -28,10 +28,40 @@ const CalculationRow: React.FC<{}> = () => {
 
   const bind = useDrag(({ active, movement: [x, y] }) => {
     api.start({ x: active ? x * 100 : 0, y, ...(x < 0 ? left : right) });
-    if (theme.palette.success.main === bg.animation.to) {
-      dispatch({ type: "SET_TA", payload: { type: "income" } });
+    if (theme.palette.error.main === bg.animation.to) {
+      dispatch({ type: "EXPENSE" });
+      dispatch({
+        type: "SET_TA",
+        payload: {
+          transactionAmount: {
+            ...transaction.transactionAmount,
+            amount: "-" + calc.result.replace(",", "."),
+          },
+        },
+      });
     } else {
-      dispatch({ type: "SET_TA", payload: { type: "expense" } });
+      dispatch({ type: "INCOME" });
+      if (/[-]/.test(transaction.transactionAmount.amount)) {
+        dispatch({
+          type: "SET_TA",
+          payload: {
+            transactionAmount: {
+              ...transaction.transactionAmount,
+              amount: calc.result.replace(",", ".").slice(1),
+            },
+          },
+        });
+      } else {
+        dispatch({
+          type: "SET_TA",
+          payload: {
+            transactionAmount: {
+              ...transaction.transactionAmount,
+              amount: calc.result.replace(",", "."),
+            },
+          },
+        });
+      }
     }
   });
 

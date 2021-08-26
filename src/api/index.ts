@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 import { store } from "store/store";
-import { Bank, Transaction } from "types/types";
+import { Bank, Transaction, User } from "types/types";
+import { base64 } from "utils/helpers/text";
 
 export class Api {
   private static singleton: Api;
@@ -36,6 +37,7 @@ export class Api {
 
   public async reset() {
     await this.setAccessToken("");
+    await this.setRefreshToken("");
   }
 
   /* Token */
@@ -51,8 +53,8 @@ export class Api {
   private async setAccessToken(accessToken: string) {
     store.dispatch({ type: "SET_ACCESS_TOKEN", payload: accessToken });
   }
-  private async setRefreshToken(accessToken: string) {
-    store.dispatch({ type: "SET_REFRESH_TOKEN", payload: accessToken });
+  private async setRefreshToken(refreshToken: string) {
+    store.dispatch({ type: "SET_REFRESH_TOKEN", payload: refreshToken });
   }
 
   private async getRefreshToken(): Promise<string> {
@@ -69,14 +71,65 @@ export class Api {
     if (refreshToken === "") return false;
 
     try {
-      const res = await this.apiInstance.post("/token").then((res) => res);
+      const res = await this.apiInstance
+        .post("auth/refreshToken")
+        .then((res) => res);
       if (res.status === 200) {
-        await this.setAccessToken(res.data.accessToken);
-        await this.setRefreshToken(res.data.refreshToken);
+        await this.setAccessToken(res.data.access_token);
+        await this.setRefreshToken(res.data.refresh_Token);
       }
     } catch (error) {
       await this.reset();
     }
+  }
+
+  public async login(email: string, password: string): Promise<boolean> {
+    const headers = new Headers({
+      Authorization: `Basic ${base64([email, password].join(":"))}`,
+      "Content-Type": "application/json",
+    });
+    try {
+      const res = await this.apiInstance.post("auth/login", {
+        headers: headers,
+      });
+      if (res.status === 200) {
+        await this.setAccessToken(res.data.access_token);
+        await this.setRefreshToken(res.data.refresh_token);
+        return true;
+      }
+      if (res.status === 401) {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+    return true;
+  }
+
+  public async register(
+    email: string,
+    password: string
+  ): Promise<User | false> {
+    const headers = new Headers({
+      Authorization: `Basic ${base64([email, password].join(":"))}`,
+      "Content-Type": "application/json",
+    });
+    try {
+      const res = await this.apiInstance.post("auth/login", {
+        headers: headers,
+      });
+      if (res.status === 200) {
+        return res.data;
+      }
+      if (res.status === 400) {
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+    return false;
   }
 
   /* Endpoints */
@@ -121,9 +174,13 @@ export class Api {
   }
 
   public async getBanks(countryCode: string): Promise<Bank[]> {
+    const headers = new Headers({
+      Authorization: `Bearer ` + this.getAccessToken(),
+      "Content-Type": "application/json",
+    });
     try {
       const res = await this.apiInstance
-        .get("/bank/" + countryCode)
+        .get("/bank/" + countryCode, { headers: headers })
         .then((res) => res);
       if (res.status === 200) {
         return res.data;

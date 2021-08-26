@@ -26,7 +26,10 @@ export const Note: React.FC<{}> = () => {
         <Button
           color='primary'
           onClick={() => {
-            dispatch({ type: "SET_TA", payload: { note: note } });
+            dispatch({
+              type: "SET_TA",
+              payload: { remittanceInformationUnstructured: note },
+            });
             dispatch({ type: "TOGGLE_NOTE_MODAL" });
           }}>
           Ok

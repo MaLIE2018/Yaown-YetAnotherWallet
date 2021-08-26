@@ -13,7 +13,7 @@ import { useDispatch } from "hooks/useDispatch";
 
 export const Calculator: React.FC<{}> = () => {
   // const classes = useStyles();
-  const { showTracker, transaction } = useSelector(
+  const { showTracker, transaction, expense } = useSelector(
     (state: IRootState) => state
   );
   const { RiDivideFill, CloseIcon, RemoveIcon, AddIcon, CheckIcon } =
@@ -26,7 +26,12 @@ export const Calculator: React.FC<{}> = () => {
     if (
       fetchApi.postTransaction({
         ...transaction,
-        amount: `${calculatorApi.result}`,
+        transactionAmount: {
+          ...transaction.transactionAmount,
+          amount: !expense
+            ? calculatorApi.result.replace(",", ".")
+            : "-" + calculatorApi.result.replace(",", "."),
+        },
       })
     ) {
       dispatch({ type: "RESET_TA" });

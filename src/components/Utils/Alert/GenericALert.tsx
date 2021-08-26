@@ -36,7 +36,7 @@ const GenericAlert: React.FC<Props> = ({ show, variant, text }) => {
   return (
     <Snackbar
       open={show}
-      autoHideDuration={1500}
+      autoHideDuration={1000}
       onClose={handleClose}
       className={classes.root}>
       <Alert onClose={handleClose} severity={`${variant}`}>

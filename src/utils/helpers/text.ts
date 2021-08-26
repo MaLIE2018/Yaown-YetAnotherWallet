@@ -13,3 +13,7 @@ export function capitalizeWords(str: string): string {
   );
   return withCapitals.join(" ");
 }
+
+export const base64 = (input: string) => {
+  return new Buffer(input).toString("base64");
+};

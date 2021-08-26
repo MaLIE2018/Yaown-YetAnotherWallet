@@ -39,11 +39,21 @@ const Tracker: React.FC<{}> = () => {
   );
 
   const handleDateChange = (date: Date | null) => {
-    dispatch({ type: "SET_TA", payload: { date: date!.toISOString() } });
+    const time = transaction.bookingDate.split("T")[1];
+    const newDate = date?.toISOString().split("T")[0];
+    dispatch({
+      type: "SET_TA",
+      payload: { bookingDate: `${newDate}T${time}` },
+    });
     setSelectedDate(date);
   };
   const handleTimeChange = (date: Date | null) => {
-    dispatch({ type: "SET_TA", payload: { time: date!.toISOString() } });
+    const oldDate = transaction.bookingDate.split("T")[0];
+    const newTime = date?.toISOString().split("T")[1];
+    dispatch({
+      type: "SET_TA",
+      payload: { bookingDate: `${oldDate}T${newTime}` },
+    });
     setSelectedTime(date);
   };
 
@@ -76,14 +86,14 @@ const Tracker: React.FC<{}> = () => {
         <Fab color='primary' size='small'>
           <KeyboardDatePicker
             value={selectedDate}
+            format='yyyy-mm-dd'
             onChange={(date) => handleDateChange(date)}
             rightArrowIcon={<DateRangeIcon />}
           />
         </Fab>
         <Fab color='primary' size='small'>
           <KeyboardTimePicker
-            placeholder='08:00 AM'
-            mask='__:__ _M'
+            format='hh:mm:ss'
             value={selectedTime}
             onChange={(date) => handleTimeChange(date)}
             keyboardIcon={<ScheduleIcon />}
