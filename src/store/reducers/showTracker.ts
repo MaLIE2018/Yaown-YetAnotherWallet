@@ -1,4 +1,9 @@
-export function trackerReducer(state: boolean = false, action: any): boolean {
+import { StoreEvents } from "store/types/types";
+
+export function trackerReducer(
+  state: boolean = false,
+  action: StoreEvents
+): boolean {
   switch (action.type) {
     case "TOGGLE_TRACKER":
       return !state;

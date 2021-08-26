@@ -1,10 +1,23 @@
 import { createTheme } from "@material-ui/core";
 
 export const theme = createTheme({
+  yaown: {
+    main: "#5A37C3",
+  },
   palette: {
-    secondary: {
-      main: "#7e57c2",
+    primary: {
+      main: "#eeeeee",
+      light: "#ffffff",
+      dark: "#bcbcbc",
     },
+    secondary: {
+      main: "#ffa726",
+      light: "#ffd95b",
+      dark: "#c77800",
+    },
+  },
+  shape: {
+    borderRadius: 8,
   },
   overrides: {
     MuiCssBaseline: {
@@ -12,11 +25,15 @@ export const theme = createTheme({
         html: {
           WebkitFontSmoothing: "auto",
         },
+        body: {
+          backgroundColor: "#eeeeee",
+        },
         ".MuiButton-root": {
           textTransform: "capitalize",
         },
-        ".MuiIconButton-root": {
-          color: "#fff",
+        ".MuiIconButton-root": {},
+        ".MuiBottomNavigationAction-root.Mui-selected": {
+          color: "#ffa726",
         },
       },
     },

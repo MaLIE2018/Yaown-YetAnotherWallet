@@ -7,6 +7,12 @@ import settingsReducer from "./settings";
 import categoryModalReducer from "./showCategoryModal";
 import transactionReducer from "./transaction";
 import calculationReducer from "./calculation";
+import showTransactionAlertReducer from "./showTransactionAlert";
+import addModalReducer from "./showAddModal";
+import addBankReducer from "./showAddBankPape";
+import showBankAlertReducer from "./showBankAlert";
+import expenseReducer from "./Expense";
+import showLoginAlertReducer from "./showLoginAlert";
 
 const undoable = ns.default;
 
@@ -17,10 +23,16 @@ const allReducers = combineReducers({
   }),
   showTracker: trackerReducer,
   showNoteModal: noteModalReducer,
+  showTransactionAlert: showTransactionAlertReducer,
   settings: settingsReducer,
   showCategoryModal: categoryModalReducer,
   transaction: transactionReducer,
-  calcArr: calculationReducer,
+  calc: calculationReducer,
+  showAddModal: addModalReducer,
+  showAddBankPage: addBankReducer,
+  showBankAlert: showBankAlertReducer,
+  showLoginAlert: showLoginAlertReducer,
+  expense: expenseReducer,
 });
 
 export default allReducers;

@@ -1,0 +1,45 @@
+import PeopleIcon from "@material-ui/icons/People"; //"Familien & Freunde"
+import WeekendIcon from "@material-ui/icons/Weekend"; //"Haushalt & Nebenkosten"
+import LaptopMacIcon from "@material-ui/icons/LaptopMac"; //"Medien & Mediathek"
+import PublicIcon from "@material-ui/icons/Public"; //"Reisen & Urlaub",
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart"; //"Shopping",
+import DescriptionIcon from "@material-ui/icons/Description"; //"Steuern & Abgaben",
+import AirportShuttleIcon from "@material-ui/icons/AirportShuttle"; // "Transport & Auto",
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser"; //"Versicherungen & Finanzen",
+import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined"; // "Abos & Spenden",
+import LocalBarOutlinedIcon from "@material-ui/icons/LocalBarOutlined"; // "Bars & Restaurants",
+import BusinessCenterOutlinedIcon from "@material-ui/icons/BusinessCenterOutlined"; // "Berufsausgaben",
+import StorefrontOutlinedIcon from "@material-ui/icons/StorefrontOutlined"; // "Essen & Lebensmittel",
+import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined"; // "Gesundheit & Drogerien",
+import ConfirmationNumberOutlinedIcon from "@material-ui/icons/ConfirmationNumberOutlined"; //"Freizeit & Unterhaltung",
+import CastForEducationOutlinedIcon from "@material-ui/icons/CastForEducationOutlined"; //"Bildung",
+import Money from "@material-ui/icons/Money"; //"Gehalt",
+import ViewQuiltIcon from "@material-ui/icons/ViewQuilt"; //"Sparen & Investieren",
+import LocalAtmOutlinedIcon from "@material-ui/icons/LocalAtmOutlined"; //"Abhebungen",
+import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined"; //"Sonstiges",
+import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined"; //"Gutschriften",
+
+const categories = {
+  PeopleIcon,
+  WeekendIcon,
+  LaptopMacIcon,
+  PublicIcon,
+  ShoppingCartIcon,
+  DescriptionIcon,
+  AirportShuttleIcon,
+  VerifiedUserIcon,
+  AssignmentTurnedInOutlinedIcon,
+  LocalBarOutlinedIcon,
+  BusinessCenterOutlinedIcon,
+  StorefrontOutlinedIcon,
+  FavoriteBorderOutlinedIcon,
+  ConfirmationNumberOutlinedIcon,
+  CastForEducationOutlinedIcon,
+  Money,
+  ViewQuiltIcon,
+  LocalAtmOutlinedIcon,
+  DashboardOutlinedIcon,
+  ExitToAppOutlinedIcon,
+};
+
+export default categories;

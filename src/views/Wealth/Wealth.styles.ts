@@ -1,8 +1,10 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  root: {
+  wealth: {
     flexGrow: 1,
+    overflow: "auto",
+    position: "relative",
   },
 });
 

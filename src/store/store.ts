@@ -29,3 +29,7 @@ export const storePersist = () => {
   let persistor = persistStore(store);
   return { store, persistor };
 };
+
+const { store, persistor } = storePersist();
+
+export { store, persistor };

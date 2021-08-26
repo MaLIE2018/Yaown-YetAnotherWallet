@@ -1,18 +1,19 @@
 import { makeStyles } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  root: {
+const useStyles = makeStyles((theme) => ({
+  tracker: {
     width: "100%",
     height: "50%",
     position: "absolute",
-    borderTopLeftRadius: "20px",
-    borderTopRightRadius: "20px",
+    borderTopLeftRadius: theme.shape.borderRadius * 2,
+    borderTopRightRadius: theme.shape.borderRadius * 2,
+
     bottom: 0,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    background: "#f5f5f5",
+    background: theme.palette.primary.main,
     margin: 0,
     zIndex: (showTracker) => {
       return showTracker ? 1050 : -1000;
@@ -36,7 +37,7 @@ const useStyles = makeStyles({
     justifyContent: "space-evenly",
     width: "100%",
     "& :first-child": {
-      borderRadius: "16px",
+      borderRadius: theme.shape.borderRadius,
     },
     "& .MuiInput-underline:before": {
       content: '""',
@@ -47,9 +48,10 @@ const useStyles = makeStyles({
       marginBottom: 0,
     },
     "& .MuiInputBase-root": {
+      marginRight: "-3px",
       justifyContent: "flex-end",
     },
   },
-});
+}));
 
 export default useStyles;

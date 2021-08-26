@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
 
 import useStyles from "./GenericModal.style";
 
@@ -18,10 +19,16 @@ const GenericModal: React.FC<Props> = ({
   return (
     <Modal
       open={show}
+      className={classes.modal}
       onClose={() => toggleModal()}
       aria-labelledby='simple-modal-title'
-      aria-describedby='simple-modal-description'>
-      <div>{render}</div>
+      aria-describedby='simple-modal-description'
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}>
+      <div className={classes.content}>{render}</div>
     </Modal>
   );
 };
