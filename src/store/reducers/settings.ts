@@ -4,6 +4,7 @@ import { Settings } from "../../types/types";
 const Init = {
   accessToken: "",
   refreshToken: "",
+  user: "",
 };
 
 function settingsReducer(

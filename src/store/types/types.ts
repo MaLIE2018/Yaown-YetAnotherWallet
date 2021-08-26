@@ -19,7 +19,7 @@ export type StoreEvents =
   | { type: "SET_CALC_STR"; payload: string }
   | { type: "SET_RESULT"; payload: string }
   | { type: "RESET" }
-  | { type: "SHOW_TRANSACTION_ALERT" }
+  | { type: "TOGGLE_LOGIN_ALERT"; payload: GenericAlert }
   | { type: "TOGGLE_ADD_MODAL" }
   | { type: "EXPENSE" }
   | { type: "INCOME" }
@@ -37,6 +37,7 @@ export interface IRootState {
   showAddBankPage: boolean;
   showAddModal: boolean;
   showBankAlert: GenericAlert;
+  showLoginAlert: GenericAlert;
   expense: boolean;
 }
 

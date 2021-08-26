@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       position: "absolute",
-      margin: "0 auto",
+      margin: "auto",
       width: "80%",
     },
   })

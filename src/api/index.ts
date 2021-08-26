@@ -11,12 +11,16 @@ export class Api {
   private constructor() {
     this.apiInstance = axios.create({
       baseURL: process.env.REACT_APP_BE_URL,
-      headers: {
-        "Content-Type": "application/json",
-      },
       timeout: 20000,
     });
     this.transactions = [];
+  }
+
+  private getHeaders() {
+    return {
+      Authorization: `Bearer ${this.getAccessToken()}`,
+      "Content-Type": "application/json",
+    };
   }
 
   public static getSingleton(): Api {
@@ -28,6 +32,7 @@ export class Api {
 
   public isAuthenticated(): boolean {
     const accessToken = this.getAccessToken();
+    console.log("accessToken:", accessToken);
     return !!accessToken;
   }
 
@@ -68,15 +73,20 @@ export class Api {
   private async refreshAccessToken(): Promise<any> {
     const refreshToken = await this.getRefreshToken();
 
-    if (refreshToken === "") return false;
+    if (refreshToken === "") return await this.reset();
 
     try {
       const res = await this.apiInstance
-        .post("auth/refreshToken")
+        .post("auth/refreshToken", {
+          headers: {
+            Authorization: "Bearer " + refreshToken,
+          },
+        })
         .then((res) => res);
       if (res.status === 200) {
         await this.setAccessToken(res.data.access_token);
         await this.setRefreshToken(res.data.refresh_Token);
+        return true;
       }
     } catch (error) {
       await this.reset();
@@ -84,14 +94,15 @@ export class Api {
   }
 
   public async login(email: string, password: string): Promise<boolean> {
-    const headers = new Headers({
+    const headers = {
       Authorization: `Basic ${base64([email, password].join(":"))}`,
-      "Content-Type": "application/json",
-    });
+    };
     try {
-      const res = await this.apiInstance.post("auth/login", {
-        headers: headers,
-      });
+      const res = await this.apiInstance.post(
+        "auth/login",
+        {},
+        { headers: headers }
+      );
       if (res.status === 200) {
         await this.setAccessToken(res.data.access_token);
         await this.setRefreshToken(res.data.refresh_token);
@@ -107,18 +118,46 @@ export class Api {
     return true;
   }
 
+  public async logout(): Promise<boolean> {
+    try {
+      const res = await this.apiInstance.post(
+        "auth/logout",
+        {},
+        {
+          headers: this.getHeaders(),
+        }
+      );
+      if (res.status === 200) {
+        await this.reset();
+      }
+      if (res.status === 401) {
+        await this.reset();
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      await this.reset();
+      return false;
+    }
+    return true;
+  }
+
   public async register(
     email: string,
     password: string
   ): Promise<User | false> {
-    const headers = new Headers({
+    const headers = {
       Authorization: `Basic ${base64([email, password].join(":"))}`,
       "Content-Type": "application/json",
-    });
+    };
     try {
-      const res = await this.apiInstance.post("auth/login", {
-        headers: headers,
-      });
+      const res = await this.apiInstance.post(
+        "auth/register",
+        {},
+        {
+          headers: headers,
+        }
+      );
       if (res.status === 200) {
         return res.data;
       }
@@ -174,13 +213,9 @@ export class Api {
   }
 
   public async getBanks(countryCode: string): Promise<Bank[]> {
-    const headers = new Headers({
-      Authorization: `Bearer ` + this.getAccessToken(),
-      "Content-Type": "application/json",
-    });
     try {
       const res = await this.apiInstance
-        .get("/bank/" + countryCode, { headers: headers })
+        .get("/bank/" + countryCode, { headers: this.getHeaders() })
         .then((res) => res);
       if (res.status === 200) {
         return res.data;
@@ -192,6 +227,7 @@ export class Api {
       }
       return [];
     } catch (error) {
+      this.reset();
       return [];
     }
   }
