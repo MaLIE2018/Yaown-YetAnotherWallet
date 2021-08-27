@@ -1,7 +1,16 @@
 import { useEffect, Suspense } from "react";
 import { TopNav, BottomNav } from "./components/layout/navigation";
-import { Wealth, Login, Cash, Overview, Future, RenderLoader } from "./views";
 import {
+  Wealth,
+  Login,
+  Cash,
+  Overview,
+  Future,
+  RenderLoader,
+  VerifyEmail,
+} from "./views";
+import {
+  Redirect,
   Route,
   RouteComponentProps,
   Switch,
@@ -17,8 +26,9 @@ import useSelector from "hooks/useSelector";
 import { useDispatch } from "hooks/useDispatch";
 import AddAccount from "components/addBank/AddAccount";
 import { Api } from "../src/api/index";
+import Cookies from "js-cookie";
 
-function App({ history }: RouteComponentProps) {
+function App({ history, location, match }: RouteComponentProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { page, showAddBankPage } = useSelector((state) => state);
@@ -44,9 +54,15 @@ function App({ history }: RouteComponentProps) {
         console.log("is visible");
       }
     });
-  });
+  }, []);
 
   if (!isAuthenticated) {
+    const token = new URLSearchParams(location.search).get("token");
+    if (Cookies.get("csrfltoken")) {
+      return <VerifyEmail token={token} />;
+    } else if (token !== null) {
+      return <VerifyEmail token={token} />;
+    }
     return <Login />;
   }
 
@@ -60,6 +76,8 @@ function App({ history }: RouteComponentProps) {
             <Route path='/overview' component={Overview} />
             <Route path='/future' component={Future} />
             <Route path='/cash' component={Cash} />
+            <Redirect from='*' to='/' />
+            <Route render={() => <h1>404: page not found</h1>} />
           </Switch>
 
           <BottomNav />

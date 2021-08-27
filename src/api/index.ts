@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { store } from "store/store";
-import { Bank, Transaction, User } from "types/types";
+import { AlertVariants, Bank, Transaction, User } from "types/types";
 import { base64 } from "utils/helpers/text";
 
 export class Api {
@@ -12,6 +12,7 @@ export class Api {
     this.apiInstance = axios.create({
       baseURL: process.env.REACT_APP_BE_URL,
       timeout: 20000,
+      withCredentials: true,
     });
     this.transactions = [];
   }
@@ -28,12 +29,6 @@ export class Api {
       Api.singleton = new Api();
     }
     return Api.singleton;
-  }
-
-  public isAuthenticated(): boolean {
-    const accessToken = this.getAccessToken();
-    console.log("accessToken:", accessToken);
-    return !!accessToken;
   }
 
   public isLoggedIn(): boolean {
@@ -85,7 +80,7 @@ export class Api {
         .then((res) => res);
       if (res.status === 200) {
         await this.setAccessToken(res.data.access_token);
-        await this.setRefreshToken(res.data.refresh_Token);
+        await this.setRefreshToken(res.data.refresh_token);
         return true;
       }
     } catch (error) {
@@ -93,7 +88,30 @@ export class Api {
     }
   }
 
-  public async login(email: string, password: string): Promise<boolean> {
+  public async verifyEmail(token: string) {
+    try {
+      const res = await this.apiInstance.post(
+        "verify-email/" + token,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (res.status === 200) {
+        await this.setAccessToken(res.data.access_token);
+        await this.setRefreshToken(res.data.refresh_token);
+      }
+      if (res.status === 404) {
+        return false;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+
+  public async login(email: string, password: string) {
     const headers = {
       Authorization: `Basic ${base64([email, password].join(":"))}`,
     };
@@ -161,8 +179,29 @@ export class Api {
       if (res.status === 200) {
         return res.data;
       }
+      if (res.status === 202) {
+        await this.setAccessToken(res.data.access_token);
+        await this.setRefreshToken(res.data.refresh_token);
+      }
       if (res.status === 400) {
-        return false;
+        store.dispatch({
+          type: "TOGGLE_LOGIN_ALERT",
+          payload: {
+            variant: AlertVariants.error,
+            text: "User not found!",
+            show: true,
+          },
+        });
+      }
+      if (res.status === 401) {
+        store.dispatch({
+          type: "TOGGLE_LOGIN_ALERT",
+          payload: {
+            variant: AlertVariants.error,
+            text: "Credentials wrong!",
+            show: true,
+          },
+        });
       }
     } catch (error) {
       console.log(error);

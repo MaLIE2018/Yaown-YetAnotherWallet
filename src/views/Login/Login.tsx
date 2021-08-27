@@ -41,7 +41,7 @@ const loginApi = Api.getSingleton();
 
 const Login: React.FC<{}> = () => {
   const dispatch = useDispatch();
-  const { showTransactionAlert } = useSelector((state) => state);
+  const { showLoginAlert } = useSelector((state) => state);
   const classes = useStyles();
   const [values, setValues] = React.useState<State>({
     amount: "",
@@ -107,14 +107,14 @@ const Login: React.FC<{}> = () => {
         setIsLoading(false);
       } else {
         setIsLoading(false);
-        dispatch({
-          type: "TOGGLE_LOGIN_ALERT",
-          payload: {
-            variant: AlertVariants.error,
-            text: "Something went wrong - Try again",
-            show: true,
-          },
-        });
+        // dispatch({
+        //   type: "TOGGLE_LOGIN_ALERT",
+        //   payload: {
+        //     variant: AlertVariants.error,
+        //     text: "Something went wrong - Try again",
+        //     show: true,
+        //   },
+        // });
       }
     },
   });
@@ -249,9 +249,9 @@ const Login: React.FC<{}> = () => {
         </Box>
       </Box>
       <GenericAlert
-        show={showTransactionAlert.show}
-        text={showTransactionAlert.text}
-        variant={showTransactionAlert.variant}
+        show={showLoginAlert.show}
+        text={showLoginAlert.text}
+        variant={showLoginAlert.variant}
       />
     </Container>
   );

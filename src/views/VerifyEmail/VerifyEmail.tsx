@@ -1,48 +1,39 @@
-import React from "react";
-import { useFormik } from "formik";
-import * as yup from "yup";
+import React, { useEffect } from "react";
 import {
-  InputAdornment,
-  IconButton,
   Container,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-  Button,
   Box,
   Typography,
-  Tabs,
-  Tab,
-  Switch,
   CircularProgress,
-  Link,
 } from "@material-ui/core";
-import clsx from "clsx";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import useStyles from "./Verify.style";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Api } from "../../api/index";
-import GenericAlert from "components/Utils/Alert/GenericALert";
-import { useDispatch } from "hooks/useDispatch";
-import { AlertVariants } from "types/types";
-import useSelector from "hooks/useSelector";
-interface State {
-  amount: string;
-  password: string;
-  weight: string;
-  weightRange: string;
-  showPassword: boolean;
+
+const verifyApi = Api.getSingleton();
+
+interface Props {
+  token: string | null;
 }
 
-const loginApi = Api.getSingleton();
-
-const VerifyEmail: React.FC<{}> = () => {
+const VerifyEmail: React.FC<Props> = ({ token }) => {
   const classes = useStyles();
 
+  const verifyEmail = async (token: string) => {
+    const res = await verifyApi.verifyEmail(token);
+
+    return res;
+  };
+
+  useEffect(() => {
+    console.log("token:", token);
+    console.log("Verifying API");
+    if (token !== null) {
+      const res = verifyEmail(token);
+      console.log(res);
+    }
+  }, [token]);
+
   return (
-    <Container className={classes.login}>
+    <Container className={classes.verify}>
       <Box mt={4} width='100%'>
         <Typography component='div'>
           <Box fontSize='h4.fontSize' ml={5}>
@@ -61,17 +52,31 @@ const VerifyEmail: React.FC<{}> = () => {
           </Box>
         </Typography>
       </Box>
+
       <Box
-        mt={4}
+        mt={2}
         width='100%'
+        height='100%'
         display='flex'
         justifyContent='center'
         alignItems='center'>
-        <Typography component='div'>
-          <Box fontSize='h4.fontSize'>
-            You must verify your email address to continue
-          </Box>
-        </Typography>
+        {token === null ? (
+          <Typography component='div'>
+            <Box fontSize='h5.fontSize' textAlign='center'>
+              Please check you inbox and click on verification link.{" "}
+              <Box>❤️ As usual.</Box>
+            </Box>
+          </Typography>
+        ) : (
+          <Typography component='div'>
+            <Box textAlign='center' mb={5}>
+              <CircularProgress color='secondary' />
+            </Box>
+            <Box fontSize='h5.fontSize' textAlign='center'>
+              Thank you very much you are being logged in. 🚀
+            </Box>
+          </Typography>
+        )}
       </Box>
     </Container>
   );

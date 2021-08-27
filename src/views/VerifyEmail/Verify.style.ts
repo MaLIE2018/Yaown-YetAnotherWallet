@@ -2,9 +2,8 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    login: {
+    verify: {
       display: "flex",
-      flexWrap: "wrap",
       flexDirection: "column",
       alignItems: "center",
       height: "100vh",
