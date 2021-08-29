@@ -5,7 +5,7 @@ export function addModalReducer(
   action: StoreEvents
 ): boolean {
   switch (action.type) {
-    case "TOGGLE_ADD_MODAL":
+    case "TOGGLE_ADD_ASSET_MODAL":
       return !state;
     default:
       return state;

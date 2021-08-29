@@ -41,7 +41,7 @@ const TopNav: React.FC<RouteComponentProps> = ({
           {page.present === "wealth" && (
             <IconButton
               className={classes.addBtn}
-              onClick={() => dispatch({ type: "TOGGLE_ADD_MODAL" })}>
+              onClick={() => dispatch({ type: "TOGGLE_ADD_ASSET_MODAL" })}>
               <AddIcon />
             </IconButton>
           )}

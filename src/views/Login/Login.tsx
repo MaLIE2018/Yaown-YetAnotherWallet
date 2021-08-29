@@ -29,6 +29,7 @@ import GenericAlert from "components/Utils/Alert/GenericALert";
 import { useDispatch } from "hooks/useDispatch";
 import { AlertVariants } from "types/types";
 import useSelector from "hooks/useSelector";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 interface State {
   amount: string;
   password: string;
@@ -39,9 +40,9 @@ interface State {
 
 const loginApi = Api.getSingleton();
 
-const Login: React.FC<{}> = () => {
+const Login: React.FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
-  const { showLoginAlert } = useSelector((state) => state);
+  const { loginAlert } = useSelector((state) => state);
   const classes = useStyles();
   const [values, setValues] = React.useState<State>({
     amount: "",
@@ -95,6 +96,7 @@ const Login: React.FC<{}> = () => {
             variant: AlertVariants.error,
             text: "Email is not valid",
             show: true,
+            type: "TOGGLE_LOGIN_ALERT",
           },
         });
       }
@@ -105,16 +107,9 @@ const Login: React.FC<{}> = () => {
       }
       if (status === true) {
         setIsLoading(false);
+        history.push("/cash");
       } else {
         setIsLoading(false);
-        // dispatch({
-        //   type: "TOGGLE_LOGIN_ALERT",
-        //   payload: {
-        //     variant: AlertVariants.error,
-        //     text: "Something went wrong - Try again",
-        //     show: true,
-        //   },
-        // });
       }
     },
   });
@@ -248,13 +243,9 @@ const Login: React.FC<{}> = () => {
           </form>
         </Box>
       </Box>
-      <GenericAlert
-        show={showLoginAlert.show}
-        text={showLoginAlert.text}
-        variant={showLoginAlert.variant}
-      />
+      <GenericAlert {...loginAlert} />
     </Container>
   );
 };
 
-export default Login;
+export default withRouter(Login);

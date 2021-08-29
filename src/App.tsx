@@ -31,7 +31,8 @@ import Cookies from "js-cookie";
 function App({ history, location, match }: RouteComponentProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { page, showAddBankPage } = useSelector((state) => state);
+  const { page, bankPage } = useSelector((state) => state);
+
   const isAuthenticated = Api.getSingleton().isLoggedIn();
 
   useEffect(() => {
@@ -82,7 +83,7 @@ function App({ history, location, match }: RouteComponentProps) {
 
           <BottomNav />
           <Tracker />
-          {showAddBankPage && (
+          {bankPage && (
             <Page
               render={<AddAccount />}
               title='Select Bank'

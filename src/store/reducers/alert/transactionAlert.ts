@@ -5,18 +5,19 @@ const Init = {
   variant: AlertVariants.success,
   show: false,
   text: "",
+  type: "",
 };
 
-export function showBankAlertReducer(
+export function transactionAlertReducer(
   state: GenericAlert = Init,
   action: StoreEvents
 ): GenericAlert {
   switch (action.type) {
-    case "TOGGLE_BANK_ALERT":
+    case "TOGGLE_TRANSACTION_ALERT":
       return { ...state, ...action.payload };
     default:
       return state;
   }
 }
 
-export default showBankAlertReducer;
+export default transactionAlertReducer;

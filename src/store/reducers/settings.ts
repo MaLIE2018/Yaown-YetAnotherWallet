@@ -4,7 +4,7 @@ import { Settings } from "../../types/types";
 const Init = {
   accessToken: "",
   refreshToken: "",
-  user: "",
+  user: {},
 };
 
 function settingsReducer(
@@ -16,6 +16,8 @@ function settingsReducer(
       return { ...state, accessToken: action.payload };
     case "SET_REFRESH_TOKEN":
       return { ...state, refreshToken: action.payload };
+    case "SET_USER":
+      return { ...state, user: action.payload };
     default:
       return state;
   }

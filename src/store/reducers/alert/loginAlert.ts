@@ -5,9 +5,10 @@ const Init = {
   variant: AlertVariants.success,
   show: false,
   text: "",
+  type: "",
 };
 
-export function showLoginAlertReducer(
+export function loginAlertReducer(
   state: GenericAlert = Init,
   action: StoreEvents
 ): GenericAlert {
@@ -19,4 +20,4 @@ export function showLoginAlertReducer(
   }
 }
 
-export default showLoginAlertReducer;
+export default loginAlertReducer;

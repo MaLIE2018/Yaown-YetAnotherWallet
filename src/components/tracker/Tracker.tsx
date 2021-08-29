@@ -18,8 +18,9 @@ import { Category } from "types/types";
 import { useDispatch } from "hooks/useDispatch";
 
 const Tracker: React.FC<{}> = () => {
-  const { showTracker, showNoteModal, showCategoryModal, transaction } =
-    useSelector((state: IRootState) => state);
+  const { showTracker, noteModal, categoryModal, transaction } = useSelector(
+    (state: IRootState) => state
+  );
   const dispatch = useDispatch();
   const classes = useStyles(showTracker);
   const { NotesIcon, DateRangeIcon, ScheduleIcon } = trackerIcons;
@@ -102,12 +103,12 @@ const Tracker: React.FC<{}> = () => {
       </div>
       <Calculator />
       <GenericModal
-        show={showNoteModal}
+        show={noteModal}
         toggleModal={() => dispatch({ type: "TOGGLE_NOTE_MODAL" })}
         render={<Note />}
       />
       <GenericModal
-        show={showCategoryModal}
+        show={categoryModal}
         toggleModal={() => dispatch({ type: "TOGGLE_CATEGORY_MODAL" })}
         render={<CategoryList />}
       />

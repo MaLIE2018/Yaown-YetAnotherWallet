@@ -2,17 +2,17 @@ import { combineReducers } from "redux";
 import navigationReducer from "./navigation";
 import * as ns from "redux-undo";
 import trackerReducer from "./showTracker";
-import noteModalReducer from "./showNoteModal";
+import noteModalReducer from "./modal/noteModal";
 import settingsReducer from "./settings";
-import categoryModalReducer from "./showCategoryModal";
+import categoryModalReducer from "./modal/categoryModal";
 import transactionReducer from "./transaction";
 import calculationReducer from "./calculation";
-import showTransactionAlertReducer from "./showTransactionAlert";
-import addModalReducer from "./showAddModal";
-import addBankReducer from "./showAddBankPape";
-import showBankAlertReducer from "./showBankAlert";
+import transactionAlertReducer from "./alert/transactionAlert";
+import assetModalReducer from "./modal/addAssetModal";
+import bankPageReducer from "./page/bankPape";
+import bankAlertReducer from "./alert/bankAlert";
 import expenseReducer from "./Expense";
-import showLoginAlertReducer from "./showLoginAlert";
+import loginAlertReducer from "./alert/loginAlert";
 
 const undoable = ns.default;
 
@@ -22,16 +22,16 @@ const allReducers = combineReducers({
     redoType: "NAVIGATION_FORWARD",
   }),
   showTracker: trackerReducer,
-  showNoteModal: noteModalReducer,
-  showTransactionAlert: showTransactionAlertReducer,
+  noteModal: noteModalReducer,
+  transactionAlert: transactionAlertReducer,
   settings: settingsReducer,
-  showCategoryModal: categoryModalReducer,
+  categoryModal: categoryModalReducer,
   transaction: transactionReducer,
   calc: calculationReducer,
-  showAddModal: addModalReducer,
-  showAddBankPage: addBankReducer,
-  showBankAlert: showBankAlertReducer,
-  showLoginAlert: showLoginAlertReducer,
+  addAssetModal: assetModalReducer,
+  bankPage: bankPageReducer,
+  bankAlert: bankAlertReducer,
+  loginAlert: loginAlertReducer,
   expense: expenseReducer,
 });
 

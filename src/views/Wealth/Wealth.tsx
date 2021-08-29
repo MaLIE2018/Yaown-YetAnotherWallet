@@ -11,7 +11,7 @@ import { useDispatch } from "hooks/useDispatch";
 
 const Wealth = () => {
   const classes = useStyles();
-  const { showAddModal } = useSelector((state) => state);
+  const { addAssetModal } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   return (
@@ -35,7 +35,7 @@ const Wealth = () => {
                   color='primary'
                   variant='contained'
                   onClick={() => {
-                    dispatch({ type: "TOGGLE_ADD_MODAL" });
+                    dispatch({ type: "TOGGLE_ADD_ASSET_MODAL" });
                     dispatch({ type: "TOGGLE_ADD_BANK_PAGE" });
                   }}>
                   Account
@@ -54,8 +54,8 @@ const Wealth = () => {
             </List>
           </div>
         }
-        show={showAddModal}
-        toggleModal={() => dispatch({ type: "TOGGLE_ADD_MODAL" })}
+        show={addAssetModal}
+        toggleModal={() => dispatch({ type: "TOGGLE_ADD_ASSET_MODAL" })}
       />
     </div>
   );

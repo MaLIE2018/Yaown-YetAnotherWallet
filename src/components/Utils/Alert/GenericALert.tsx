@@ -14,9 +14,10 @@ interface Props {
   show: boolean;
   variant: AlertVariants;
   text: string;
+  type: any;
 }
 
-const GenericAlert: React.FC<Props> = ({ show, variant, text }) => {
+const GenericAlert: React.FC<Props> = ({ show, variant, text, type }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -24,11 +25,12 @@ const GenericAlert: React.FC<Props> = ({ show, variant, text }) => {
       return;
     }
     dispatch({
-      type: "TOGGLE_TRANSACTION_ALERT",
+      type: type,
       payload: {
         variant: AlertVariants.success,
         text: "",
         show: false,
+        type: type,
       },
     });
   };
@@ -36,9 +38,9 @@ const GenericAlert: React.FC<Props> = ({ show, variant, text }) => {
   return (
     <Snackbar
       open={show}
-      autoHideDuration={500}
+      autoHideDuration={1500}
       onClose={handleClose}
-      className={classes.root}>
+      className={classes.alert}>
       <Alert onClose={handleClose} severity={`${variant}`}>
         {text}
       </Alert>

@@ -10,7 +10,7 @@ import { theme } from "theme/Theme";
 import GenericAlert from "components/Utils/Alert/GenericALert";
 
 const Cash: React.FC<{}> = () => {
-  const { showTracker, showTransactionAlert } = useSelector(
+  const { showTracker, transactionAlert } = useSelector(
     (state: IRootState) => state
   );
   const dispatch = useDispatch();
@@ -19,42 +19,42 @@ const Cash: React.FC<{}> = () => {
   console.log("isLogged:", isLogged);
 
   return (
-    <div className={classes.cash}>
-      {categories.map((category) => (
-        <Box
-          key={category.name}
-          bgcolor={theme.palette.primary.light}
-          borderRadius={theme.shape.borderRadius}
-          display='flex'
-          flexDirection='column'>
-          <Button
-            onClick={() => {
-              dispatch({
-                type: "SET_TA",
-                payload: { category: category.name },
-              });
-              dispatch({ type: "TOGGLE_TRACKER" });
-            }}>
-            <Box display='flex' justifyContent='center'>
-              {<category.icon />}
-            </Box>
-            <div
-              className={classes.divider}
-              style={{
-                backgroundColor: showTracker
-                  ? `${theme.palette.grey[600]}`
-                  : `${category.color}`,
-              }}></div>
-            <div className={classes.text}>{capitalizeWords(category.name)}</div>
-          </Button>
-        </Box>
-      ))}
-      <GenericAlert
-        show={showTransactionAlert.show}
-        text={showTransactionAlert.text}
-        variant={showTransactionAlert.variant}
-      />
-    </div>
+    <>
+      <div className={classes.cash}>
+        {categories.map((category) => (
+          <Box
+            key={category.name}
+            bgcolor={theme.palette.primary.light}
+            borderRadius={theme.shape.borderRadius}
+            display='flex'
+            flexDirection='column'>
+            <Button
+              onClick={() => {
+                dispatch({
+                  type: "SET_TA",
+                  payload: { category: category.name },
+                });
+                dispatch({ type: "TOGGLE_TRACKER" });
+              }}>
+              <Box display='flex' justifyContent='center'>
+                {<category.icon />}
+              </Box>
+              <div
+                className={classes.divider}
+                style={{
+                  backgroundColor: showTracker
+                    ? `${theme.palette.grey[600]}`
+                    : `${category.color}`,
+                }}></div>
+              <div className={classes.text}>
+                {capitalizeWords(category.name)}
+              </div>
+            </Button>
+          </Box>
+        ))}
+      </div>
+      <GenericAlert {...transactionAlert} />
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import useStyles from "./Verify.style";
 import { Api } from "../../api/index";
+import Cookies from "js-cookie";
 
 const verifyApi = Api.getSingleton();
 
@@ -19,13 +20,12 @@ const VerifyEmail: React.FC<Props> = ({ token }) => {
 
   const verifyEmail = async (token: string) => {
     const res = await verifyApi.verifyEmail(token);
-
     return res;
   };
 
   useEffect(() => {
-    console.log("token:", token);
-    console.log("Verifying API");
+    const registerToken = Cookies.get("csrfltoken");
+    console.log("registerToken:", registerToken);
     if (token !== null) {
       const res = verifyEmail(token);
       console.log(res);
@@ -63,7 +63,7 @@ const VerifyEmail: React.FC<Props> = ({ token }) => {
         {token === null ? (
           <Typography component='div'>
             <Box fontSize='h5.fontSize' textAlign='center'>
-              Please check you inbox and click on verification link.{" "}
+              Please check you inbox and click on the verification link.{" "}
               <Box>❤️ As usual.</Box>
             </Box>
           </Typography>

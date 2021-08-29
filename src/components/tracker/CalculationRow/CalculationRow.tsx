@@ -41,7 +41,7 @@ const CalculationRow: React.FC<{}> = () => {
       });
     } else {
       dispatch({ type: "INCOME" });
-      if (/[-]/.test(transaction.transactionAmount.amount)) {
+      if (/[-]/.test(transaction.transactionAmount.amount.toString())) {
         dispatch({
           type: "SET_TA",
           payload: {

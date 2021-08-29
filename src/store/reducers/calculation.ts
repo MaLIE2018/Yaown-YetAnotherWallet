@@ -11,7 +11,7 @@ function calculationReducer(state: Calc = Init, action: StoreEvents): Calc {
       return { ...state, result: action.payload };
     case "SET_CALC_STR":
       return { ...state, calcStr: action.payload };
-    case "RESET":
+    case "RESET_CALC":
       return { result: "0", calcStr: "" };
     default:
       return state;

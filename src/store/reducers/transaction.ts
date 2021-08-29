@@ -1,11 +1,11 @@
 import { StoreEvents } from "store/types/types";
-import { Transaction } from "../../types/types";
+import { Booked } from "types/bankAccount";
 
 const Init = {
   category: "",
   bookingDate: new Date().toISOString(),
   valueDate: new Date().toISOString(),
-  transactionAmount: { currency: "EUR", amount: "0" },
+  transactionAmount: { currency: "EUR", amount: 0 },
   transactionId: "",
   debtorName: "",
   debtorAccount: { iban: "" },
@@ -13,10 +13,7 @@ const Init = {
   remittanceInformationUnstructured: "",
 };
 
-function transactionReducer(
-  state: Transaction = Init,
-  action: StoreEvents
-): Transaction {
+function transactionReducer(state: Booked = Init, action: StoreEvents): Booked {
   switch (action.type) {
     case "SET_TA":
       return {

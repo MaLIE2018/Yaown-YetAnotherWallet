@@ -23,19 +23,18 @@ export const Calculator: React.FC<{}> = () => {
 
   const dispatch = useDispatch();
   const postTransaction = () => {
-    if (
-      fetchApi.postTransaction({
-        ...transaction,
-        transactionAmount: {
-          ...transaction.transactionAmount,
-          amount: !expense
-            ? calculatorApi.result.replace(",", ".")
-            : "-" + calculatorApi.result.replace(",", "."),
-        },
-      })
-    ) {
+    const status = fetchApi.postTransaction({
+      ...transaction,
+      transactionAmount: {
+        ...transaction.transactionAmount,
+        amount: !expense
+          ? Number(calculatorApi.result.replace(",", "."))
+          : Number("-" + calculatorApi.result.replace(",", ".")),
+      },
+    });
+    if (status !== undefined) {
       dispatch({ type: "RESET_TA" });
-      dispatch({ type: "RESET" });
+      dispatch({ type: "RESET_CALC" });
       dispatch({ type: "TOGGLE_TRACKER" });
       dispatch({
         type: "TOGGLE_TRANSACTION_ALERT",
@@ -43,9 +42,10 @@ export const Calculator: React.FC<{}> = () => {
           variant: AlertVariants.success,
           text: "Transaction created",
           show: true,
+          type: "TOGGLE_TRANSACTION_ALERT",
         },
       });
-      console.log(fetchApi.getTransaction());
+      console.log(fetchApi.getTransactions());
     } else {
       dispatch({
         type: "TOGGLE_TRANSACTION_ALERT",
@@ -53,12 +53,13 @@ export const Calculator: React.FC<{}> = () => {
           variant: AlertVariants.error,
           text: "Something went wrong - Try again",
           show: true,
+          type: "TOGGLE_TRANSACTION_ALERT",
         },
       });
     }
   };
   useEffect(() => {
-    dispatch({ type: "RESET" });
+    dispatch({ type: "RESET_CALC" });
     calculatorApi.clear();
   }, [showTracker]);
 

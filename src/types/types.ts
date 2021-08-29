@@ -1,5 +1,6 @@
 import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
+import { StoreEvents } from "store/types/types";
 
 export interface History {
   past: string[];
@@ -22,6 +23,7 @@ export interface User {
 export interface Settings {
   accessToken: string;
   refreshToken: string;
+  user: {};
 }
 
 export enum AlertVariants {
@@ -29,27 +31,6 @@ export enum AlertVariants {
   "warning" = "warning",
   "info" = "info",
   "success" = "success",
-}
-
-export interface Transaction {
-  bookingDate: string;
-  category: string;
-  transactionId: string;
-  valueDate: string;
-  debtorName?: string;
-  debtorAccount?: DebtorAccount;
-  transactionAmount: TransactionAmount;
-  bankTransactionCode: string;
-  remittanceInformationUnstructured: string;
-}
-
-export interface DebtorAccount {
-  iban: string;
-}
-
-export interface TransactionAmount {
-  currency: string;
-  amount: string;
 }
 
 export interface Category {
@@ -62,6 +43,7 @@ export interface GenericAlert {
   text: string;
   variant: AlertVariants;
   show: boolean;
+  type: string;
 }
 
 export interface Bank {

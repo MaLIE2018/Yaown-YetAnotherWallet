@@ -21,7 +21,7 @@ const fetchApi = Api.getSingleton();
 
 const AddAccount: React.FC<{}> = () => {
   const classes = useStyles();
-  const { showBankAlert } = useSelector((state) => state);
+  const { bankAlert } = useSelector((state) => state);
   const [banks, setBanks] = useState<Bank[] | undefined>(undefined);
   const [bank, setBank] = useState<string | undefined>(undefined);
   const dispatch = useDispatch();
@@ -38,6 +38,7 @@ const AddAccount: React.FC<{}> = () => {
           variant: AlertVariants.success,
           text: "Transaction created",
           show: true,
+          type: "TOGGLE_BANK_ALERT",
         },
       });
     }
@@ -64,11 +65,7 @@ const AddAccount: React.FC<{}> = () => {
           <MenuItem value={"gb"}>Great Britain</MenuItem>
         </Select>
       </FormControl>
-      <GenericAlert
-        show={showBankAlert.show}
-        text={showBankAlert.text}
-        variant={showBankAlert.variant}
-      />
+      <GenericAlert {...bankAlert} />
       {banks && (
         <Autocomplete
           id='grouped-demo'

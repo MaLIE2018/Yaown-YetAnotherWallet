@@ -1,12 +1,14 @@
 import axios, { AxiosInstance } from "axios";
+
 import { store } from "store/store";
-import { AlertVariants, Bank, Transaction, User } from "types/types";
+import { Account, Booked } from "types/bankAccount";
+import { AlertVariants, Bank, User } from "types/types";
 import { base64 } from "utils/helpers/text";
 
 export class Api {
   private static singleton: Api;
   private readonly apiInstance: AxiosInstance;
-  public transactions: Transaction[];
+  public transactions: Booked[];
 
   private constructor() {
     this.apiInstance = axios.create({
@@ -38,6 +40,7 @@ export class Api {
   public async reset() {
     await this.setAccessToken("");
     await this.setRefreshToken("");
+    await this.setUser({});
   }
 
   /* Token */
@@ -49,10 +52,14 @@ export class Api {
     }
     return "";
   }
-
   private async setAccessToken(accessToken: string) {
     store.dispatch({ type: "SET_ACCESS_TOKEN", payload: accessToken });
   }
+
+  private async setUser(user: User | {}) {
+    store.dispatch({ type: "SET_USER", payload: user });
+  }
+
   private async setRefreshToken(refreshToken: string) {
     store.dispatch({ type: "SET_REFRESH_TOKEN", payload: refreshToken });
   }
@@ -88,6 +95,8 @@ export class Api {
     }
   }
 
+  /* Authentication */
+
   public async verifyEmail(token: string) {
     try {
       const res = await this.apiInstance.post(
@@ -103,11 +112,10 @@ export class Api {
         await this.setAccessToken(res.data.access_token);
         await this.setRefreshToken(res.data.refresh_token);
       }
-      if (res.status === 404) {
+    } catch (error) {
+      if (error.response.status === 404) {
         return false;
       }
-    } catch (error) {
-      return false;
     }
   }
 
@@ -124,16 +132,25 @@ export class Api {
       if (res.status === 200) {
         await this.setAccessToken(res.data.access_token);
         await this.setRefreshToken(res.data.refresh_token);
+        console.log("res.data.user:", res.data.user);
+        await this.setUser(res.data.user);
         return true;
       }
-      if (res.status === 401) {
+    } catch (e) {
+      if (e.response.status === 401) {
+        store.dispatch({
+          type: "TOGGLE_LOGIN_ALERT",
+          payload: {
+            variant: AlertVariants.error,
+            text: "Username/password combination is invalid.",
+            show: true,
+            type: "TOGGLE_LOGIN_ALERT",
+          },
+        });
+
         return false;
       }
-    } catch (error) {
-      console.log(error);
-      return false;
     }
-    return true;
   }
 
   public async logout(): Promise<boolean> {
@@ -160,10 +177,7 @@ export class Api {
     return true;
   }
 
-  public async register(
-    email: string,
-    password: string
-  ): Promise<User | false> {
+  public async register(email: string, password: string) {
     const headers = {
       Authorization: `Basic ${base64([email, password].join(":"))}`,
       "Content-Type": "application/json",
@@ -177,71 +191,83 @@ export class Api {
         }
       );
       if (res.status === 200) {
-        return res.data;
-      }
-      if (res.status === 202) {
-        await this.setAccessToken(res.data.access_token);
-        await this.setRefreshToken(res.data.refresh_token);
-      }
-      if (res.status === 400) {
-        store.dispatch({
-          type: "TOGGLE_LOGIN_ALERT",
-          payload: {
-            variant: AlertVariants.error,
-            text: "User not found!",
-            show: true,
-          },
-        });
-      }
-      if (res.status === 401) {
-        store.dispatch({
-          type: "TOGGLE_LOGIN_ALERT",
-          payload: {
-            variant: AlertVariants.error,
-            text: "Credentials wrong!",
-            show: true,
-          },
-        });
+        return true;
       }
     } catch (error) {
       console.log(error);
+      if (error.response.status === 401) {
+        store.dispatch({
+          type: "TOGGLE_LOGIN_ALERT",
+          payload: {
+            variant: AlertVariants.error,
+            text: "Email address is already registered.",
+            show: true,
+            type: "TOGGLE_LOGIN_ALERT",
+          },
+        });
+      }
+
       return false;
     }
-    return false;
   }
+
+  /* Transaction */
 
   /* Endpoints */
   /* Login */
 
   /* Transactions */
 
-  // public async postTransaction(transaction: Transaction): Promise<boolean> {
-  //   const headers = new Headers({
-  //     Authorization: `Bearer ` + this.getAccessToken(),
-  //     "Content-Type": "application/json",
-  //   });
-  //   try {
-  //     const res = await this.apiInstance
-  //       .post("/transactions", transaction, {
-  //         headers: headers,
-  //       })
-  //       .then((res) => res);
-  //     if (res.status === 401 || res.status === 403) {
-  //       if (await this.refreshAccessToken()) {
-  //         return true;
-  //       }
-  //     }
-  //   } catch (error) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
-  public postTransaction(transaction: Transaction): Boolean {
-    this.transactions.push(transaction);
-    return true;
+  public async postTransaction(transaction: Booked) {
+    try {
+      const cashAccount = store
+        .getState()
+        .settings.user.accounts.find(
+          (a: Account) => a.cashAccountType === "cash"
+        );
+      const res = await this.apiInstance.post(
+        `transaction/${cashAccount._id}`,
+        transaction,
+        {
+          headers: this.getHeaders(),
+        }
+      );
+      if (res.status === 200) {
+        return true;
+      }
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return true;
+        }
+      }
+      return false;
+    }
   }
-  public getTransaction(): Transaction[] {
-    return this.transactions;
+
+  public async getTransactions() {
+    try {
+      const cashAccount = store
+        .getState()
+        .settings.user.accounts.find(
+          (a: Account) => a.cashAccountType === "cash"
+        );
+      const res = await this.apiInstance.get(`transaction/${cashAccount._id}`, {
+        headers: this.getHeaders(),
+      });
+      if (res.status === 200) {
+        console.log(res.data);
+        return res.data;
+      }
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return true;
+        }
+      }
+      return false;
+    }
+    return true;
   }
 
   public async updateTransaction(): Promise<boolean> {
@@ -250,6 +276,10 @@ export class Api {
   public async deleteTransaction(): Promise<boolean> {
     return true;
   }
+
+  /* Account creation */
+
+  /* Bank integration */
 
   public async getBanks(countryCode: string): Promise<Bank[]> {
     try {
