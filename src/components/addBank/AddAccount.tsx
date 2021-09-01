@@ -5,6 +5,7 @@ import {
   InputLabel,
   MenuItem,
   TextField,
+  CircularProgress,
 } from "@material-ui/core";
 import React from "react";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
@@ -22,27 +23,43 @@ const fetchApi = Api.getSingleton();
 const AddAccount: React.FC<{}> = () => {
   const classes = useStyles();
   const { bankAlert } = useSelector((state) => state);
-  const [banks, setBanks] = useState<Bank[] | undefined>(undefined);
+  const [banks, setBanks] = useState<Bank[] | []>([]);
   const [bank, setBank] = useState<string | undefined>(undefined);
+  const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
+  const loading = open && banks.length === 0;
+  console.log("loading:", loading);
 
   const handleChange = async (event: React.ChangeEvent<{ value: unknown }>) => {
+    let active = true;
     setBank(event.target.value as string);
+
+    if (!loading) {
+      return undefined;
+    }
     const banks = await fetchApi.getBanks(event.target.value as string);
+    console.log("banks:", banks);
     if (banks) {
       setBanks(banks);
     } else {
       dispatch({
         type: "TOGGLE_BANK_ALERT",
         payload: {
-          variant: AlertVariants.success,
-          text: "Transaction created",
+          variant: AlertVariants.error,
+          text: "Something went wrong",
           show: true,
           type: "TOGGLE_BANK_ALERT",
         },
       });
     }
+    active = false;
   };
+
+  React.useEffect(() => {
+    if (!open) {
+      setBanks([]);
+    }
+  }, [open]);
 
   return (
     <Box
@@ -66,18 +83,39 @@ const AddAccount: React.FC<{}> = () => {
         </Select>
       </FormControl>
       <GenericAlert {...bankAlert} />
-      {banks && (
-        <Autocomplete
-          id='grouped-demo'
-          options={banks.sort((a, b) => -b.name.localeCompare(a.name))}
-          groupBy={(banks) => banks.name}
-          getOptionLabel={(banks) => banks.name}
-          style={{ width: 300 }}
-          renderInput={(params) => (
-            <TextField {...params} label='With categories' variant='outlined' />
-          )}
-        />
-      )}
+      <Autocomplete
+        id='asynchronous-demo'
+        style={{ width: 300 }}
+        open={open}
+        onOpen={() => {
+          setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        getOptionSelected={(bank, value) => bank.name === value.name}
+        getOptionLabel={(bank) => bank.name}
+        options={banks}
+        loading={loading}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label='Choose your Bank'
+            variant='outlined'
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <React.Fragment>
+                  {loading ? (
+                    <CircularProgress color='inherit' size={20} />
+                  ) : null}
+                  {params.InputProps.endAdornment}
+                </React.Fragment>
+              ),
+            }}
+          />
+        )}
+      />
     </Box>
   );
 };
