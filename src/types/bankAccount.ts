@@ -6,6 +6,9 @@ export interface Account {
   ownerName: string;
   userId: string;
   name: string;
+  bankName: string;
+  logo: string;
+  aspspId: string;
   product: string;
   cashAccountType: string;
   balances: Balances[];

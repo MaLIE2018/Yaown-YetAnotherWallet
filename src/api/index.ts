@@ -1,21 +1,47 @@
 import axios, { AxiosInstance } from "axios";
 
 import { store } from "store/store";
-import { Account, Booked } from "types/bankAccount";
+import { Account, Booked, Transaction } from "types/bankAccount";
 import { AlertVariants, Bank, User } from "types/types";
 import { base64 } from "utils/helpers/text";
 
 export class Api {
   private static singleton: Api;
   private readonly apiInstance: AxiosInstance;
+  private readonly authInstance: AxiosInstance;
   public transactions: Booked[];
 
   private constructor() {
+    this.authInstance = axios.create({
+      baseURL: process.env.REACT_APP_BE_URL,
+      timeout: 20000,
+      withCredentials: true,
+    });
     this.apiInstance = axios.create({
       baseURL: process.env.REACT_APP_BE_URL,
       timeout: 20000,
       withCredentials: true,
     });
+    // this.apiInstance.interceptors.response.use(
+    //   function (response) {
+    //     return response;
+    //   },
+    //   async (error) => {
+    //     if (error.response?.status === 401 || error.response?.status === 403) {
+    //       if (await this.refreshAccessToken()) {
+    //         return true;
+    //       }
+    //     }
+    //     return Promise.reject(error);
+    //   }
+    // );
+    // this.apiInstance.interceptors.request.use(
+    //   function (request) {
+    //     return request;
+    //   },
+    //   null,
+    //   { synchronous: true }
+    // );
     this.transactions = [];
   }
 
@@ -99,7 +125,7 @@ export class Api {
 
   public async verifyEmail(token: string) {
     try {
-      const res = await this.apiInstance.post(
+      const res = await this.authInstance.post(
         "verify-email/" + token,
         {},
         {
@@ -124,7 +150,7 @@ export class Api {
       Authorization: `Basic ${base64([email, password].join(":"))}`,
     };
     try {
-      const res = await this.apiInstance.post(
+      const res = await this.authInstance.post(
         "auth/login",
         {},
         { headers: headers }
@@ -132,7 +158,6 @@ export class Api {
       if (res.status === 200) {
         await this.setAccessToken(res.data.access_token);
         await this.setRefreshToken(res.data.refresh_token);
-        console.log("res.data.user:", res.data.user);
         await this.setUser(res.data.user);
         return true;
       }
@@ -155,7 +180,7 @@ export class Api {
 
   public async logout(): Promise<boolean> {
     try {
-      const res = await this.apiInstance.post(
+      const res = await this.authInstance.post(
         "auth/logout",
         {},
         {
@@ -183,7 +208,7 @@ export class Api {
       "Content-Type": "application/json",
     };
     try {
-      const res = await this.apiInstance.post(
+      const res = await this.authInstance.post(
         "auth/register",
         {},
         {
@@ -218,7 +243,7 @@ export class Api {
 
   /* Transactions */
 
-  public async postTransaction(transaction: Booked) {
+  public async postTransaction(transaction: Booked): Promise<boolean> {
     try {
       const cashAccount = store
         .getState()
@@ -238,14 +263,15 @@ export class Api {
     } catch (error) {
       if (error.response?.status === 401 || error.response?.status === 403) {
         if (await this.refreshAccessToken()) {
-          return true;
+          return await this.postTransaction(transaction);
         }
       }
       return false;
     }
+    return false;
   }
 
-  public async getTransactions() {
+  public async getTransactions(): Promise<Transaction[]> {
     try {
       const cashAccount = store
         .getState()
@@ -259,15 +285,15 @@ export class Api {
         console.log(res.data);
         return res.data;
       }
+      return [];
     } catch (error) {
       if (error.response?.status === 401 || error.response?.status === 403) {
         if (await this.refreshAccessToken()) {
-          return true;
+          return await this.getTransactions();
         }
       }
-      return false;
+      return [];
     }
-    return true;
   }
 
   public async updateTransaction(): Promise<boolean> {
@@ -279,25 +305,180 @@ export class Api {
 
   /* Account creation */
 
+  /* get Account */
+
+  public async getMyAccounts(): Promise<Account[] | []> {
+    try {
+      const res = await this.apiInstance
+        .get("account/", { headers: this.getHeaders() })
+        .then((res) => res);
+      if (res.status === 200) {
+        return res.data;
+      }
+    } catch (error) {
+      console.log("error:", error);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.getMyAccounts();
+        } else {
+          this.reset();
+        }
+      }
+      return [];
+    }
+    return [];
+  }
+
   /* Bank integration */
 
   public async getBanks(countryCode: string): Promise<Bank[]> {
     try {
       const res = await this.apiInstance
-        .get("/bank/" + countryCode, { headers: this.getHeaders() })
+        .get("bank/" + countryCode, { headers: this.getHeaders() })
         .then((res) => res);
       if (res.status === 200) {
         return res.data;
+      } else {
+        return [];
       }
-      if (res.status === 401 || res.status === 403) {
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
         if (await this.refreshAccessToken()) {
-          return [];
+          return await this.getBanks(countryCode);
+        } else {
+          this.reset();
         }
       }
       return [];
+    }
+  }
+  //create enduser agreement
+  public async createEnduserAgreement(aspsp_id: string): Promise<boolean> {
+    try {
+      const res = await this.apiInstance
+        .post(
+          "bank/agreements/enduser",
+          { aspsp_id: aspsp_id },
+          { headers: this.getHeaders() }
+        )
+        .then((res) => res);
+      if (res.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
-      this.reset();
-      return [];
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.createEnduserAgreement(aspsp_id);
+        } else {
+          this.reset();
+        }
+      }
+      return false;
+    }
+  }
+
+  //create requisition
+  public async createRequisition(aspsp_id: string): Promise<boolean> {
+    try {
+      const res = await this.apiInstance
+        .post(
+          "bank/requisitions/",
+          { aspsp_id: aspsp_id },
+          { headers: this.getHeaders() }
+        )
+        .then((res) => res);
+      if (res.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.createRequisition(aspsp_id);
+        } else {
+          this.reset();
+        }
+      }
+      return false;
+    }
+  }
+  //get link initiation
+  public async getLink(aspsp_id: string): Promise<string | boolean> {
+    try {
+      const res = await this.apiInstance
+        .post(
+          "bank/initiationLink/",
+          { aspsp_id: aspsp_id },
+          { headers: this.getHeaders() }
+        )
+        .then((res) => res);
+      if (res.status === 200) {
+        return (window.location.href = res.data.initiate);
+      } else {
+        return false;
+      }
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.getLink(aspsp_id);
+        } else {
+          this.reset();
+        }
+      }
+      return false;
+    }
+  }
+  //check account status
+  public async accountExist(aspsp_id: string): Promise<boolean> {
+    try {
+      const res = await this.apiInstance
+        .get("bank/checkBank/" + aspsp_id, { headers: this.getHeaders() })
+        .then((res) => res);
+      if (res.status === 200) {
+        return false;
+      } else if (res.status === 204) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.accountExist(aspsp_id);
+        } else {
+          this.reset();
+        }
+      }
+      return true;
+    }
+  }
+
+  // get accounts
+  public async getAccounts(aspsp_id: string): Promise<boolean> {
+    try {
+      const res = await this.apiInstance
+        .post(
+          "bank/requisitions/accounts",
+          { aspsp_id: aspsp_id },
+          { headers: this.getHeaders() }
+        )
+        .then((res) => res);
+      if (res.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.getAccounts(aspsp_id);
+        } else {
+          this.reset();
+        }
+      }
+      return false;
     }
   }
 }

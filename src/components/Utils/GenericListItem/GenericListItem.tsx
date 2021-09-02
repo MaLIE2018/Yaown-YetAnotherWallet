@@ -14,14 +14,20 @@ interface Props {
   title: string;
   subTitle?: string;
   action: Function;
+  logo: string;
 }
 
-const GenericListItem: React.FC<Props> = ({ title, action, subTitle }) => {
+const GenericListItem: React.FC<Props> = ({
+  title,
+  action,
+  subTitle,
+  logo,
+}) => {
   return (
     <ListItem>
       <ListItemAvatar>
         <Avatar>
-          <AccountBalanceIcon />
+          {logo ? <img src={logo} alt='' /> : <AccountBalanceIcon />}
         </Avatar>
       </ListItemAvatar>
       <ListItemText

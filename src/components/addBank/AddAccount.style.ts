@@ -4,8 +4,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     addAccount: {},
     formControl: {
-      margin: theme.spacing(8),
-      minWidth: 200,
+      width: "90%",
     },
   })
 );
