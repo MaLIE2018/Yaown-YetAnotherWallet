@@ -27,7 +27,11 @@ const GenericListItem: React.FC<Props> = ({
     <ListItem>
       <ListItemAvatar>
         <Avatar>
-          {logo ? <img src={logo} alt='' /> : <AccountBalanceIcon />}
+          {logo ? (
+            <img src={logo} alt='' height='40px' width='40px' />
+          ) : (
+            <AccountBalanceIcon />
+          )}
         </Avatar>
       </ListItemAvatar>
       <ListItemText

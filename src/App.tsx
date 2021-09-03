@@ -70,7 +70,7 @@ function App({ history, location, match }: RouteComponentProps) {
   return (
     <Suspense fallback={<RenderLoader />}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Container disableGutters className={classes.root}>
+        <Container disableGutters className={classes.main}>
           <TopNav />
           <Switch>
             <Route path='/wealth' component={Wealth} />

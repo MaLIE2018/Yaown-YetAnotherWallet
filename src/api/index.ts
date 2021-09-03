@@ -245,18 +245,9 @@ export class Api {
 
   public async postTransaction(transaction: Booked): Promise<boolean> {
     try {
-      const cashAccount = store
-        .getState()
-        .settings.user.accounts.find(
-          (a: Account) => a.cashAccountType === "cash"
-        );
-      const res = await this.apiInstance.post(
-        `transaction/${cashAccount._id}`,
-        transaction,
-        {
-          headers: this.getHeaders(),
-        }
-      );
+      const res = await this.apiInstance.post(`transaction/`, transaction, {
+        headers: this.getHeaders(),
+      });
       if (res.status === 200) {
         return true;
       }
@@ -273,12 +264,7 @@ export class Api {
 
   public async getTransactions(): Promise<Transaction[]> {
     try {
-      const cashAccount = store
-        .getState()
-        .settings.user.accounts.find(
-          (a: Account) => a.cashAccountType === "cash"
-        );
-      const res = await this.apiInstance.get(`transaction/${cashAccount._id}`, {
+      const res = await this.apiInstance.get(`transaction/`, {
         headers: this.getHeaders(),
       });
       if (res.status === 200) {
