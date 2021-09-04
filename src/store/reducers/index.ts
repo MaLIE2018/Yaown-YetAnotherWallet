@@ -13,6 +13,8 @@ import bankPageReducer from "./page/bankPape";
 import bankAlertReducer from "./alert/bankAlert";
 import expenseReducer from "./Expense";
 import loginAlertReducer from "./alert/loginAlert";
+import accountMenuReducer from "./menu/accountMenu";
+import timeMenuReducer from "./menu/timeMenu";
 
 const undoable = ns.default;
 
@@ -33,6 +35,8 @@ const allReducers = combineReducers({
   bankAlert: bankAlertReducer,
   loginAlert: loginAlertReducer,
   expense: expenseReducer,
+  accountMenu: accountMenuReducer,
+  timeMenu: timeMenuReducer,
 });
 
 export default allReducers;

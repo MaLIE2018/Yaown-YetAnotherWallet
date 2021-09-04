@@ -1,6 +1,6 @@
 import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
-import { StoreEvents } from "store/types/types";
+import { Account } from "./bankAccount";
 
 export interface History {
   past: string[];
@@ -24,6 +24,7 @@ export interface Settings {
   accessToken: string;
   refreshToken: string;
   user: {};
+  accounts: Account[];
 }
 
 export enum AlertVariants {
@@ -44,6 +45,11 @@ export interface GenericAlert {
   variant: AlertVariants;
   show: boolean;
   type: string;
+}
+
+export interface GenericMenu {
+  open: boolean;
+  selected: string;
 }
 
 export interface Bank {

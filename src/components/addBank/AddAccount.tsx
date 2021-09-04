@@ -7,6 +7,7 @@ import {
   TextField,
   CircularProgress,
   Typography,
+  Button,
 } from "@material-ui/core";
 import React from "react";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
@@ -40,6 +41,9 @@ const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
   React.useEffect(() => {
     const status = new URLSearchParams(location.search).get("status");
     const id = new URLSearchParams(location.search).get("id");
+    const code = new URLSearchParams(location.search).get("code");
+    const state = new URLSearchParams(location.search).get("state");
+
     if (status === "successful-connected" && typeof id === "string") {
       setIsLoading(true);
       (async () => {
@@ -59,6 +63,31 @@ const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
         }
         setIsLoading(false);
       })();
+    }
+    //bunq follow up
+    if (code && state) {
+      (async () => {
+        setIsLoading(true);
+        const connect = await fetchApi.getToken(code, state);
+        if (connect) {
+          dispatch({ type: "TOGGLE_ADD_BANK_PAGE" });
+          history.push("/wealth");
+        } else {
+          dispatch({
+            type: "TOGGLE_BANK_ALERT",
+            payload: {
+              variant: AlertVariants.error,
+              text: "Something went wrong",
+              show: true,
+              type: "TOGGLE_BANK_ALERT",
+            },
+          });
+        }
+        setIsLoading(false);
+      })();
+    }
+    if (status === "successful-connected-with-bunq") {
+      console.log("Success");
     }
   }, [new URLSearchParams(location.search).get("id")]);
 
@@ -146,6 +175,8 @@ const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
             <MenuItem value={"de"}>Germany</MenuItem>
             <MenuItem value={"fr"}>France</MenuItem>
             <MenuItem value={"gb"}>Great Britain</MenuItem>
+            <MenuItem value={"nl"}>Netherlands</MenuItem>
+            <MenuItem value={"it"}>Italy</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -189,7 +220,8 @@ const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
           />
         </FormControl>
       </Box>
-      {isLoading && (
+
+      {isLoading ? (
         <Box
           justifyContent='center'
           display='flex'
@@ -208,6 +240,30 @@ const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
           <Box display='flex' justifyContent='center' mt={2}>
             <CircularProgress color='secondary' />
           </Box>
+        </Box>
+      ) : (
+        <Box
+          display='flex'
+          justifyContent='center'
+          mt={4}
+          flexDirection='column'
+          alignItems='center'
+          width='90%'>
+          <Typography component='div'>
+            <Box my={4}>Alternative</Box>
+          </Typography>
+          <Button
+            variant='contained'
+            onClick={async () => await fetchApi.getAuth()}
+            fullWidth={true}
+            startIcon={
+              <img
+                src={process.env.PUBLIC_URL + "/images/bunq.ico"}
+                alt='bunq'
+              />
+            }>
+            Connect to bunq
+          </Button>
         </Box>
       )}
     </Box>

@@ -84,6 +84,7 @@ export class Api {
 
   private async setUser(user: User | {}) {
     store.dispatch({ type: "SET_USER", payload: user });
+    store.dispatch({ type: "SET_PAGE", payload: "cash" });
   }
 
   private async setRefreshToken(refreshToken: string) {
@@ -299,6 +300,7 @@ export class Api {
         .get("account/", { headers: this.getHeaders() })
         .then((res) => res);
       if (res.status === 200) {
+        store.dispatch({ type: "SET_ACCOUNTS", payload: res.data });
         return res.data;
       }
     } catch (error) {
@@ -317,6 +319,57 @@ export class Api {
 
   /* Bank integration */
 
+  //bunq App
+  public async getAuth(): Promise<boolean> {
+    try {
+      const res = await this.apiInstance
+        .get("bank/auth/bunq", { headers: this.getHeaders() })
+        .then((res) => res);
+      if (res.status === 200) {
+        return (window.location.href = res.data.initiate);
+      } else {
+        return false;
+      }
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.getAuth();
+        } else {
+          this.reset();
+        }
+      }
+      return false;
+    }
+  }
+
+  //get token
+  public async getToken(code: string, state: string): Promise<boolean> {
+    try {
+      const res = await this.apiInstance
+        .post(
+          "bank/auth/bunq/code",
+          { code: code, state: state },
+          { headers: this.getHeaders() }
+        )
+        .then((res) => res);
+      if (res.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.getToken(code, state);
+        } else {
+          this.reset();
+        }
+      }
+      return false;
+    }
+  }
+
+  //get available banks
   public async getBanks(countryCode: string): Promise<Bank[]> {
     try {
       const res = await this.apiInstance

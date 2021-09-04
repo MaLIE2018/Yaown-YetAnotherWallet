@@ -5,6 +5,7 @@ const Init = {
   accessToken: "",
   refreshToken: "",
   user: {},
+  accounts: [],
 };
 
 function settingsReducer(
@@ -18,6 +19,8 @@ function settingsReducer(
       return { ...state, refreshToken: action.payload };
     case "SET_USER":
       return { ...state, user: action.payload };
+    case "SET_ACCOUNTS":
+      return { ...state, accounts: [...action.payload] };
     default:
       return state;
   }

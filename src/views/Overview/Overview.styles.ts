@@ -1,9 +1,12 @@
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles({
-  root: {
+  overview: {
     flexGrow: 1,
     overflowY: "auto",
+  },
+  dateChooser: {
+    "& .MuiButtonBase-root": { padding: 0 },
   },
 });
 

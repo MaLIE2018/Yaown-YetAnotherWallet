@@ -1,9 +1,9 @@
 import React from "react";
-import useStyles from "./PieChart.styles";
+import useStyles from "./Line.styles";
 import Chart from "react-apexcharts";
 import { Box } from "@material-ui/core";
 
-export const PieChart: React.FC<{}> = () => {
+const LineChart: React.FC<{}> = () => {
   const classes = useStyles();
 
   const options = {
@@ -12,9 +12,19 @@ export const PieChart: React.FC<{}> = () => {
       legend: {
         show: false,
       },
+      chart: {
+        id: "basic-bar",
+      },
+      xaxis: {
+        categories: [13, 14, 15, 16, 17, 18, 19, 20, 21],
+      },
     },
-    series: [44, 55, 41, 17, 15],
-    labels: ["A", "B", "C", "D", "E"],
+    series: [
+      {
+        name: "series-1",
+        data: [30, 40, 45, 50, 49, 60, 70, 91],
+      },
+    ],
   };
 
   return (
@@ -22,9 +32,11 @@ export const PieChart: React.FC<{}> = () => {
       <Chart
         options={options.options}
         series={options.series}
-        type='donut'
+        type='bar'
         width='75%'
       />
     </Box>
   );
 };
+
+export default LineChart;
