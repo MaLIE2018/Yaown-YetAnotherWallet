@@ -2,9 +2,52 @@ import React from "react";
 import useStyles from "./Line.styles";
 import Chart from "react-apexcharts";
 import { Box } from "@material-ui/core";
+import { getDaysInMonth, format } from "date-fns";
 
-const LineChart: React.FC<{}> = () => {
+interface Props {
+  interval: string;
+  items: any[];
+}
+
+const LineChart: React.FC<Props> = ({ interval, items }) => {
   const classes = useStyles();
+  let categories: string[] | number[] = [];
+  let data: number[] = [];
+  if (interval === "Annually") {
+    categories = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    data = Array.from({ length: 12 }, () => 0);
+    items.forEach((item, i) => {
+      data.splice(item._id - 1, 1, item.total);
+    });
+  } else {
+    if (items?.length > 0 && items[0] !== undefined) {
+      categories = Array.from(
+        { length: getDaysInMonth(items[0]._id) },
+        (_, i) => i + 1
+      );
+    }
+    data = Array.from({ length: getDaysInMonth(items[0]._id) }, () => 0);
+    items.forEach((item, i) => {
+      data.splice(
+        Number(format(new Date(item._id), "d")),
+        1,
+        item.total < 0 ? -item.total : item.total
+      );
+    });
+  }
 
   const options = {
     options: {
@@ -13,16 +56,16 @@ const LineChart: React.FC<{}> = () => {
         show: false,
       },
       chart: {
-        id: "basic-bar",
+        id: "bar",
       },
       xaxis: {
-        categories: [13, 14, 15, 16, 17, 18, 19, 20, 21],
+        categories: categories,
       },
     },
     series: [
       {
-        name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91],
+        name: "test",
+        data: data,
       },
     ],
   };
@@ -33,7 +76,7 @@ const LineChart: React.FC<{}> = () => {
         options={options.options}
         series={options.series}
         type='bar'
-        width='75%'
+        width='100%'
       />
     </Box>
   );

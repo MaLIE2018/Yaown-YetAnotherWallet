@@ -5,9 +5,6 @@ const useStyles = makeStyles({
     flexGrow: 1,
     overflowY: "auto",
   },
-  dateChooser: {
-    "& .MuiButtonBase-root": { padding: 0 },
-  },
 });
 
 export default useStyles;

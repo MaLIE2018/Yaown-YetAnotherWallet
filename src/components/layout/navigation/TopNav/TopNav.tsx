@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../../store/types/types";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 const TopNav: React.FC<RouteComponentProps> = ({
   history,
@@ -43,6 +44,11 @@ const TopNav: React.FC<RouteComponentProps> = ({
               className={classes.addBtn}
               onClick={() => dispatch({ type: "TOGGLE_ADD_ASSET_MODAL" })}>
               <AddIcon />
+            </IconButton>
+          )}
+          {page.present === "overview" && (
+            <IconButton className={classes.addBtn}>
+              <RefreshIcon />
             </IconButton>
           )}
         </Toolbar>

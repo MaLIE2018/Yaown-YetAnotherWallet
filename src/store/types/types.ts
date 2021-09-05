@@ -17,11 +17,14 @@ export type StoreEvents =
   | { type: "TOGGLE_BANK_ALERT"; payload: GenericAlert }
   | { type: "SET_TA"; payload: any }
   | { type: "SET_ACCOUNTS"; payload: any }
+  | { type: "SET_TXN_BY_CAT"; payload: any }
+  | { type: "SET_TXN_BY_DATE"; payload: any }
   | { type: "RESET_TA" }
   | { type: "SET_CALC_STR"; payload: string }
   | { type: "SET_RESULT"; payload: string }
   | { type: "SELECT_ACCOUNT"; payload: string }
   | { type: "SELECT_TIME"; payload: string }
+  | { type: "SET_STATEMENT"; payload: [] }
   | { type: "RESET_CALC" }
   | { type: "TOGGLE_LOGIN_ALERT"; payload: GenericAlert }
   | { type: "TOGGLE_ADD_ASSET_MODAL" }
@@ -30,6 +33,8 @@ export type StoreEvents =
   | { type: "TOGGLE_ADD_BANK_PAGE" }
   | { type: "TOGGLE_ACCOUNT_MENU" }
   | { type: "TOGGLE_TIME_MENU" }
+  | { type: "SET_RANGE"; payload: Date[] }
+  | { type: "RESET_SETTINGS" }
   | { type: "SET_USER"; payload: {} };
 
 export interface IRootState {

@@ -16,7 +16,7 @@ const Wealth = () => {
 
   return (
     <div className={classes.wealth}>
-      <GeneralBox render={<PieChart />} />
+      <GeneralBox render={<PieChart series={[]} labels={[]} />} />
       <GeneralBox render={<div>Assets</div>} title='Assets' />
       <GeneralBox render={<AccountList />} title='Accounts' />
       <GeneralBox render={<div>Insurances</div>} title='Insurances' />

@@ -27,8 +27,6 @@ const GenericMenu: React.FC<Props> = ({
         <MenuItem
           key={i}
           onClick={(event) => {
-            console.log("event:", event);
-
             handleClose();
             handleChange(event.currentTarget.textContent);
           }}>

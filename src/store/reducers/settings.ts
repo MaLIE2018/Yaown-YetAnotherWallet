@@ -6,6 +6,9 @@ const Init = {
   refreshToken: "",
   user: {},
   accounts: [],
+  txnByCategory: [],
+  txnByDate: [],
+  statement: [{ incomes: 0, expenses: 0, _id: "id" }],
 };
 
 function settingsReducer(
@@ -21,6 +24,14 @@ function settingsReducer(
       return { ...state, user: action.payload };
     case "SET_ACCOUNTS":
       return { ...state, accounts: [...action.payload] };
+    case "SET_TXN_BY_CAT":
+      return { ...state, txnByCategory: [...action.payload] };
+    case "SET_TXN_BY_DATE":
+      return { ...state, txnByDate: [...action.payload] };
+    case "SET_STATEMENT":
+      return { ...state, statement: [...action.payload] };
+    case "RESET_SETTINGS":
+      return Init;
     default:
       return state;
   }

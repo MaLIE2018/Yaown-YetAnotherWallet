@@ -1,6 +1,7 @@
+import { Category } from "types/types";
 import categoryIcons from "../components/icons/categoryIcons";
 
-const categories = [
+const categories: Category[] = [
   {
     color: "#e57373",
     name: "Abhebungen",

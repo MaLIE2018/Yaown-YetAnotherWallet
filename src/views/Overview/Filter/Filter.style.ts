@@ -5,6 +5,23 @@ const useStyles = makeStyles((theme: Theme) =>
     dateChooser: {
       "& .MuiButtonBase-root": { padding: 0 },
     },
+    filterDatePicker: {
+      "& input": {
+        textAlign: "center",
+        padding: 0,
+      },
+      "& input::before": {
+        borderBottom: 0,
+      },
+      "& .MuiInput-underline:before": {
+        borderBottom: 0,
+        transition: "borderBottom-color",
+      },
+      "& .MuiInput-underline:after": {
+        borderBottom: 0,
+        transition: "borderBottom-color",
+      },
+    },
   })
 );
 

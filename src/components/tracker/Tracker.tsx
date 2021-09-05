@@ -44,7 +44,10 @@ const Tracker: React.FC<{}> = () => {
     const newDate = date?.toISOString().split("T")[0];
     dispatch({
       type: "SET_TA",
-      payload: { bookingDate: `${newDate}T${time}` },
+      payload: {
+        bookingDate: `${newDate}T${time}`,
+        valueDate: `${newDate}T${time}`,
+      },
     });
     setSelectedDate(date);
   };
@@ -53,7 +56,10 @@ const Tracker: React.FC<{}> = () => {
     const newTime = date?.toISOString().split("T")[1];
     dispatch({
       type: "SET_TA",
-      payload: { bookingDate: `${oldDate}T${newTime}` },
+      payload: {
+        bookingDate: `${oldDate}T${newTime}`,
+        valueDate: `${oldDate}T${newTime}`,
+      },
     });
     setSelectedTime(date);
   };

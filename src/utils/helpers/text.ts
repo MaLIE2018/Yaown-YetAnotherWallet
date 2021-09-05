@@ -1,3 +1,6 @@
+import categories from "assets/categories";
+import { Category } from "types/types";
+
 function isWord(word: string): boolean {
   return /[a-zA-Z]/.test(word);
 }
@@ -16,4 +19,9 @@ export function capitalizeWords(str: string): string {
 
 export const base64 = (input: string) => {
   return new Buffer(input).toString("base64");
+};
+
+export const getCategory = (name: string): Category | undefined => {
+  const category = categories.find((c: Category) => c.name === name);
+  return category;
 };

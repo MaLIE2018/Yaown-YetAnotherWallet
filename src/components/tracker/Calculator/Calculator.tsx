@@ -45,7 +45,7 @@ export const Calculator: React.FC<{}> = () => {
           type: "TOGGLE_TRANSACTION_ALERT",
         },
       });
-      console.log(fetchApi.getTransactions());
+      console.log(fetchApi.getTransactionsByCategory());
     } else {
       dispatch({
         type: "TOGGLE_TRANSACTION_ALERT",

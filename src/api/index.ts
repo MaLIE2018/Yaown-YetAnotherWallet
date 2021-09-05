@@ -3,6 +3,7 @@ import axios, { AxiosInstance } from "axios";
 import { store } from "store/store";
 import { Account, Booked, Transaction } from "types/bankAccount";
 import { AlertVariants, Bank, User } from "types/types";
+import { getQueryStr } from "utils/helpers/query";
 import { base64 } from "utils/helpers/text";
 
 export class Api {
@@ -64,9 +65,7 @@ export class Api {
   }
 
   public async reset() {
-    await this.setAccessToken("");
-    await this.setRefreshToken("");
-    await this.setUser({});
+    store.dispatch({ type: "RESET_SETTINGS" });
   }
 
   /* Token */
@@ -140,7 +139,7 @@ export class Api {
         await this.setRefreshToken(res.data.refresh_token);
       }
     } catch (error) {
-      if (error.response.status === 404) {
+      if (error?.response.status === 404) {
         return false;
       }
     }
@@ -160,6 +159,7 @@ export class Api {
         await this.setAccessToken(res.data.access_token);
         await this.setRefreshToken(res.data.refresh_token);
         await this.setUser(res.data.user);
+        await this.getMyAccounts();
         return true;
       }
     } catch (e) {
@@ -246,9 +246,18 @@ export class Api {
 
   public async postTransaction(transaction: Booked): Promise<boolean> {
     try {
-      const res = await this.apiInstance.post(`transaction/`, transaction, {
-        headers: this.getHeaders(),
-      });
+      const cashAccount = store
+        .getState()
+        .settings.accounts.find(
+          (account: Account) => account.bankName === "Cash"
+        );
+      const res = await this.apiInstance.post(
+        `transaction/${cashAccount._id}`,
+        transaction,
+        {
+          headers: this.getHeaders(),
+        }
+      );
       if (res.status === 200) {
         return true;
       }
@@ -263,20 +272,83 @@ export class Api {
     return false;
   }
 
-  public async getTransactions(): Promise<Transaction[]> {
+  public async getTransactionsByCategory(): Promise<Transaction[]> {
     try {
-      const res = await this.apiInstance.get(`transaction/`, {
-        headers: this.getHeaders(),
-      });
+      const state = store.getState();
+      let id = state.settings.accounts.find(
+        (a: Account) => a.name === state.accountMenu.selected
+      )?._id;
+      if (!id) id = "All";
+      const query = getQueryStr(state.timeMenu.range, id);
+      const res = await this.apiInstance.get(
+        `transaction/groupedbycategory?${query}`,
+        {
+          headers: this.getHeaders(),
+        }
+      );
       if (res.status === 200) {
-        console.log(res.data);
+        store.dispatch({ type: "SET_TXN_BY_CAT", payload: res.data });
         return res.data;
       }
       return [];
     } catch (error) {
       if (error.response?.status === 401 || error.response?.status === 403) {
         if (await this.refreshAccessToken()) {
-          return await this.getTransactions();
+          return await this.getTransactionsByCategory();
+        }
+      }
+      return [];
+    }
+  }
+  public async getTransactionsByDate(): Promise<Transaction[]> {
+    try {
+      const state = store.getState();
+      let id = state.settings.accounts.find(
+        (a: Account) => a.name === state.accountMenu.selected
+      )?._id;
+      if (!id) id = "All";
+      const query = getQueryStr(state.timeMenu.range, id);
+      const res = await this.apiInstance.get(
+        `transaction/groupedbydate/${state.timeMenu.selected}?${query}`,
+        {
+          headers: this.getHeaders(),
+        }
+      );
+      if (res.status === 200) {
+        store.dispatch({ type: "SET_TXN_BY_DATE", payload: res.data });
+        return res.data;
+      }
+      return [];
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.getTransactionsByDate();
+        }
+      }
+      return [];
+    }
+  }
+  //get income expenses
+  public async getExpensesIncomes(): Promise<Transaction[]> {
+    try {
+      const state = store.getState();
+      let id = state.settings.accounts.find(
+        (a: Account) => a.name === state.accountMenu.selected
+      )?._id;
+      if (!id) id = "All";
+      const query = getQueryStr(state.timeMenu.range, id);
+      const res = await this.apiInstance.get(`transaction/incexp?${query}`, {
+        headers: this.getHeaders(),
+      });
+      if (res.status === 200) {
+        store.dispatch({ type: "SET_STATEMENT", payload: res.data });
+        return res.data;
+      }
+      return [];
+    } catch (error) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.getExpensesIncomes();
         }
       }
       return [];

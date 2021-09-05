@@ -6,8 +6,9 @@ import useStyles from "./Filter.style";
 import GenericMenu from "components/Utils/Menu/GenericeMenu";
 import useSelector from "hooks/useSelector";
 import { useDispatch } from "hooks/useDispatch";
-import { DatePicker } from "@material-ui/pickers";
+import { DatePicker, DatePickerView } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import { adjustDate, getFormat, getRange } from "utils/helpers/time";
 
 const Filter: React.FC<{}> = () => {
   const classes = useStyles();
@@ -17,15 +18,46 @@ const Filter: React.FC<{}> = () => {
   const [selectedDate, handleDateChange] = React.useState<Date | null>(
     new Date()
   );
-
+  const [view, setView] = React.useState<DatePickerView[]>(["date"]);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  React.useEffect(() => {
+    if (selectedDate)
+      dispatch({
+        type: "SET_RANGE",
+        payload: getRange(selectedDate, timeMenu.selected.toLowerCase()),
+      });
+  }, [selectedDate]);
+
+  React.useEffect(() => {
+    if (timeMenu.selected) {
+      switch (timeMenu.selected) {
+        case "Annually":
+          setView(["year"]);
+          break;
+        case "Monthly":
+          setView(["month"]);
+          break;
+        case "Weekly":
+          setView(["date"]);
+          break;
+        case "Daily":
+          setView(["date"]);
+          break;
+      }
+      if (selectedDate)
+        dispatch({
+          type: "SET_RANGE",
+          payload: getRange(selectedDate, timeMenu.selected.toLowerCase()),
+        });
+    }
+  }, [timeMenu.selected]);
+
   return (
     <Box
       width='90%'
-      height='25%'
       display='flex'
       justifyContent='start'
       alignItems='center'
@@ -83,27 +115,38 @@ const Filter: React.FC<{}> = () => {
               startIcon={
                 <IconButton
                   aria-label='backward'
-                  onClick={() => console.log("Test")}>
+                  onClick={() =>
+                    handleDateChange(
+                      adjustDate(selectedDate, "bwd", timeMenu.selected)
+                    )
+                  }>
                   <ArrowBackIosIcon />
                 </IconButton>
               }
               endIcon={
-                <IconButton aria-label='forward'>
+                <IconButton
+                  aria-label='forward'
+                  onClick={() =>
+                    handleDateChange(
+                      adjustDate(selectedDate, "fwd", timeMenu.selected)
+                    )
+                  }>
                   <ArrowForwardIosIcon />
                 </IconButton>
               }>
               <DatePicker
                 value={selectedDate}
+                className={classes.filterDatePicker}
                 onChange={handleDateChange}
-                views={["month"]}
+                views={view}
                 labelFunc={(
                   date: MaterialUiPickersDate,
                   invalidLabel: string
                 ) => {
                   if (date !== null) {
-                    return date.toISOString();
+                    return getFormat(date, timeMenu.selected);
                   }
-                  return "4. Mail 2020";
+                  return "";
                 }}
               />
             </Button>

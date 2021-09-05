@@ -20,11 +20,25 @@ export interface User {
   accounts: [];
 }
 
+export interface Statement {
+  _id: string;
+  expenses: number;
+  incomes: number;
+}
+
+export interface CategoryGroup {
+  _id: string;
+  total: number;
+}
+
 export interface Settings {
   accessToken: string;
   refreshToken: string;
   user: {};
   accounts: Account[];
+  txnByCategory: CategoryGroup[];
+  txnByDate: CategoryGroup[];
+  statement: Statement[];
 }
 
 export enum AlertVariants {
@@ -50,6 +64,7 @@ export interface GenericAlert {
 export interface GenericMenu {
   open: boolean;
   selected: string;
+  range?: Date[];
 }
 
 export interface Bank {

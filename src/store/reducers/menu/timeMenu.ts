@@ -3,7 +3,8 @@ import { GenericMenu } from "types/types";
 
 const Init = {
   open: false,
-  selected: "All",
+  selected: "Monthly",
+  range: [],
 };
 
 export function timeMenuReducer(
@@ -15,6 +16,8 @@ export function timeMenuReducer(
       return { ...state, open: !state.open };
     case "SELECT_TIME":
       return { ...state, selected: action.payload };
+    case "SET_RANGE":
+      return { ...state, range: action.payload };
     default:
       return state;
   }
