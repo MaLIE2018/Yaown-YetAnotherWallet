@@ -34,7 +34,7 @@ const ByCategoryList: React.FC<{}> = () => {
   return (
     <List className={classes.root}>
       {settings.txnByCategory.map((group) => (
-        <ListItem>
+        <ListItem key={group._id}>
           <ListItemIcon>
             <CategoryButton categoryName={group._id} />
           </ListItemIcon>

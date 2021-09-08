@@ -31,6 +31,7 @@ export type StoreEvents =
   | { type: "EXPENSE" }
   | { type: "INCOME" }
   | { type: "TOGGLE_ADD_BANK_PAGE" }
+  | { type: "TOGGLE_ADD_ASSET_PAGE" }
   | { type: "TOGGLE_ACCOUNT_MENU" }
   | { type: "TOGGLE_TIME_MENU" }
   | { type: "SET_RANGE"; payload: Date[] }

@@ -14,6 +14,8 @@ import {
   addWeeks,
   subMonths,
   addMonths,
+  startOfDay,
+  endOfDay,
 } from "date-fns";
 
 export const getRange = (currentDate: Date, interval: string): Date[] | [] => {
@@ -28,7 +30,7 @@ export const getRange = (currentDate: Date, interval: string): Date[] | [] => {
         addDays(endOfWeek(currentDate, { weekStartsOn: 1 }), 1),
       ];
     case "daily":
-      return [currentDate];
+      return [startOfDay(currentDate), endOfDay(currentDate)];
   }
   return [];
 };

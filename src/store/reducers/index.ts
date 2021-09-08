@@ -15,6 +15,7 @@ import expenseReducer from "./Expense";
 import loginAlertReducer from "./alert/loginAlert";
 import accountMenuReducer from "./menu/accountMenu";
 import timeMenuReducer from "./menu/timeMenu";
+import { addAssetReducer } from "./page/assetPage";
 
 const undoable = ns.default;
 
@@ -37,6 +38,7 @@ const allReducers = combineReducers({
   expense: expenseReducer,
   accountMenu: accountMenuReducer,
   timeMenu: timeMenuReducer,
+  assetPage: addAssetReducer,
 });
 
 export default allReducers;

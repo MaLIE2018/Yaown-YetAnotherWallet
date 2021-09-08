@@ -26,12 +26,13 @@ const Wealth = () => {
           <div>
             <List>
               <ListItem>
-                <Button color='primary' variant='contained'>
+                <Button fullWidth color='primary' variant='contained'>
                   Asset
                 </Button>
               </ListItem>
               <ListItem>
                 <Button
+                  fullWidth
                   color='primary'
                   variant='contained'
                   onClick={() => {
@@ -42,12 +43,12 @@ const Wealth = () => {
                 </Button>
               </ListItem>
               <ListItem>
-                <Button color='primary' variant='contained'>
+                <Button fullWidth color='primary' variant='contained'>
                   Debts
                 </Button>
               </ListItem>
               <ListItem>
-                <Button color='primary' variant='contained'>
+                <Button fullWidth color='primary' variant='contained'>
                   Insurance
                 </Button>
               </ListItem>

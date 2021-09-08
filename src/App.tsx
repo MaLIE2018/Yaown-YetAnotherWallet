@@ -27,11 +27,12 @@ import { useDispatch } from "hooks/useDispatch";
 import AddAccount from "components/addBank/AddAccount";
 import { Api } from "../src/api/index";
 import Cookies from "js-cookie";
+import AddAsset from "components/addAsset/AddAsset";
 
 function App({ history, location, match }: RouteComponentProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { page, bankPage } = useSelector((state) => state);
+  const { page, bankPage, assetPage } = useSelector((state) => state);
 
   const isAuthenticated = Api.getSingleton().isLoggedIn();
 
@@ -86,6 +87,13 @@ function App({ history, location, match }: RouteComponentProps) {
           {bankPage && (
             <Page
               render={<AddAccount />}
+              title='Select Bank'
+              togglePage={() => dispatch({ type: "TOGGLE_ADD_BANK_PAGE" })}
+            />
+          )}
+          {assetPage && (
+            <Page
+              render={<AddAsset />}
               title='Select Bank'
               togglePage={() => dispatch({ type: "TOGGLE_ADD_BANK_PAGE" })}
             />
