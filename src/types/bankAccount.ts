@@ -12,7 +12,6 @@ export interface Account {
   product: string;
   cashAccountType: string;
   balances: Balances[];
-  transactions: { booked: Booked[]; pending: Pending[] };
 }
 
 export interface Balances {
@@ -57,4 +56,19 @@ export interface Pending {
   valueDate: Date;
   remittanceInformationUnstructured: string;
   category: string;
+}
+
+export interface Asset {
+  _id: string;
+  name: string;
+  userId: string;
+  value: number;
+  type: string;
+  valueDate: string;
+  currency: string;
+  residualDebt: number;
+  residualDebtDate: string;
+  savingRate: number;
+  description: string;
+  note: string;
 }

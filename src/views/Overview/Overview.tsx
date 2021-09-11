@@ -12,6 +12,7 @@ import { Api } from "../../api/index";
 import { CategoryGroup } from "types/types";
 import { Box, Typography } from "@material-ui/core";
 import { theme } from "theme/Theme";
+import getCurrencySymbol from "currency-symbols";
 
 const Overview = () => {
   const fetchApi = Api.getSingleton();
@@ -52,7 +53,9 @@ const Overview = () => {
                     <Typography component='p'>
                       <Box textAlign='center'>Expenses</Box>
                       <Box textAlign='center'>
-                        {-Number(settings?.statement[0].expenses)}
+                        {`${-Number(
+                          settings?.statement[0].expenses
+                        )} ${getCurrencySymbol("EUR")}`}
                       </Box>
                     </Typography>
                   </Box>
@@ -65,7 +68,9 @@ const Overview = () => {
                     <Typography component='p'>
                       <Box textAlign='center'>Income</Box>
                       <Box textAlign='center'>
-                        {settings?.statement[0].incomes}
+                        {`${Number(
+                          settings?.statement[0].incomes
+                        )} ${getCurrencySymbol("EUR")}`}
                       </Box>
                     </Typography>
                   </Box>
@@ -84,7 +89,7 @@ const Overview = () => {
                     <Box fontWeight='fontWeightMedium'>
                       {settings?.statement[0].expenses +
                         settings?.statement[0].incomes}{" "}
-                      $
+                      {getCurrencySymbol("EUR")}
                     </Box>
                   </Box>
                 </Typography>

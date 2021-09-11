@@ -6,21 +6,68 @@ import useStyles from "./Wealth.styles";
 import useSelector from "hooks/useSelector";
 
 import AccountList from "./Lists/Account/AccountList";
-import { Button, List, ListItem } from "@material-ui/core";
+import { Box, Button, List, ListItem, Typography } from "@material-ui/core";
 import { useDispatch } from "hooks/useDispatch";
+import AssetList from "./Lists/Asset/AssetList";
+import {
+  getAssetSummary,
+  getAccountSummary,
+  getTotal,
+} from "./../../utils/helpers/wealth";
+import getCurrencySymbol from "currency-symbols";
 
 const Wealth = () => {
   const classes = useStyles();
-  const { addAssetModal } = useSelector((state) => state);
+  const { assetModal } = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  const assetSummary = getAssetSummary();
+  const accountSummary = getAccountSummary();
+  const total = getTotal(accountSummary, assetSummary);
   return (
     <div className={classes.wealth}>
-      <GeneralBox render={<PieChart series={[]} labels={[]} />} />
-      <GeneralBox render={<div>Assets</div>} title='Assets' />
+      <Box
+        width='90%'
+        height='10%'
+        display='flex'
+        justifyContent='start'
+        ml={"5%"}
+        alignItems='end'>
+        <Typography component='div' style={{ width: "100%" }}>
+          <Box
+            display='flex'
+            flexDirection='row'
+            justifyContent='space-between'
+            width='100%'>
+            <Box fontWeight='fontWeightRegular' m={1}>
+              Total wealth:
+            </Box>
+            <Box fontSize='h6.fontSize' fontWeight='fontWeightMedium' m={1}>
+              {`${total} ${getCurrencySymbol("EUR")}`}
+            </Box>
+          </Box>
+        </Typography>
+      </Box>
+
+      <GeneralBox
+        render={
+          <PieChart
+            series={[
+              assetSummary.assets.possessions,
+              assetSummary.investments.total,
+              Number(accountSummary.total.toFixed(2)),
+              assetSummary.cash.total,
+            ]}
+            labels={["Assets", "Investments", "Accounts", "Cash"]}
+          />
+        }
+      />
+      <GeneralBox
+        render={<AssetList assetSummary={assetSummary} />}
+        title='Assets'
+      />
       <GeneralBox render={<AccountList />} title='Accounts' />
-      <GeneralBox render={<div>Insurances</div>} title='Insurances' />
-      <GeneralBox render={<div>Debts</div>} title='Debts' />
+      {/* <GeneralBox render={<div>Insurances</div>} title='Insurances' />
+      <GeneralBox render={<div>Debts</div>} title='Debts' /> */}
       <GenericModal
         render={
           <div>
@@ -55,7 +102,7 @@ const Wealth = () => {
             </List>
           </div>
         }
-        show={addAssetModal}
+        show={assetModal}
         toggleModal={() => dispatch({ type: "TOGGLE_ADD_ASSET_MODAL" })}
       />
     </div>

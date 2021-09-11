@@ -9,6 +9,7 @@ const Init = {
   txnByCategory: [],
   txnByDate: [],
   statement: [{ incomes: 0, expenses: 0, _id: "id" }],
+  assets: [],
 };
 
 function settingsReducer(
@@ -30,6 +31,8 @@ function settingsReducer(
       return { ...state, txnByDate: [...action.payload] };
     case "SET_STATEMENT":
       return { ...state, statement: [...action.payload] };
+    case "SET_ASSETS":
+      return { ...state, assets: [...action.payload] };
     case "RESET_SETTINGS":
       return Init;
     default:

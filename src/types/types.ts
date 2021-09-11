@@ -1,6 +1,6 @@
 import { SvgIconTypeMap } from "@material-ui/core";
 import { OverridableComponent } from "@material-ui/core/OverridableComponent";
-import { Account } from "./bankAccount";
+import { Account, Asset } from "./bankAccount";
 
 export interface History {
   past: string[];
@@ -39,6 +39,7 @@ export interface Settings {
   txnByCategory: CategoryGroup[];
   txnByDate: CategoryGroup[];
   statement: Statement[];
+  assets: Asset[];
 }
 
 export enum AlertVariants {
@@ -52,6 +53,20 @@ export interface Category {
   icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
   name: string;
   color: string;
+}
+
+export enum typeNames {
+  "cash" = "Cash",
+  "realEstate" = "Real Estate",
+  "account" = "Account",
+  "otherAssets" = "Other Assets",
+  "stakeholder" = "Stakeholder",
+  "depot" = "Depot",
+}
+
+export interface AssetType {
+  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
+  type: typeNames;
 }
 
 export interface GenericAlert {

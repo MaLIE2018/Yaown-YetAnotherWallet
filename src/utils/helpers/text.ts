@@ -1,5 +1,6 @@
 import categories from "assets/categories";
-import { Category } from "types/types";
+import assets from "assets/assets";
+import { Category, AssetType } from "types/types";
 
 function isWord(word: string): boolean {
   return /[a-zA-Z]/.test(word);
@@ -24,4 +25,11 @@ export const base64 = (input: string) => {
 export const getCategory = (name: string): Category | undefined => {
   const category = categories.find((c: Category) => c.name === name);
   return category;
+};
+
+export const getAsset = (type: string): AssetType | undefined => {
+  const assetType = assets.find((c: AssetType) => {
+    return c.type === type;
+  });
+  return assetType;
 };

@@ -25,6 +25,7 @@ export type StoreEvents =
   | { type: "SELECT_ACCOUNT"; payload: string }
   | { type: "SELECT_TIME"; payload: string }
   | { type: "SET_STATEMENT"; payload: [] }
+  | { type: "SET_ASSETS"; payload: [] }
   | { type: "RESET_CALC" }
   | { type: "TOGGLE_LOGIN_ALERT"; payload: GenericAlert }
   | { type: "TOGGLE_ADD_ASSET_MODAL" }
@@ -49,7 +50,8 @@ export interface IRootState {
   calc: Calc;
   user: {};
   bankPage: boolean;
-  addAssetModal: boolean;
+  assetPage: boolean;
+  assetModal: boolean;
   bankAlert: GenericAlert;
   loginAlert: GenericAlert;
   expense: boolean;

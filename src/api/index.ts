@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 import { store } from "store/store";
-import { Account, Booked, Transaction } from "types/bankAccount";
+import { Account, Booked, Transaction, Asset } from "types/bankAccount";
 import { AlertVariants, Bank, User } from "types/types";
 import { getQueryStr } from "utils/helpers/query";
 import { base64 } from "utils/helpers/text";
@@ -23,26 +23,7 @@ export class Api {
       timeout: 20000,
       withCredentials: true,
     });
-    // this.apiInstance.interceptors.response.use(
-    //   function (response) {
-    //     return response;
-    //   },
-    //   async (error) => {
-    //     if (error.response?.status === 401 || error.response?.status === 403) {
-    //       if (await this.refreshAccessToken()) {
-    //         return true;
-    //       }
-    //     }
-    //     return Promise.reject(error);
-    //   }
-    // );
-    // this.apiInstance.interceptors.request.use(
-    //   function (request) {
-    //     return request;
-    //   },
-    //   null,
-    //   { synchronous: true }
-    // );
+
     this.transactions = [];
   }
 
@@ -241,6 +222,31 @@ export class Api {
 
   /* Endpoints */
   /* Login */
+
+  /* Assets */
+
+  public async getMyAssets(): Promise<Asset[] | []> {
+    try {
+      const res = await this.apiInstance
+        .get("asset/", { headers: this.getHeaders() })
+        .then((res) => res);
+      if (res.status === 200) {
+        store.dispatch({ type: "SET_ASSETS", payload: res.data });
+        return res.data;
+      }
+    } catch (error) {
+      console.log("error:", error);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.getMyAssets();
+        } else {
+          this.reset();
+        }
+      }
+      return [];
+    }
+    return [];
+  }
 
   /* Transactions */
 

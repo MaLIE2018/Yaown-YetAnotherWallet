@@ -5,6 +5,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@material-ui/core";
+import getCurrencySymbol from "currency-symbols";
 
 import useSelector from "hooks/useSelector";
 import React from "react";
@@ -39,7 +40,9 @@ const ByCategoryList: React.FC<{}> = () => {
             <CategoryButton categoryName={group._id} />
           </ListItemIcon>
           <ListItemText
-            primary={`${group.total < 0 ? -group.total : group.total}$`}
+            primary={`${
+              group.total < 0 ? -group.total : group.total
+            } ${getCurrencySymbol("EUR")}`}
           />
         </ListItem>
       ))}

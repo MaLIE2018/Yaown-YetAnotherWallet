@@ -34,7 +34,11 @@ const LineChart: React.FC<Props> = ({ interval, items }) => {
     });
   } else {
     // Monthly tracking
-    if (items?.length > 0 && items[0] !== undefined) {
+    if (
+      items?.length > 0 &&
+      items[0] !== undefined &&
+      items[0]?._id !== undefined
+    ) {
       categories = Array.from(
         { length: getDaysInMonth(new Date(items[0]._id)) },
         (_, i) => i + 1

@@ -28,6 +28,7 @@
     "babel-preset-react-app": "^10.0.0",
     "clsx": "^1.1.1",
     "cross-env": "^7.0.3",
+    "currency-symbols": "^0.4.1",
     "date-fns": "^2.0.0-beta.5",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
