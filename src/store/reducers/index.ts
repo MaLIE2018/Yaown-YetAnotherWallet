@@ -31,7 +31,7 @@ const allReducers = combineReducers({
   categoryModal: categoryModalReducer,
   transaction: transactionReducer,
   calc: calculationReducer,
-  addAssetModal: assetModalReducer,
+  assetModal: assetModalReducer,
   bankPage: bankPageReducer,
   bankAlert: bankAlertReducer,
   loginAlert: loginAlertReducer,

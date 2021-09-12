@@ -25,9 +25,7 @@ export const theme = createTheme({
         html: {
           WebkitFontSmoothing: "auto",
         },
-        body: {
-          backgroundColor: "#eeeeee",
-        },
+
         ".MuiButton-root": {
           textTransform: "capitalize",
         },

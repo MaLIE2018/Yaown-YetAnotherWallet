@@ -41,7 +41,7 @@ export const getAssetSummary = (): AssetSummary => {
     investments: { total: 0 },
     cash: { total: 0 },
   };
-  if (assets.length !== 0) {
+  if (assets && assets.length !== 0) {
     summary = assets.reduce(
       (acc: AssetSummary, ass: Asset) => {
         if (ass.type === typeNames.depot) {

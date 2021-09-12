@@ -31,6 +31,18 @@ export interface CategoryGroup {
   total: number;
 }
 
+export interface Estimates {
+  pension: string;
+  age: string;
+  savingRate: string;
+  increaseSavingRate: string;
+  lifetime: string;
+  averageAnnualROI: string;
+  desiredPension: string;
+  otherIncome: string;
+  cAge: string;
+}
+
 export interface Settings {
   accessToken: string;
   refreshToken: string;
@@ -40,6 +52,7 @@ export interface Settings {
   txnByDate: CategoryGroup[];
   statement: Statement[];
   assets: Asset[];
+  estimates: Estimates;
 }
 
 export enum AlertVariants {

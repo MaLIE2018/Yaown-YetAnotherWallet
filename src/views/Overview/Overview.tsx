@@ -87,8 +87,10 @@ const Overview = () => {
                       : "All time"}
                     <Box>&nbsp;saving rate&nbsp; </Box>
                     <Box fontWeight='fontWeightMedium'>
-                      {settings?.statement[0].expenses +
-                        settings?.statement[0].incomes}{" "}
+                      {(
+                        settings?.statement[0].expenses +
+                        settings?.statement[0].incomes
+                      ).toFixed(2)}{" "}
                       {getCurrencySymbol("EUR")}
                     </Box>
                   </Box>

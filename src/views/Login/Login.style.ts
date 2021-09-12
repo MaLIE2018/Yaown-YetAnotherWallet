@@ -3,12 +3,13 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     login: {
-      display: "flex",
       flexWrap: "wrap",
       flexDirection: "column",
       alignItems: "center",
       height: "100vh",
-      width: "100vw",
+      [theme.breakpoints.up("sm")]: { width: "375PX" },
+      [theme.breakpoints.down("sm")]: { width: "100vw" },
+
       "& form": {
         display: "flex",
         width: "90vw",

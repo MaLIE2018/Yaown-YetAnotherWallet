@@ -19,6 +19,7 @@ import getCurrencySymbol from "currency-symbols";
 const Wealth = () => {
   const classes = useStyles();
   const { assetModal } = useSelector((state) => state);
+  console.log("assetModal:", assetModal);
   const dispatch = useDispatch();
   const assetSummary = getAssetSummary();
   const accountSummary = getAccountSummary();
@@ -38,16 +39,13 @@ const Wealth = () => {
             flexDirection='row'
             justifyContent='space-between'
             width='100%'>
-            <Box fontWeight='fontWeightRegular' m={1}>
-              Total wealth:
-            </Box>
-            <Box fontSize='h6.fontSize' fontWeight='fontWeightMedium' m={1}>
+            <Box fontWeight='fontWeightRegular'>Total wealth:</Box>
+            <Box fontSize='h6.fontSize' fontWeight='fontWeightMedium'>
               {`${total} ${getCurrencySymbol("EUR")}`}
             </Box>
           </Box>
         </Typography>
       </Box>
-
       <GeneralBox
         render={
           <PieChart
@@ -66,8 +64,6 @@ const Wealth = () => {
         title='Assets'
       />
       <GeneralBox render={<AccountList />} title='Accounts' />
-      {/* <GeneralBox render={<div>Insurances</div>} title='Insurances' />
-      <GeneralBox render={<div>Debts</div>} title='Debts' /> */}
       <GenericModal
         render={
           <div>

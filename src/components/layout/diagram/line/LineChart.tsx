@@ -43,14 +43,14 @@ const LineChart: React.FC<Props> = ({ interval, items }) => {
         { length: getDaysInMonth(new Date(items[0]._id)) },
         (_, i) => i + 1
       );
+      data = Array.from(
+        { length: getDaysInMonth(new Date(items[0]._id)) },
+        () => 0
+      );
+      items.forEach((item, i) => {
+        data.splice(item._id - 1, 1, item.total < 0 ? -item.total : item.total);
+      });
     }
-    data = Array.from(
-      { length: getDaysInMonth(new Date(items[0]._id)) },
-      () => 0
-    );
-    items.forEach((item, i) => {
-      data.splice(item._id - 1, 1, item.total < 0 ? -item.total : item.total);
-    });
   }
 
   const options = {
