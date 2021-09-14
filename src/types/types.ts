@@ -32,16 +32,16 @@ export interface CategoryGroup {
 }
 
 export interface Estimates {
-  pension: string;
-  age: string;
-  savingRate: string;
-  increaseSavingRate: string;
-  lifetime: string;
-  averageAnnualROI: string;
-  desiredPension: string;
-  otherIncome: string;
-  cAge: string;
-  investRate: string;
+  pension: number;
+  age: number;
+  savingRate: number;
+  increaseSavingRate: number;
+  lifetime: number;
+  averageAnnualROI: number;
+  desiredPension: number;
+  otherIncome: number;
+  cAge: number;
+  investRate: number;
 }
 
 export interface Settings {

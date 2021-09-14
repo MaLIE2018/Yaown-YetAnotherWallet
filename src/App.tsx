@@ -38,7 +38,7 @@ function App({ history, location, match }: RouteComponentProps) {
 
   useEffect(() => {
     history.push(`/${page.present}`);
-  }, [page.present]);
+  }, [page]);
 
   useEffect(() => {
     document.addEventListener("visibilitychange", function (event) {

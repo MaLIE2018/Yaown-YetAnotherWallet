@@ -9,9 +9,12 @@ import {
 } from "@material-ui/core";
 import { PieChart } from "components/layout/diagram/pie/PieChart";
 import GeneralBox from "components/Utils/GeneralBox/GeneralBox";
+import getCurrencySymbol from "currency-symbols";
 import { useDispatch } from "hooks/useDispatch";
 import useSelector from "hooks/useSelector";
-import React from "react";
+import React, { useState } from "react";
+
+import { futureMonth, getWorkingYears } from "utils/helpers/future";
 import useStyles from "./Future,styles";
 interface State {
   pension: string;
@@ -29,14 +32,20 @@ const Future: React.FC<{}> = () => {
   const classes = useStyles();
   const { settings } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [futureM, setFutureM] = useState<string | undefined>(undefined);
 
   const handleChange =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
       dispatch({
         type: "SET_ESTIMATES",
-        payload: { id: prop, newStatus: event.target.value },
+        payload: { id: prop, newStatus: Number(event.target.value) },
       });
     };
+
+  React.useEffect(() => {
+    const newTotal = futureMonth(settings.estimates);
+    setFutureM(newTotal);
+  }, [settings]);
   return (
     <div className={classes.future}>
       <Box
@@ -52,11 +61,18 @@ const Future: React.FC<{}> = () => {
             flexDirection='row'
             justifyContent='space-between'
             width='100%'>
-            <Box fontWeight='fontWeightRegular' m={1}>
-              Estimated monthly income 2058:
+            <Box fontWeight='fontWeightRegular' m={1} flexGrow={2}>
+              {`Estimated monthly income ${
+                new Date().getFullYear() +
+                getWorkingYears(settings.estimates.age, settings.estimates.cAge)
+              }:`}
             </Box>
-            <Box fontSize='h6.fontSize' fontWeight='fontWeightMedium' m={1}>
-              1123 $
+            <Box
+              fontSize='h6.fontSize'
+              fontWeight='fontWeightMedium'
+              m={0}
+              flexGrow={1}>
+              {`${futureM} ${getCurrencySymbol("EUR")}`}
             </Box>
           </Box>
         </Typography>

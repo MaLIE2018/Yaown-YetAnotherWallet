@@ -5,7 +5,7 @@ import produce from "immer";
 
 const updateObject = (
   draft: any,
-  payload: { id: string; newStatus: string }
+  payload: { id: string; newStatus: number }
 ) => {
   const { id, newStatus } = payload;
   draft.estimates[id] = newStatus;
@@ -19,16 +19,16 @@ const Init = {
   txnByDate: [],
   statement: [{ incomes: 0, expenses: 0, _id: "id" }],
   estimates: {
-    pension: "1200",
-    age: "67",
-    increaseSavingRate: "3",
-    savingRate: "2400",
-    investRate: "100",
-    averageAnnualROI: "8",
-    lifetime: "20",
-    desiredPension: "2500",
-    otherIncome: "500",
-    cAge: "30",
+    pension: 1200,
+    age: 67,
+    increaseSavingRate: 3,
+    savingRate: 2400,
+    investRate: 100,
+    averageAnnualROI: 8,
+    lifetime: 20,
+    desiredPension: 2500,
+    otherIncome: 500,
+    cAge: 30,
   },
 
   assets: [],

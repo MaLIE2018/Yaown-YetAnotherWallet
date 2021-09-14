@@ -22,7 +22,7 @@ export type StoreEvents =
   | { type: "RESET_TA" }
   | { type: "SET_CALC_STR"; payload: string }
   | { type: "SET_RESULT"; payload: string }
-  | { type: "SET_ESTIMATES"; payload: { id: string; newStatus: string } }
+  | { type: "SET_ESTIMATES"; payload: { id: string; newStatus: number } }
   | { type: "SELECT_ACCOUNT"; payload: string }
   | { type: "SELECT_TIME"; payload: string }
   | { type: "SET_STATEMENT"; payload: [] }
