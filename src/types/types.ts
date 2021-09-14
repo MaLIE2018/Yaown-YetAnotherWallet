@@ -41,6 +41,7 @@ export interface Estimates {
   desiredPension: string;
   otherIncome: string;
   cAge: string;
+  investRate: string;
 }
 
 export interface Settings {

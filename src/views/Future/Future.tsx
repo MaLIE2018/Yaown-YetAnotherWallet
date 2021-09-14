@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import { PieChart } from "components/layout/diagram/pie/PieChart";
 import GeneralBox from "components/Utils/GeneralBox/GeneralBox";
+import { useDispatch } from "hooks/useDispatch";
+import useSelector from "hooks/useSelector";
 import React from "react";
 import useStyles from "./Future,styles";
 interface State {
@@ -21,24 +23,19 @@ interface State {
   desiredPension: string;
   otherIncome: string;
   cAge: string;
+  investRate: string;
 }
 const Future: React.FC<{}> = () => {
   const classes = useStyles();
-  const [values, setValues] = React.useState<State>({
-    pension: "1200",
-    age: "67",
-    increaseSavingRate: "3",
-    savingRate: "2400",
-    averageAnnualROI: "8",
-    lifetime: "20",
-    desiredPension: "2500",
-    otherIncome: "500",
-    cAge: "30",
-  });
+  const { settings } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const handleChange =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({ ...values, [prop]: event.target.value });
+      dispatch({
+        type: "SET_ESTIMATES",
+        payload: { id: prop, newStatus: event.target.value },
+      });
     };
   return (
     <div className={classes.future}>
@@ -83,13 +80,14 @@ const Future: React.FC<{}> = () => {
                 <Input
                   type='number'
                   id='standard-adornment-cAge'
-                  value={values.cAge}
+                  value={settings.estimates.cAge}
                   onChange={handleChange("cAge")}
                   endAdornment={
                     <InputAdornment position='end'>years</InputAdornment>
                   }
                   aria-describedby='standard-cAge-helper-text'
                   inputProps={{
+                    min: "0",
                     "aria-label": "years",
                   }}
                 />
@@ -103,13 +101,14 @@ const Future: React.FC<{}> = () => {
                 <Input
                   type='number'
                   id='standard-adornment-age'
-                  value={values.age}
+                  value={settings.estimates.age}
                   onChange={handleChange("age")}
                   endAdornment={
                     <InputAdornment position='end'>years</InputAdornment>
                   }
                   aria-describedby='standard-age-helper-text'
                   inputProps={{
+                    min: "0",
                     "aria-label": "years",
                   }}
                 />
@@ -123,13 +122,14 @@ const Future: React.FC<{}> = () => {
                 <Input
                   type='number'
                   id='standard-adornment-savingRate'
-                  value={values.savingRate}
+                  value={settings.estimates.savingRate}
                   onChange={handleChange("savingRate")}
                   endAdornment={
                     <InputAdornment position='end'>Euro</InputAdornment>
                   }
                   aria-describedby='standard-savingRate-helper-text'
                   inputProps={{
+                    min: "0",
                     "aria-label": "saving rate",
                   }}
                 />
@@ -145,14 +145,39 @@ const Future: React.FC<{}> = () => {
                 <Input
                   type='number'
                   id='standard-adornment-increaseSaving'
-                  value={values.increaseSavingRate}
+                  value={settings.estimates.increaseSavingRate}
                   onChange={handleChange("increaseSavingRate")}
                   endAdornment={
                     <InputAdornment position='end'>%</InputAdornment>
                   }
                   aria-describedby='standard-increaseSaving-helper-text'
                   inputProps={{
+                    min: "0",
                     "aria-label": "Annual increase in savings rate",
+                  }}
+                />
+              </FormControl>{" "}
+            </ListItem>
+
+            <ListItem>
+              <Typography component='div'>
+                <Box fontWeight='fontWeightRegular'>
+                  Annual increase in investments
+                </Box>
+              </Typography>{" "}
+              <FormControl>
+                <Input
+                  type='number'
+                  id='standard-adornment-investRate'
+                  value={settings.estimates.investRate}
+                  onChange={handleChange("investRate")}
+                  endAdornment={
+                    <InputAdornment position='end'>Euro</InputAdornment>
+                  }
+                  aria-describedby='standard-investRate-helper-text'
+                  inputProps={{
+                    min: "0",
+                    "aria-label": "saving rate",
                   }}
                 />
               </FormControl>{" "}
@@ -165,13 +190,14 @@ const Future: React.FC<{}> = () => {
                 <Input
                   type='number'
                   id='standard-adornment-averageAnnualReturn'
-                  value={values.averageAnnualROI}
+                  value={settings.estimates.averageAnnualROI}
                   onChange={handleChange("averageAnnualROI")}
                   endAdornment={
                     <InputAdornment position='end'>%</InputAdornment>
                   }
                   aria-describedby='standard-averageAnnualReturn-helper-text'
                   inputProps={{
+                    min: "0",
                     "aria-label": "average Annual Return",
                   }}
                 />
@@ -187,13 +213,14 @@ const Future: React.FC<{}> = () => {
                 <Input
                   type='number'
                   id='standard-adornment-pension'
-                  value={values.pension}
+                  value={settings.estimates.pension}
                   onChange={handleChange("pension")}
                   endAdornment={
                     <InputAdornment position='end'>Euro </InputAdornment>
                   }
                   aria-describedby='standard-pension-helper-text'
                   inputProps={{
+                    min: "0",
                     "aria-label": "forecast pension in Euro",
                   }}
                 />
@@ -209,13 +236,14 @@ const Future: React.FC<{}> = () => {
                 <Input
                   type='number'
                   id='standard-adornment-lifetime'
-                  value={values.lifetime}
+                  value={settings.estimates.lifetime}
                   onChange={handleChange("lifetime")}
                   endAdornment={
                     <InputAdornment position='end'>Years </InputAdornment>
                   }
                   aria-describedby='standard-lifetime-helper-text'
                   inputProps={{
+                    min: "0",
                     "aria-label": "Lifetime period after retirement in years",
                   }}
                 />
@@ -229,13 +257,14 @@ const Future: React.FC<{}> = () => {
                 <Input
                   type='number'
                   id='standard-adornment-desiredPension'
-                  value={values.desiredPension}
+                  value={settings.estimates.desiredPension}
                   onChange={handleChange("desiredPension")}
                   endAdornment={
                     <InputAdornment position='end'>Euro </InputAdornment>
                   }
                   aria-describedby='standard-desiredPension-helper-text'
                   inputProps={{
+                    min: "0",
                     "aria-label": "Desired pension in euro",
                   }}
                 />
@@ -249,13 +278,14 @@ const Future: React.FC<{}> = () => {
                 <Input
                   type='number'
                   id='standard-adornment-otherIncome'
-                  value={values.otherIncome}
+                  value={settings.estimates.otherIncome}
                   onChange={handleChange("otherIncome")}
                   endAdornment={
                     <InputAdornment position='end'>Euro </InputAdornment>
                   }
                   aria-describedby='standard-otherIncome-helper-text'
                   inputProps={{
+                    min: "0",
                     "aria-label": "Other monthly income in euro",
                   }}
                 />
