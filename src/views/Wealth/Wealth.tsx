@@ -15,10 +15,11 @@ import {
   getTotal,
 } from "./../../utils/helpers/wealth";
 import getCurrencySymbol from "currency-symbols";
+import { currencyFormat } from "utils/helpers/text";
 
 const Wealth = () => {
   const classes = useStyles();
-  const { assetModal } = useSelector((state) => state);
+  const { assetModal, settings } = useSelector((state) => state);
   console.log("assetModal:", assetModal);
   const dispatch = useDispatch();
   const assetSummary = getAssetSummary();
@@ -41,7 +42,7 @@ const Wealth = () => {
             width='100%'>
             <Box fontWeight='fontWeightRegular'>Total wealth:</Box>
             <Box fontSize='h6.fontSize' fontWeight='fontWeightMedium'>
-              {`${total} ${getCurrencySymbol("EUR")}`}
+              {`${currencyFormat(total, settings.lang, settings.currency)}`}
             </Box>
           </Box>
         </Typography>

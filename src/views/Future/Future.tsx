@@ -9,12 +9,12 @@ import {
 } from "@material-ui/core";
 import { PieChart } from "components/layout/diagram/pie/PieChart";
 import GeneralBox from "components/Utils/GeneralBox/GeneralBox";
-import getCurrencySymbol from "currency-symbols";
 import { useDispatch } from "hooks/useDispatch";
 import useSelector from "hooks/useSelector";
 import React, { useState } from "react";
-
-import { futureMonth, getWorkingYears } from "utils/helpers/future";
+import { IFuture } from "types/types";
+import { future, getWorkingYears } from "utils/helpers/future";
+import { currencyFormat } from "utils/helpers/text";
 import useStyles from "./Future,styles";
 interface State {
   pension: string;
@@ -28,11 +28,18 @@ interface State {
   cAge: string;
   investRate: string;
 }
+const FutureInit = {
+  capital: 0,
+  investment: 0,
+  pension: 0,
+  otherIncome: 0,
+  futureMonth: 0,
+};
 const Future: React.FC<{}> = () => {
   const classes = useStyles();
   const { settings } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [futureM, setFutureM] = useState<string | undefined>(undefined);
+  const [futureM, setFutureM] = useState<IFuture>(FutureInit);
 
   const handleChange =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,9 +50,9 @@ const Future: React.FC<{}> = () => {
     };
 
   React.useEffect(() => {
-    const newTotal = futureMonth(settings.estimates);
-    setFutureM(newTotal);
+    setFutureM(future(settings.estimates));
   }, [settings]);
+  const { pension, capital, investment, otherIncome } = futureM;
   return (
     <div className={classes.future}>
       <Box
@@ -72,7 +79,11 @@ const Future: React.FC<{}> = () => {
               fontWeight='fontWeightMedium'
               m={0}
               flexGrow={1}>
-              {`${futureM} ${getCurrencySymbol("EUR")}`}
+              {`${currencyFormat(
+                futureM.futureMonth,
+                settings.lang,
+                settings.currency
+              )}`}
             </Box>
           </Box>
         </Typography>
@@ -80,8 +91,8 @@ const Future: React.FC<{}> = () => {
       <GeneralBox
         render={
           <PieChart
-            series={[]}
-            labels={["Assets", "Investments", "Accounts", "Cash"]}
+            series={[pension, investment, otherIncome, capital]}
+            labels={["Pension", "Investments", "Other Income", "Capital"]}
           />
         }
       />

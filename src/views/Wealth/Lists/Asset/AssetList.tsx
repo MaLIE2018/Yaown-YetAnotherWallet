@@ -5,6 +5,8 @@ import { Api } from "../../../../api/index";
 import { Asset } from "types/bankAccount";
 import { AssetSummary } from "utils/helpers/wealth";
 import getCurrencySymbol from "currency-symbols";
+import useSelector from "hooks/useSelector";
+import { currencyFormat } from "utils/helpers/text";
 
 interface Props {
   assetSummary: AssetSummary;
@@ -12,6 +14,7 @@ interface Props {
 
 const AssetList: React.FC<Props> = ({ assetSummary }) => {
   const [assets, setAssets] = React.useState<Asset[] | undefined>(undefined);
+  const { settings } = useSelector((state) => state);
   React.useEffect(() => {
     (async () => {
       const assets = await Api.getSingleton().getMyAssets();
@@ -46,8 +49,10 @@ const AssetList: React.FC<Props> = ({ assetSummary }) => {
               flexDirection='row'
               justifyContent='space-between'>
               <Box fontWeight='fontWeightRegular'>Capital investment</Box>
-              <Box fontWeight='fontWeightRegular'>{`${possessions} ${getCurrencySymbol(
-                "EUR"
+              <Box fontWeight='fontWeightRegular'>{`${currencyFormat(
+                possessions,
+                settings.lang,
+                settings.currency
               )}`}</Box>
             </Box>
             <Box
@@ -55,8 +60,10 @@ const AssetList: React.FC<Props> = ({ assetSummary }) => {
               flexDirection='row'
               justifyContent='space-between'>
               <Box fontWeight='fontWeightLight'>Financing</Box>
-              <Box fontWeight='fontWeightLight'>{`${debts} ${getCurrencySymbol(
-                "EUR"
+              <Box fontWeight='fontWeightLight'>{`${currencyFormat(
+                debts,
+                settings.lang,
+                settings.currency
               )}`}</Box>
             </Box>
           </Box>

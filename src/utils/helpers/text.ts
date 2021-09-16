@@ -33,3 +33,14 @@ export const getAsset = (type: string): AssetType | undefined => {
   });
   return assetType;
 };
+
+export const currencyFormat = (
+  n: number,
+  lang: string,
+  currency: string
+): string => {
+  return new Intl.NumberFormat(lang, {
+    style: "currency",
+    currency: currency,
+  }).format(n);
+};

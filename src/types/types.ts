@@ -31,6 +31,13 @@ export interface CategoryGroup {
   total: number;
 }
 
+export interface IFuture {
+  capital: number;
+  investment: number;
+  pension: number;
+  otherIncome: number;
+  futureMonth: number;
+}
 export interface Estimates {
   pension: number;
   age: number;
@@ -47,6 +54,8 @@ export interface Estimates {
 export interface Settings {
   accessToken: string;
   refreshToken: string;
+  currency: string;
+  lang: string;
   user: {};
   accounts: Account[];
   txnByCategory: CategoryGroup[];

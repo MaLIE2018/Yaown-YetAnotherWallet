@@ -12,7 +12,7 @@ import { Api } from "../../api/index";
 import { CategoryGroup } from "types/types";
 import { Box, Typography } from "@material-ui/core";
 import { theme } from "theme/Theme";
-import getCurrencySymbol from "currency-symbols";
+import { currencyFormat } from "utils/helpers/text";
 
 const Overview = () => {
   const fetchApi = Api.getSingleton();
@@ -53,9 +53,11 @@ const Overview = () => {
                     <Typography component='p'>
                       <Box textAlign='center'>Expenses</Box>
                       <Box textAlign='center'>
-                        {`${-Number(
-                          settings?.statement[0].expenses
-                        )} ${getCurrencySymbol("EUR")}`}
+                        {`${currencyFormat(
+                          -Number(settings?.statement[0].expenses),
+                          settings.lang,
+                          settings.currency
+                        )}`}
                       </Box>
                     </Typography>
                   </Box>
@@ -68,9 +70,11 @@ const Overview = () => {
                     <Typography component='p'>
                       <Box textAlign='center'>Income</Box>
                       <Box textAlign='center'>
-                        {`${Number(
-                          settings?.statement[0].incomes
-                        )} ${getCurrencySymbol("EUR")}`}
+                        {`${currencyFormat(
+                          Number(settings?.statement[0].incomes),
+                          settings.lang,
+                          settings.currency
+                        )}`}
                       </Box>
                     </Typography>
                   </Box>
@@ -87,11 +91,12 @@ const Overview = () => {
                       : "All time"}
                     <Box>&nbsp;saving rate&nbsp; </Box>
                     <Box fontWeight='fontWeightMedium'>
-                      {(
+                      {`${currencyFormat(
                         settings?.statement[0].expenses +
-                        settings?.statement[0].incomes
-                      ).toFixed(2)}{" "}
-                      {getCurrencySymbol("EUR")}
+                          settings?.statement[0].incomes,
+                        settings.lang,
+                        settings.currency
+                      )}`}
                     </Box>
                   </Box>
                 </Typography>

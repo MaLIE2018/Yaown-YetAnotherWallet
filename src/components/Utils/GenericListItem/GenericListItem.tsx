@@ -14,8 +14,9 @@ import useStyles from "./GenericListItem.style";
 import { Account, Asset } from "types/bankAccount";
 import getCurrencySymbol from "currency-symbols";
 
-import { getAsset } from "utils/helpers/text";
+import { currencyFormat, getAsset } from "utils/helpers/text";
 import { AssetType } from "types/types";
+import useSelector from "hooks/useSelector";
 
 interface Props {
   item: Account | Asset;
@@ -26,29 +27,30 @@ function isAccount(item: Account | Asset): item is Account {
 }
 
 const GenericListItem: React.FC<Props> = ({ item }) => {
+  const { settings } = useSelector((state) => state);
   const classes = useStyles();
-  let title, subTitle, symbol, logo, value, debtValue: string;
+  let title, subTitle, logo: string;
+  let debtValue, value: number;
   let assetType: AssetType | undefined;
-  debtValue = "";
+  debtValue = 0;
   if (isAccount(item)) {
     title = item.bankName;
     subTitle = item.name;
     logo = item.logo;
-    value = item.balances[0].balanceAmount.amount.toFixed(2);
-    symbol = getCurrencySymbol(item.currency);
+    value = item.balances[0].balanceAmount.amount;
   } else {
     if (item.name !== "") {
       title = item.name;
     } else {
       title = item.type;
     }
-    value = item.value.toFixed(2);
-    symbol = getCurrencySymbol(item.currency);
+    value = item.value;
+
     logo = "";
     assetType = getAsset(item.type);
     if (item.residualDebt !== 0) {
       subTitle = "Financing";
-      debtValue = item.residualDebt.toFixed(2);
+      debtValue = item.residualDebt;
     }
   }
 
@@ -75,13 +77,19 @@ const GenericListItem: React.FC<Props> = ({ item }) => {
           justifyContent='center'
           flexDirection='column'
           alignItems='center'>
-          <span className='MuiTypography-body1'>{`${value} ${symbol}`}</span>
-          {debtValue !== "" ? (
-            <span
+          <div className='MuiTypography-body1'>
+            {`${currencyFormat(value, settings.lang, settings.currency)}`}
+          </div>
+          {debtValue !== 0 ? (
+            <div
               className='MuiListItemText-secondary MuiTypography-colorTextSecondary'
               style={{ alignSelf: "end" }}>
-              {`${-debtValue} ${symbol}`}
-            </span>
+              {`${currencyFormat(
+                -debtValue,
+                settings.lang,
+                settings.currency
+              )}`}
+            </div>
           ) : undefined}
         </Box>
       </Box>
