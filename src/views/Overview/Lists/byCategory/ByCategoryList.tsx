@@ -6,10 +6,10 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import getCurrencySymbol from "currency-symbols";
-
+import { t } from "i18n-js";
 import useSelector from "hooks/useSelector";
 import React from "react";
-import { getCategory } from "utils/helpers/text";
+import { currencyFormat, getCategory } from "utils/helpers/text";
 import useStyles from "./ByCategoryList.style";
 
 const CategoryButton: React.FC<{ categoryName: string }> = ({
@@ -23,7 +23,7 @@ const CategoryButton: React.FC<{ categoryName: string }> = ({
         style={{ backgroundColor: category.color }}
         startIcon={<category.icon />}
         onClick={() => console.log()}>
-        {category.name}
+        {t(`categories.${category.name}`)}
       </Button>
     );
   else return null;
@@ -41,8 +41,10 @@ const ByCategoryList: React.FC<{}> = () => {
           </ListItemIcon>
           <ListItemText
             primary={`${
-              group.total < 0 ? -group.total : group.total
-            } ${getCurrencySymbol("EUR")}`}
+              group.total < 0
+                ? currencyFormat(-group.total, settings.lang, settings.currency)
+                : currencyFormat(group.total, settings.lang, settings.currency)
+            }`}
           />
         </ListItem>
       ))}

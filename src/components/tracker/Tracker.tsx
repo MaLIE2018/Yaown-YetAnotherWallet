@@ -16,7 +16,7 @@ import CalculationRow from "./CalculationRow/CalculationRow";
 import categories from "assets/categories";
 import { Category } from "types/types";
 import { useDispatch } from "hooks/useDispatch";
-
+import { t } from "i18n-js";
 const Tracker: React.FC<{}> = () => {
   const { showTracker, noteModal, categoryModal, transaction } = useSelector(
     (state: IRootState) => state
@@ -81,7 +81,7 @@ const Tracker: React.FC<{}> = () => {
           startIcon={<selCat.icon />}
           onClick={() => dispatch({ type: "TOGGLE_CATEGORY_MODAL" })}>
           {/*  startIcon={<selCat />} */}
-          {transaction.category}
+          {t(`categories.${transaction.category}`)}
         </Button>
         <Fab
           color='primary'

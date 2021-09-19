@@ -28,11 +28,13 @@ import AddAccount from "components/addBank/AddAccount";
 import { Api } from "../src/api/index";
 import Cookies from "js-cookie";
 import AddAsset from "components/addAsset/AddAsset";
+import { setI18nConfig } from "utils/l18n";
 
 function App({ history, location, match }: RouteComponentProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { page, bankPage, assetPage } = useSelector((state) => state);
+  const { page, bankPage, assetPage, settings } = useSelector((state) => state);
+  setI18nConfig(settings.lang);
 
   const isAuthenticated = Api.getSingleton().isLoggedIn();
 
@@ -60,6 +62,7 @@ function App({ history, location, match }: RouteComponentProps) {
 
   if (!isAuthenticated) {
     const token = new URLSearchParams(location.search).get("token");
+    console.log("token:", token);
     if (Cookies.get("csrfltoken")) {
       return <VerifyEmail token={token} />;
     } else if (token !== null) {

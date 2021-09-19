@@ -13,7 +13,7 @@ import { CategoryGroup } from "types/types";
 import { Box, Typography } from "@material-ui/core";
 import { theme } from "theme/Theme";
 import { currencyFormat } from "utils/helpers/text";
-
+import { t } from "i18n-js";
 const Overview = () => {
   const fetchApi = Api.getSingleton();
   const classes = useStyles();
@@ -116,7 +116,7 @@ const Overview = () => {
                 )}
                 labels={settings.txnByCategory.reduce(
                   (acc: string[], val: CategoryGroup) => {
-                    acc.push(val._id);
+                    acc.push(t(`categories.${val._id}`));
                     return acc;
                   },
                   []

@@ -1,0 +1,30 @@
+{
+    "categories": {
+        "withdrawl": "Cash withdrawal",
+        "subscriptionsDonations": "Subscriptions & Donations",
+        "barsRestaurants": "Bars & Restaurants",
+        "professionalExpenses": "Professional expenses",
+        "education": "Education",
+        "foodGroceries": "Food & Groceries",
+        "familyFriends": "Family & Friends",
+        "leisureEntertainment": "Leisure & Entertainment",
+        "salary": "Salary",
+        "healthDrugstores": "Health & Drugstores",
+        "credit": "Credit",
+        "budgetUtilities": "Budget & Utilities",
+        "mediaMediaLibrary": "Media & Media Library",
+        "travelHoliday": "Travel & Holiday",
+        "shopping": "Shopping",
+        "other": "Other",
+        "savingInvesting": "Saving & Investing",
+        "taxesDuties": "Taxes & Duties",
+        "transportCar": "Transport & Car",
+        "insurancesFinances": "Insurances & Finances"
+    },
+    "navigation": {
+        "cash": "Cash",
+        "overview": "Overview",
+        "wealth": "Wealth",
+        "future": "Future"
+    }
+}

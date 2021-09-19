@@ -43,7 +43,6 @@ const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
     const id = new URLSearchParams(location.search).get("id");
     const code = new URLSearchParams(location.search).get("code");
     const state = new URLSearchParams(location.search).get("state");
-
     if (status === "successful-connected" && typeof id === "string") {
       setIsLoading(true);
       (async () => {

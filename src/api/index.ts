@@ -118,6 +118,8 @@ export class Api {
       if (res.status === 200) {
         await this.setAccessToken(res.data.access_token);
         await this.setRefreshToken(res.data.refresh_token);
+        await this.setUser(res.data.user);
+        await this.getMyAccounts();
       }
     } catch (error) {
       if (error?.response.status === 404) {
@@ -141,6 +143,7 @@ export class Api {
         await this.setRefreshToken(res.data.refresh_token);
         await this.setUser(res.data.user);
         await this.getMyAccounts();
+        await this.getMyAssets();
         return true;
       }
     } catch (e) {

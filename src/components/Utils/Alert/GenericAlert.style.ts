@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       margin: "auto",
       width: "80%",
+      bottom: "10%",
     },
   })
 );

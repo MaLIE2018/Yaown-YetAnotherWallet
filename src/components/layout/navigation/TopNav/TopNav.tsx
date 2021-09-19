@@ -11,7 +11,7 @@ import { IRootState } from "../../../../store/types/types";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import RefreshIcon from "@material-ui/icons/Refresh";
-
+import { t } from "i18n-js";
 const TopNav: React.FC<RouteComponentProps> = ({
   history,
 }: RouteComponentProps) => {
@@ -37,7 +37,7 @@ const TopNav: React.FC<RouteComponentProps> = ({
             </IconButton>
           )}
           <Typography variant='h6' color='inherit'>
-            {page.present.slice(0, 1).toUpperCase() + page.present.slice(1)}
+            {t(`navigation.${page.present}`)}
           </Typography>
           {page.present === "wealth" && (
             <IconButton

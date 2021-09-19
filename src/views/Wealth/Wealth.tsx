@@ -1,10 +1,10 @@
 import GeneralBox from "components/Utils/GeneralBox/GeneralBox";
 import GenericModal from "components/Utils/GenericModal/GenericModal";
-
+import { theme } from "theme/Theme";
 import { PieChart } from "../../components/layout/diagram/pie/PieChart";
 import useStyles from "./Wealth.styles";
 import useSelector from "hooks/useSelector";
-
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import AccountList from "./Lists/Account/AccountList";
 import { Box, Button, List, ListItem, Typography } from "@material-ui/core";
 import { useDispatch } from "hooks/useDispatch";
@@ -14,57 +14,87 @@ import {
   getAccountSummary,
   getTotal,
 } from "./../../utils/helpers/wealth";
-import getCurrencySymbol from "currency-symbols";
+
 import { currencyFormat } from "utils/helpers/text";
 
 const Wealth = () => {
   const classes = useStyles();
   const { assetModal, settings } = useSelector((state) => state);
-  console.log("assetModal:", assetModal);
   const dispatch = useDispatch();
   const assetSummary = getAssetSummary();
   const accountSummary = getAccountSummary();
   const total = getTotal(accountSummary, assetSummary);
   return (
     <div className={classes.wealth}>
-      <Box
-        width='90%'
-        height='10%'
-        display='flex'
-        justifyContent='start'
-        ml={"5%"}
-        alignItems='end'>
-        <Typography component='div' style={{ width: "100%" }}>
+      {settings.accounts.length !== 0 || settings.assets.length !== 0 ? (
+        <>
           <Box
+            width='90%'
+            height='6%'
             display='flex'
-            flexDirection='row'
-            justifyContent='space-between'
-            width='100%'>
-            <Box fontWeight='fontWeightRegular'>Total wealth:</Box>
-            <Box fontSize='h6.fontSize' fontWeight='fontWeightMedium'>
-              {`${currencyFormat(total, settings.lang, settings.currency)}`}
-            </Box>
+            justifyContent='start'
+            ml={"5%"}
+            alignItems='end'>
+            <Typography component='div' style={{ width: "100%" }}>
+              <Box
+                display='flex'
+                flexDirection='row'
+                alignItems='center'
+                justifyContent='space-between'
+                width='100%'>
+                <Box fontWeight='fontWeightRegular'>Total wealth:</Box>
+                <Box fontSize='h6.fontSize' fontWeight='fontWeightMedium'>
+                  {`${currencyFormat(total, settings.lang, settings.currency)}`}
+                </Box>
+              </Box>
+            </Typography>
           </Box>
-        </Typography>
-      </Box>
-      <GeneralBox
-        render={
-          <PieChart
-            series={[
-              assetSummary.assets.possessions,
-              assetSummary.investments.total,
-              Number(accountSummary.total.toFixed(2)),
-              assetSummary.cash.total,
-            ]}
-            labels={["Assets", "Investments", "Accounts", "Cash"]}
-          />
-        }
-      />
-      <GeneralBox
-        render={<AssetList assetSummary={assetSummary} />}
-        title='Assets'
-      />
-      <GeneralBox render={<AccountList />} title='Accounts' />
+
+          {accountSummary.total > 0 && (
+            <GeneralBox
+              render={
+                <PieChart
+                  series={[
+                    assetSummary.assets.possessions,
+                    assetSummary.investments.total,
+                    Number(accountSummary.total.toFixed(2)),
+                    assetSummary.cash.total,
+                  ]}
+                  labels={["Assets", "Investments", "Accounts", "Cash"]}
+                />
+              }
+            />
+          )}
+          {settings.accounts.length !== 0 && (
+            <GeneralBox render={<AccountList />} title='Accounts' />
+          )}
+          {settings.assets.length !== 0 && (
+            <GeneralBox
+              render={<AssetList assetSummary={assetSummary} />}
+              title='Assets'
+            />
+          )}
+        </>
+      ) : (
+        <Box
+          height='60vh'
+          width='100%'
+          display='flex'
+          alignItems='center'
+          flexDirection='column'
+          pt={theme.spacing(1)}>
+          <Box>
+            <InsertEmoticonIcon
+              style={{ fontSize: 180, color: theme.palette.text.hint }}
+            />
+          </Box>
+          <Typography component='div'>
+            <Box fontSize='h6.fontSize' color={theme.palette.text.hint}>
+              No accounts or assets yet.
+            </Box>
+          </Typography>
+        </Box>
+      )}
       <GenericModal
         render={
           <div>

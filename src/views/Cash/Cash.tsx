@@ -8,6 +8,7 @@ import { Api } from "api/index";
 import categories from "assets/categories";
 import { theme } from "theme/Theme";
 import GenericAlert from "components/Utils/Alert/GenericALert";
+import { t } from "i18n-js";
 
 const Cash: React.FC<{}> = () => {
   const { showTracker, transactionAlert } = useSelector(
@@ -47,7 +48,7 @@ const Cash: React.FC<{}> = () => {
                     : `${category.color}`,
                 }}></div>
               <div className={classes.text}>
-                {capitalizeWords(category.name)}
+                {t(`categories.${category.name}`)}
               </div>
             </Button>
           </Box>

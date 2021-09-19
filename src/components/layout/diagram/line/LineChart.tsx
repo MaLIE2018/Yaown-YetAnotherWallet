@@ -64,11 +64,18 @@ const LineChart: React.FC<Props> = ({ interval, items }) => {
       },
       xaxis: {
         categories: categories,
+        tickPlacement: "between",
+
+        labels: {
+          trim: true,
+          rotate: -90,
+          hideOverlappingLabels: false,
+        },
       },
     },
     series: [
       {
-        name: "test",
+        name: "Total",
         data: data,
       },
     ],

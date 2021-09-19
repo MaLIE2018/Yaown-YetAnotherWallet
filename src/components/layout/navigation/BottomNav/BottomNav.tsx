@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { IRootState } from "../../../../store/types/types";
 import bottomNavIcons from "../../../icons/bottomNav";
 import { useDispatch } from "hooks/useDispatch";
+import { t } from "i18n-js";
 
 const BottomNav: FC<{}> = (): ReactElement => {
   const classes = useStyles();
@@ -24,17 +25,17 @@ const BottomNav: FC<{}> = (): ReactElement => {
       className={classes.root}>
       <BottomNavigationAction label='Cash' value='cash' icon={<Money />} />
       <BottomNavigationAction
-        label='Overview'
+        label={t(`navigation.overview`)}
         value='overview'
         icon={<AccountBalanceIcon />}
       />
       <BottomNavigationAction
-        label='Wealth'
+        label={t(`navigation.wealth`)}
         value='wealth'
         icon={<ViewQuiltIcon />}
       />
       <BottomNavigationAction
-        label='Future'
+        label={t(`navigation.future`)}
         value='future'
         icon={<RemoveRedEyeIcon />}
       />

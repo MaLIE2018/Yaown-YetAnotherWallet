@@ -57,28 +57,24 @@ const Future: React.FC<{}> = () => {
     <div className={classes.future}>
       <Box
         width='90%'
-        height='10%'
+        height='6%'
         display='flex'
-        justifyContent='start'
+        justifyContent='space-between'
         ml={"5%"}
         alignItems='end'>
         <Typography component='div' style={{ width: "100%" }}>
           <Box
             display='flex'
             flexDirection='row'
-            justifyContent='space-between'
+            alignItems='center'
             width='100%'>
-            <Box fontWeight='fontWeightRegular' m={1} flexGrow={2}>
-              {`Estimated monthly income ${
+            <Box fontWeight='fontWeightRegular' flexGrow={2}>
+              {`Monthly income in ${
                 new Date().getFullYear() +
                 getWorkingYears(settings.estimates.age, settings.estimates.cAge)
               }:`}
             </Box>
-            <Box
-              fontSize='h6.fontSize'
-              fontWeight='fontWeightMedium'
-              m={0}
-              flexGrow={1}>
+            <Box fontSize='h6.fontSize' fontWeight='fontWeightMedium'>
               {`${currencyFormat(
                 futureM.futureMonth,
                 settings.lang,

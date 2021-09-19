@@ -11,6 +11,11 @@ export const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.primary.main,
       zIndex: 1050,
       overflow: "",
+      [theme.breakpoints.up("sm")]: {
+        width: "375PX",
+        height: "920PX",
+        margin: "0 auto",
+      },
     },
   })
 );

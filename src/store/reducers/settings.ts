@@ -15,7 +15,7 @@ const Init = {
   refreshToken: "",
   user: {},
   currency: "EUR",
-  lang: "de-DE",
+  lang: "en-US",
   accounts: [],
   txnByCategory: [],
   txnByDate: [],

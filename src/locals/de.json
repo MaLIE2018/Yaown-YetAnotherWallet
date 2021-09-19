@@ -1,0 +1,30 @@
+{
+    "categories": {
+        "withdrawl": "Abhebung",
+        "subscriptionsDonations": "Abos & Spenden",
+        "barsRestaurants": "Bars & Restaurants",
+        "professionalExpenses": "Berufsausgaben",
+        "education": "Bildung",
+        "foodGroceries": "Essen & Lebensmittel",
+        "familyFriends": "Familie & Freunde",
+        "leisureEntertainment": "Freizeit & Unterhaltung",
+        "salary": "Gehalt",
+        "healthDrugstores": "Gesundheit & Drogerien",
+        "credit": "Gutschriften",
+        "budgetUtilities": "Haushalt & Nebenkosten",
+        "mediaMediaLibrary": "Medien & Mediathek",
+        "travelHoliday": "Reisen & Urlaub",
+        "shopping": "Shopping",
+        "Other": "Sonstiges",
+        "savingInvesting": "Sparen & Investieren",
+        "taxesDuties": "Steuern & Abgaben",
+        "transportCar": "Transport & Auto",
+        "insurancesFinances": "Versicherungen & Finanzen"
+    },
+    "navigation": {
+        "cash": "Cash",
+        "overview": "Uebersicht",
+        "wealth": "Vermoegen",
+        "future": "Zukunft"
+    }
+}
