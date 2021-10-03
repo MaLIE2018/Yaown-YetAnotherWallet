@@ -6,10 +6,12 @@ const translations = {
 };
 
 export const setI18nConfig = (locale: string) => {
-  const languageTag = locale.split("-")[0];
-
+  if(locale !== undefined){
+    const languageTag = locale.split("-")[0];
+    i18n.locale = languageTag;
+  
+  }
   i18n.translations = translations;
-  i18n.locale = languageTag;
   i18n.defaultLocale = "en";
   i18n.fallbacks = true;
 };
