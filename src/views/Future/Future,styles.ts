@@ -10,10 +10,10 @@ const useStyles = makeStyles({
       display: "flex",
       justifyContent: "space-between",
       "& .MuiTypography-root": {
-        width: "70%",
+        width: "60%",
       },
       "& .MuiFormControl-root": {
-        width: "30%",
+        width: "40%",
       },
     },
   },

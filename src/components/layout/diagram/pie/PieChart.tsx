@@ -17,6 +17,9 @@ export const PieChart: React.FC<Props> = ({ series, labels }) => {
         show: false,
       },
       labels: labels,
+      yaxis: {
+        decimalsInFloat:0
+      }
     },
     series: series,
   };

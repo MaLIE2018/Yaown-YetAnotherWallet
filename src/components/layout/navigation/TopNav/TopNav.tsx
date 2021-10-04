@@ -30,6 +30,9 @@ const TopNav: React.FC<RouteComponentProps> = ({ history }: RouteComponentProps)
         if (res) {
           await api.getMyAccounts();
         }
+      }else if (page.present === 'overview'){
+          setLoading(true)
+          await api.getTransactions()
       }
       setLoading(false)
     } catch (error: any) {

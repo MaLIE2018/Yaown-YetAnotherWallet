@@ -71,7 +71,11 @@ const LineChart: React.FC<Props> = ({ interval, items }) => {
           rotate: -90,
           hideOverlappingLabels: false,
         },
+        
       },
+      yaxis: {
+        decimalsInFloat:0
+      }
     },
     series: [
       {

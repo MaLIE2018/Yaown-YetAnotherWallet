@@ -15,6 +15,7 @@ export type StoreEvents =
   | { type: "TOGGLE_CATEGORY_MODAL" }
   | { type: "TOGGLE_TRANSACTION_ALERT"; payload: GenericAlert }
   | { type: "TOGGLE_WEALTH_ALERT"; payload: GenericAlert }
+  | { type: "TOGGLE_OVERVIEW_ALERT"; payload: GenericAlert }
   | { type: "TOGGLE_BANK_ALERT"; payload: GenericAlert }
   | { type: "SET_TA"; payload: any }
   | { type: "SET_ACCOUNTS"; payload: any }
@@ -60,6 +61,7 @@ export interface IRootState {
   expense: boolean;
   accountMenu: GenericMenu;
   timeMenu: GenericMenu;
+  overviewAlert: GenericAlert
 }
 
 export interface Calc {

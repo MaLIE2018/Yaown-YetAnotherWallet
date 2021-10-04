@@ -550,7 +550,7 @@ export class Api {
       return false;
     }
   }
-  // get accounts
+  // get balances
   public async getBalances(): Promise<boolean> {
     try {
       const res = await this.apiInstance.get('/bank/balances', { headers: this.getHeaders() }).then((res) => res.data);
@@ -584,6 +584,47 @@ export class Api {
             text: `You may want to add an account.`,
             show: true,
             type: 'TOGGLE_WEALTH_ALERT',
+          },
+        });
+      }
+      return false;
+    }
+  }
+
+  // get Transactions
+  public async getTransactions(): Promise<boolean> {
+    try {
+      const res = await this.apiInstance.get('/bank/transactions', { headers: this.getHeaders() }).then((res) => res.data);
+      if (res.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error: any) {
+      if (error.response.status === 401 || error.response.status === 403) {
+        if (await this.refreshAccessToken()) {
+          return await this.getTransactions();
+        } else {
+          this.reset();
+        }
+      } else if (error.response.status === 429) {
+        store.dispatch({
+          type: 'TOGGLE_OVERVIEW_ALERT',
+          payload: {
+            variant: AlertVariants.warning,
+            text: `You need to wait ${error.response.data.leftUntilNextRefresh} hours before the next refresh.`,
+            show: true,
+            type: 'TOGGLE_OVERVIEW_ALERT',
+          },
+        });
+      } else if (error.response.status === 404) {
+        store.dispatch({
+          type: 'TOGGLE_OVERVIEW_ALERT',
+          payload: {
+            variant: AlertVariants.warning,
+            text: `You may want to add an account.`,
+            show: true,
+            type: 'TOGGLE_OVERVIEW_ALERT',
           },
         });
       }

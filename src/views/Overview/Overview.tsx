@@ -14,10 +14,11 @@ import { Box, Typography } from "@material-ui/core";
 import { theme } from "theme/Theme";
 import { currencyFormat } from "utils/helpers/text";
 import { t } from "i18n-js";
+import GenericAlert from 'components/Utils/Alert/GenericALert';
 const Overview = () => {
   const fetchApi = Api.getSingleton();
   const classes = useStyles();
-  const { timeMenu, accountMenu, settings } = useSelector((state) => state);
+  const { timeMenu, accountMenu, settings, overviewAlert } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -159,6 +160,7 @@ const Overview = () => {
           </Typography>
         </Box>
       )}
+     <GenericAlert {...overviewAlert} />
     </div>
   );
 };
