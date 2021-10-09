@@ -2,7 +2,6 @@ import { Box, Button } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "store/types/types";
-import { capitalizeWords } from "../../utils/helpers/text";
 import { useStyles } from "./Cash.styles";
 import { Api } from "api/index";
 import categories from "assets/categories";

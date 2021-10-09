@@ -8,10 +8,11 @@ import { animated, useSpring } from "react-spring";
 import { useDrag } from "react-use-gesture";
 import { theme } from "../../../theme/Theme";
 import CalculatorApi from "../../../services/calculator";
+import { currencyFormat } from 'utils/helpers/text';
 
 const CalculationRow: React.FC<{}> = () => {
   const classes = useStyles();
-  const { calc, transaction } = useSelector((state: IRootState) => state);
+  const { calc, transaction, settings } = useSelector((state: IRootState) => state);
   const { BackspaceIcon } = trackerIcons;
   const dispatch = useDispatch();
   const calculatorApi = CalculatorApi.getSingleton();
@@ -71,7 +72,7 @@ const CalculationRow: React.FC<{}> = () => {
         <div className={classes.amount}>
           <Typography variant='h3' gutterBottom>
             <animated.div ref={amount} style={{ color: bg }}>
-              ${calc.result}
+            {`${currencyFormat(Number(calc.result), settings.lang, settings.currency)}`}
             </animated.div>
           </Typography>
           {calc.calcStr !== "" && (
