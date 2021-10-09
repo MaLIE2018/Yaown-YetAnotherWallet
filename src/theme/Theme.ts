@@ -1,9 +1,6 @@
 import { createTheme } from "@material-ui/core";
 
 export const theme = createTheme({
-  yaown: {
-    main: "#5A37C3",
-  },
   palette: {
     primary: {
       main: "#eeeeee",
