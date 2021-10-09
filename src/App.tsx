@@ -63,7 +63,7 @@ function App({ history, location, match }: RouteComponentProps) {
   if (!isAuthenticated) {
     const token = new URLSearchParams(location.search).get("token");
     console.log("token:", token);
-    if (Cookies.get("csrfltoken")) {
+    if (localStorage.getItem("csrfltoken")) {
       return <VerifyEmail token={token} />;
     } else if (token !== null) {
       return <VerifyEmail token={token} />;

@@ -116,6 +116,7 @@ export class Api {
         }
       );
       if (res.status === 200) {
+        localStorage.removeItem("csrfltoken")
         await this.setAccessToken(res.data.access_token);
         await this.setRefreshToken(res.data.refresh_token);
         await this.setUser(res.data.user);
@@ -195,9 +196,11 @@ export class Api {
         {
           headers: headers,
         }
-      );
+      ).then(res => res)
       if (res.status === 200) {
-        return true;
+        console.log(res);
+        localStorage.setItem('csrfltoken', res.data.csrfltoken);
+        return true
       }
     } catch (error: any) {
       console.log(error);

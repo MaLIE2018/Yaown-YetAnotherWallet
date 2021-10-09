@@ -239,6 +239,7 @@ const Login: React.FC<RouteComponentProps> = ({ history }) => {
                 }>
                 {value === 0 ? "LOGIN" : "SIGN UP"}
               </Button>
+              
             </Box>
           </form>
         </Box>

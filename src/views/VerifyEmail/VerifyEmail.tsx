@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import useStyles from "./Verify.style";
 import { Api } from "../../api/index";
-import Cookies from "js-cookie";
+
 
 const verifyApi = Api.getSingleton();
 
@@ -24,8 +24,7 @@ const VerifyEmail: React.FC<Props> = ({ token }) => {
   };
 
   useEffect(() => {
-    const registerToken = Cookies.get("csrfltoken");
-    console.log("registerToken:", registerToken);
+    const registerToken = localStorage.getItem("csrfltoken");
     if (token !== null) {
       const res = verifyEmail(token);
       console.log(res);
