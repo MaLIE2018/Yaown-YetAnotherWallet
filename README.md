@@ -1,3 +1,7 @@
+LIVE: https://fe-yaown.vercel.app/
+Backend: https://github.com/MaLIE2018/be-yaown
+Stack: Typescript, React, Redux
+
 YAOWN - yet another wallet app
 
 Welcome to the world.
