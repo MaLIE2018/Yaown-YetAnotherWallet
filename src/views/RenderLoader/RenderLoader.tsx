@@ -8,7 +8,7 @@ const RenderLoader: React.FC<{}> = () => {
   return (
     <Box
       className={classes.root}
-      bgcolor={theme.palette.grey}
+      bgcolor='#5A37C3'
       display='flex'
       justifyContent='center'
       alignItems='center'>
