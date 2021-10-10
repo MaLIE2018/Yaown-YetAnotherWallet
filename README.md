@@ -1,6 +1,12 @@
 LIVE: https://fe-yaown.vercel.app/
+
 Backend: https://github.com/MaLIE2018/be-yaown
-Stack: Typescript, React, Redux
+
+Stack: Typescript, React, Redux, MongoDB, expressjs
+
+Banking API: Nordigen.com, Bunq API
+
+Emailing: node-mailer
 
 YAOWN - yet another wallet app
 
