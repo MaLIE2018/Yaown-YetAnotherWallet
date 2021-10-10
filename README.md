@@ -1,4 +1,5 @@
-LIVE: https://fe-yaown.vercel.app/ \n
+LIVE: https://fe-yaown.vercel.app/
+
 Backend: https://github.com/MaLIE2018/be-yaown
 Stack: Typescript, React, Redux, MongoDB, expressjs
 Banking API: Nordigen.com, Bunq API
