@@ -97,8 +97,8 @@ function App({ history, location, match }: RouteComponentProps) {
           {assetPage && (
             <Page
               render={<AddAsset />}
-              title='Select Bank'
-              togglePage={() => dispatch({ type: "TOGGLE_ADD_BANK_PAGE" })}
+              title='Add Asset'
+              togglePage={() => dispatch({ type: "TOGGLE_ADD_ASSET_PAGE" })}
             />
           )}
         </Container>

@@ -101,7 +101,10 @@ const Wealth = () => {
           <div>
             <List>
               <ListItem>
-                <Button fullWidth color='primary' variant='contained'>
+                <Button fullWidth color='primary' variant='contained'onClick={() => {
+                    dispatch({ type: "TOGGLE_ADD_ASSET_MODAL" });
+                    dispatch({ type: "TOGGLE_ADD_ASSET_PAGE" });
+                  }}>
                   Asset
                 </Button>
               </ListItem>

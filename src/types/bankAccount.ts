@@ -59,9 +59,9 @@ export interface Pending {
 }
 
 export interface Asset {
-  _id: string;
+  _id?: string;
   name: string;
-  userId: string;
+  userId?: string;
   value: number;
   type: string;
   valueDate: string;
