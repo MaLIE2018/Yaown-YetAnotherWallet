@@ -71,7 +71,7 @@ export const AddAsset: React.FC<{}> = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log('test');
+     
       console.log(values);
     },
   });
