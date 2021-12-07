@@ -24,12 +24,12 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import useStyles from "./Login.style";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Api } from "../../api/index";
 import GenericAlert from "components/Utils/Alert/GenericALert";
 import { useDispatch } from "hooks/useDispatch";
 import { AlertVariants } from "types/types";
 import useSelector from "hooks/useSelector";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import AuthApi from 'api/auth';
 interface State {
   amount: string;
   password: string;
@@ -38,7 +38,7 @@ interface State {
   showPassword: boolean;
 }
 
-const loginApi = Api.getSingleton();
+const loginApi = AuthApi.getInstance();
 
 const Login: React.FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();

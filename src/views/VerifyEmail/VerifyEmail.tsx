@@ -6,10 +6,11 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import useStyles from "./Verify.style";
-import { Api } from "../../api/index";
+
+import AuthApi from 'api/auth';
 
 
-const verifyApi = Api.getSingleton();
+const authApi = AuthApi.getInstance();
 
 interface Props {
   token: string | null;
@@ -19,7 +20,7 @@ const VerifyEmail: React.FC<Props> = ({ token }) => {
   const classes = useStyles();
 
   const verifyEmail = async (token: string) => {
-    const res = await verifyApi.verifyEmail(token);
+    const res = await authApi.verifyEmail(token);
     return res;
   };
 

@@ -20,8 +20,11 @@ import { useState } from 'react';
 import GenericAlert from 'components/Utils/Alert/GenericALert';
 import { Autocomplete } from '@material-ui/lab';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
-
-const fetchApi = Api.getSingleton();
+import NordigenApi from 'api/nordigen';
+import BunqApi from 'api/bunq'
+const fetchApi = NordigenApi.getInstance();
+const AccountApi = Api.getSingleton()
+const bunqApi = BunqApi.getInstance();
 
 const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
   const classes = useStyles();
@@ -41,7 +44,7 @@ const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
   const getBunq = async () => {
     const bunqAccount = settings.accounts.find((account) => account.bankName === 'Bunq');
     if (!bunqAccount) {
-      await fetchApi.getAuth();
+      await bunqApi.getAuth();
     } else {
       dispatch({
         type: 'TOGGLE_BANK_ALERT',
@@ -63,7 +66,7 @@ const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
     if (status === 'successful-connected' && typeof id === 'string') {
       setIsLoading(true);
       (async () => {
-        const accounts = await fetchApi.getAccounts(id);
+        const accounts = await AccountApi.getAccounts(id);
         if (accounts) {
           dispatch({ type: 'TOGGLE_ADD_BANK_PAGE' });
         } else {
@@ -84,7 +87,7 @@ const AddAccount: React.FC<RouteComponentProps> = ({ location, history }) => {
     if (code && state) {
       (async () => {
         setIsLoading(true);
-        const connect = await fetchApi.getToken(code, state);
+        const connect = await bunqApi.getToken(code, state);
         if (connect) {
           dispatch({ type: 'TOGGLE_ADD_BANK_PAGE' });
           history.push('/wealth');

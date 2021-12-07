@@ -25,10 +25,10 @@ import Page from "components/layout/page/Page";
 import useSelector from "hooks/useSelector";
 import { useDispatch } from "hooks/useDispatch";
 import AddAccount from "components/addBank/AddAccount";
-import { Api } from "../src/api/index";
 import Cookies from "js-cookie";
 import AddAsset from "components/addAsset/AddAsset";
 import { setI18nConfig } from "utils/l18n";
+import AuthApi from 'api/auth';
 
 function App({ history, location, match }: RouteComponentProps) {
   const classes = useStyles();
@@ -36,7 +36,7 @@ function App({ history, location, match }: RouteComponentProps) {
   const { page, bankPage, assetPage, settings } = useSelector((state) => state);
   setI18nConfig(settings.lang);
 
-  const isAuthenticated = Api.getSingleton().isLoggedIn();
+  const isAuthenticated = AuthApi.getInstance().isLoggedIn();
 
   useEffect(() => {
     history.push(`/${page.present}`);
@@ -45,7 +45,7 @@ function App({ history, location, match }: RouteComponentProps) {
   useEffect(() => {
     document.addEventListener("visibilitychange", function (event) {
       if (document.hidden) {
-        Api.getSingleton().logout();
+        AuthApi.getInstance().logout();
         console.log("not visible");
       } else {
         console.log("is visible");
